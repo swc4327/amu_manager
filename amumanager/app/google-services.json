@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025530693971",
+    "project_id": "amumanager-30c5d",
+    "storage_bucket": "amumanager-30c5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025530693971:android:6f8b6defe1e85e86a6f9a6",
+        "android_client_info": {
+          "package_name": "com.awesome.amumanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025530693971-j7plv8tmeb0s2v60rcrl3umpikv1u422.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAapVrp9oy2NjYiWpiC_AHk0A0fDANmKfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025530693971-j7plv8tmeb0s2v60rcrl3umpikv1u422.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
