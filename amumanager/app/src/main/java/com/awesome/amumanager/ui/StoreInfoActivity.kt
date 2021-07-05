@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
 import com.awesome.amumanager.R
+import com.awesome.amumanager.model.Store
 import com.awesome.amumanager.ui.storeinfo.MenuFragment
 import com.awesome.amumanager.ui.storeinfo.InfoFragment
 import com.awesome.amumanager.ui.storeinfo.ReserveListFragment
@@ -13,46 +14,29 @@ import kotlinx.android.synthetic.main.activity_store_info.*
 
 class StoreInfoActivity : AppCompatActivity() {
 
-    private var name = ""
-    private var managerUid = ""
-    private var storeId = ""
-    private var lat: String? = null
-    private var lng: String? = null
-    private var place = ""
-    private var place_detail = ""
+    private var store : Store? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store_info)
 
-        name = intent.getStringExtra("name").toString()
-        managerUid = intent.getStringExtra("manager_uid").toString()
-        storeId = intent.getStringExtra("store_id").toString()
-        lat = intent.getStringExtra("lat").toString()
-        lng = intent.getStringExtra("lng").toString()
-        place = intent.getStringExtra("place").toString()
-        place_detail = intent.getStringExtra("place_detail").toString()
 
-        store_info_name.setText(name)
+        store = intent.getParcelableExtra("store")
 
+
+        store_info_name.setText(store!!.name)
 
         store_info_name.setOnClickListener {
-//            val intent = Intent(this, AddPromotionActivity::class.java)
-//            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            intent.putExtra("store_id", storeId)
-//            intent.putExtra("name", name)
-//            startActivity(intent)
             val intent = Intent(this, PromotionListActivity::class.java)
-            intent.putExtra("store_id", storeId)
-            intent.putExtra("name", name)
+            intent.putExtra("store_id", store!!.id)
+            intent.putExtra("name", store!!.name)
             startActivity(intent)
         }
 
         add_menu.setOnClickListener {
             val intent = Intent(this, AddMenuActivity::class.java)
-            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            intent.putExtra("store_id", storeId)
-            intent.putExtra("name", name)
+            intent.putExtra("store_id", store!!.id)
+            intent.putExtra("name", store!!.name)
             startActivity(intent)
         }
 
@@ -63,7 +47,7 @@ class StoreInfoActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_area, MenuFragment().apply {
                 arguments = Bundle().apply {
-                    putString("store_id", storeId)
+                    putString("store_id", store!!.id.toString())
                 }
             })
             .commit()
@@ -78,7 +62,7 @@ class StoreInfoActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, MenuFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", storeId)
+                        putString("store_id", store!!.id.toString())
                     }
                 })
                 .commit()
@@ -94,11 +78,11 @@ class StoreInfoActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, InfoFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", storeId)
-                        putString("lat", lat)
-                        putString("lng", lng)
-                        putString("place", place)
-                        putString("place_detail", place_detail)
+                        putString("store_id", store!!.id.toString())
+                        putString("lat", store!!.lat)
+                        putString("lng", store!!.lng)
+                        putString("place", store!!.place)
+                        putString("place_detail", store!!.place_detail)
                     }
                 })
                 .commit()
@@ -115,7 +99,7 @@ class StoreInfoActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, ReviewFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", storeId)
+                        putString("store_id", store!!.id.toString())
                     }
                 })
                 .commit()
@@ -132,7 +116,7 @@ class StoreInfoActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, ReserveListFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", storeId)
+                        putString("store_id", store!!.id.toString())
                     }
                 })
                 .commit()

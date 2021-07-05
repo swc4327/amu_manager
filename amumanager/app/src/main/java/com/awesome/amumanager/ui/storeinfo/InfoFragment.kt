@@ -20,6 +20,7 @@ class InfoFragment() : Fragment() {
     private var place : String? = ""
     private var mapView : MapView? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,10 +32,6 @@ class InfoFragment() : Fragment() {
         place = arguments?.getString("place")
         place_detail = arguments?.getString("place_detail")
 
-        println(lat)
-        println(lng)
-        println(place)
-        println(place_detail)
 
         mapView = MapView(requireContext())
         mapView!!.setMapViewEventListener(object : MapView.MapViewEventListener {

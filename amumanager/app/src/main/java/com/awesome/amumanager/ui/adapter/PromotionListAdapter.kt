@@ -14,7 +14,6 @@ class PromotionListAdapter(val context: Context, val promotions : ArrayList<Prom
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view : View = LayoutInflater.from(context).inflate(R.layout.promotionlist_item, null)
-        //Log.e("MenuListAdapter Check", "ok")
 
         view.store_name.setText(promotions[position].store_name)
         view.message.setText(promotions[position].message)

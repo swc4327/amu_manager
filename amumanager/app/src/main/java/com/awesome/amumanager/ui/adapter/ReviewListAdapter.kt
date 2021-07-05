@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.awesome.amumanager.R
+import com.awesome.amumanager.model.Client
+import com.awesome.amumanager.model.Review
 import com.awesome.amumanager.model.ReviewList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.reviewlist_item.view.*
@@ -37,28 +39,12 @@ class ReviewListAdapter(val context: Context, val reviewLists : ArrayList<Review
         return view
     }
 
-    fun getItemClientId(position: Int) : Any {
-        return reviewLists[position].client.uid!!
+    fun getReview(position: Int) : Review {
+        return reviewLists[position].review
     }
 
-    fun getItemReviewId(position: Int) : Any {
-        return reviewLists[position].review.id!!
-    }
-
-    fun getItemClientName(position: Int) : Any {
-        return reviewLists[position].client.nickname!!
-    }
-
-    fun getItemClientImage(position: Int) : Any {
-        return reviewLists[position].client.image!!
-    }
-
-    fun getItemClientCount(position: Int) : Any {
-        return reviewLists[position].client.count!!
-    }
-
-    fun getItemClientPoint(position: Int) : Any {
-        return reviewLists[position].client.point!!
+    fun getClient(position: Int) : Client {
+        return reviewLists[position].client
     }
 
     override fun getItem(position: Int): Any {

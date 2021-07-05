@@ -48,13 +48,8 @@ class ReviewFragment : Fragment() {
 
         view.review_list.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-            intent.putExtra("clientId", reviewListAdapter!!.getItemClientId(position).toString())
-            intent.putExtra("clientName", reviewListAdapter!!.getItemClientName(position).toString())
-            intent.putExtra("clientImage", reviewListAdapter!!.getItemClientImage(position).toString())
-            intent.putExtra("clientCount", reviewListAdapter!!.getItemClientCount(position).toString())
-            intent.putExtra("clientPoint", reviewListAdapter!!.getItemClientPoint(position).toString())
-            intent.putExtra("storeId", storeId)
-            intent.putExtra("reviewId", reviewListAdapter!!.getItemReviewId(position).toString())
+            intent.putExtra("review", reviewListAdapter!!.getReview(position))
+            intent.putExtra("client", reviewListAdapter!!.getClient(position))
             startActivity(intent)
         }
     }
@@ -69,20 +64,6 @@ class ReviewFragment : Fragment() {
         storeId = arguments?.getString("store_id")
         getReviewList()
 
-//        view.review_filtering.setOnClickListener {
-//            //리뷰 필터링
-//            println("*****"+clientList.size)
-//            for (i in 0 until clientList.size) {
-//                if(clientList[i].count!!.toInt() >= 3 && clientList[i].point!!.toFloat() <= 3) {
-//                    for (j in 0 until reviews.size) {
-//                        if(reviews[j].client_id == clientList[i].uid) {
-//                            reviewFiltering(reviews[j].id)
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }
         return view
     }
 

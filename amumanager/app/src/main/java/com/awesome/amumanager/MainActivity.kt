@@ -1,12 +1,7 @@
 package com.awesome.amumanager
 
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.content.pm.Signature
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,8 +21,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,12 +29,12 @@ class MainActivity : AppCompatActivity() {
     private var stores : ArrayList<Store> = ArrayList<Store>()
     private var storeListAdapter: StoreListAdapter? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
         //auth.signOut()
-        //getHashKey()
 
         getStoreList()
 
@@ -55,18 +48,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        reserve_list.setOnClickListener {
-//            val intent = Intent(this, ReserveListActivity::class.java)
-//            startActivity(intent)
-//        }
-
         add_store.setOnClickListener {
             if(auth.currentUser == null) { //로그인 no
                 Toast.makeText(this, "로그인 후 이용하세요!!", Toast.LENGTH_LONG).show()
             } else { //로그인 ok
-//                val intent = Intent(this, AddStoreActivity::class.java)
-//                //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                startActivity(intent)
                 val intent = Intent(this, AddStoreActivity::class.java)
                 startActivityForResult(intent, 0)
             }
@@ -74,19 +59,11 @@ class MainActivity : AppCompatActivity() {
 
         store_list.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(this, StoreInfoActivity::class.java)
-            intent.putExtra("name", storeListAdapter!!.getItemName(position).toString())
-            intent.putExtra("manager_uid", storeListAdapter!!.getItemManagerUid(position).toString())
-            intent.putExtra("store_id", storeListAdapter!!.getItemStoreId(position).toString())
-            intent.putExtra("lat", storeListAdapter!!.getItemLat(position).toString())
-            intent.putExtra("lng", storeListAdapter!!.getItemLng(position).toString())
-            intent.putExtra("place_detail", storeListAdapter!!.getItemPlaceDetail(position).toString())
-            intent.putExtra("place", storeListAdapter!!.getItemPlace(position).toString())
+            intent.putExtra("store", storeListAdapter!!.getItem(position))
             startActivity(intent)
         }
     }
-
-    private fun getStoreList() {
-        println("Get Store List !!!")
+    fun getStoreList() {
         val gson = GsonBuilder().setLenient().create()
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.serverUrl)
@@ -95,7 +72,6 @@ class MainActivity : AppCompatActivity() {
 
         val joinApi = retrofit.create(GetStoreListService::class.java)
         val uid = FirebaseUtils.getUid()
-        Log.e("uid check*****", uid)
 
 
         joinApi.getStoreList(uid)
@@ -103,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<StoreListResponse>, t: Throwable) {
                     Log.e("Main Retrofit getStore", "실패")
-                    Log.e("Check", t.toString())
                 }
 
                 override fun onResponse(
@@ -135,25 +110,6 @@ class MainActivity : AppCompatActivity() {
         if(requestCode ==0) {
             if(resultCode == RESULT_OK) {
                 getStoreList()
-            }
-        }
-    }
-
-    fun getHashKey(){
-        var packageInfo : PackageInfo = PackageInfo()
-        try {
-            packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-        } catch (e: PackageManager.NameNotFoundException){
-            e.printStackTrace()
-        }
-
-        for (signature: Signature in packageInfo.signatures){
-            try{
-                var md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                Log.e("KEY_HASH", Base64.encodeToString(md.digest(), Base64.DEFAULT))
-            } catch(e: NoSuchAlgorithmException){
-                Log.e("KEY_HASH", "Unable to get MessageDigest. signature = " + signature, e)
             }
         }
     }

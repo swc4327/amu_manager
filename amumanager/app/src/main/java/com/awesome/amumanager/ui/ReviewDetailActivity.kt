@@ -8,6 +8,8 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.api.Constants
 import com.awesome.amumanager.api.response.DefaultResponse
 import com.awesome.amumanager.api.service.ReviewFilteringService
+import com.awesome.amumanager.model.Client
+import com.awesome.amumanager.model.Review
 import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_review_detail.*
@@ -20,33 +22,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ReviewDetailActivity : AppCompatActivity() {
 
-    private var clientId = ""
-    private var clientName = ""
-    private var clientImage = ""
-    private var clientCount = ""
-    private var clientPoint = ""
-    private var storeId = ""
-    private var reviewId = ""
+    private var review : Review? = null
+    private var client : Client? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_detail)
 
-        clientId = intent.getStringExtra("clientId").toString()
-        clientName = intent.getStringExtra("clientName").toString()
-        clientImage = intent.getStringExtra("clientImage").toString()
-        clientCount = intent.getStringExtra("clientCount").toString()
-        clientPoint = intent.getStringExtra("clientPoint").toString()
+        review = intent.getParcelableExtra("review")
+        client = intent.getParcelableExtra("client")
 
-        storeId = intent.getStringExtra("storeId").toString()
-        reviewId = intent.getStringExtra("reviewId").toString()
 
-        review_detail_client_name.setText(clientName)
-        review_detail_client_count.setText("리뷰 수 " + clientCount)
-        review_detail_client_point.setText("평균 평점 " + clientPoint)
+        review_detail_client_name.setText(client!!.nickname)
+        review_detail_client_count.setText("리뷰 수 " + client!!.count.toString())
+        review_detail_client_point.setText("평균 평점 " + client!!.point.toString())
         Glide
             .with(this)
-            .load(clientImage)
+            .load(client!!.image)
             .into(profile_img)
 
         close_review_detail.setOnClickListener {
@@ -54,7 +46,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         }
 
         review_filtering.setOnClickListener {
-            if(clientCount.toInt() >= 3 && clientPoint.toDouble() <= 1.50) {
+            if(client!!.count!!.toInt() >= 3 && client!!.point!!.toDouble() <= 1.50) {
                 reviewFiltering()
             }
             else {
@@ -73,7 +65,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         val joinApi = retrofit.create(ReviewFilteringService::class.java)
 
 
-        joinApi.filterReview(reviewId, storeId)
+        joinApi.filterReview(review!!.id.toString(), review!!.store_id)
             .enqueue(object : Callback<DefaultResponse> {
 
                 override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
