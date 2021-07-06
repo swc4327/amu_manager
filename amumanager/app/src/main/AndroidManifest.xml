@@ -15,23 +15,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amumanager"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.awesome.amumanager.view.ui.ReviewDetailActivity"></activity>
-        <activity android:name="com.awesome.amumanager.view.ui.PromotionListActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.AddPromotionActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.ReserveDetailActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.ReviewDetailActivity"></activity>
+        <activity android:name="com.awesome.amumanager.ui.main.view.PromotionListActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.AddPromotionActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.ReserveDetailActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="c7a918666697e93df1dea193b8665c69" />
 
-        <activity android:name="com.awesome.amumanager.view.ui.AddMenuActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.StoreInfoActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.AddStoreActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.JoinInfoActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.JoinActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.LoginActivity" />
-        <activity android:name="com.awesome.amumanager.view.ui.MyPageActivity" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name="com.awesome.amumanager.ui.main.view.AddMenuActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.StoreInfoActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.AddStoreActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.JoinInfoActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.JoinActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.LoginActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.MyPageActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
