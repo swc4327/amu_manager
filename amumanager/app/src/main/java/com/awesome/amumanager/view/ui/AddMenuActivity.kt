@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import android.Manifest
 import android.app.Activity
@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.awesome.amumanager.MainActivity
 import com.awesome.amumanager.R
 import com.awesome.amumanager.api.Constants
 import com.awesome.amumanager.api.response.DefaultResponse
@@ -23,7 +22,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_add_menu.*
-import kotlinx.android.synthetic.main.activity_add_store.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,6 +40,9 @@ class AddMenuActivity : AppCompatActivity() {
 
         store_id = intent.getStringExtra("store_id").toString()
         name = intent.getStringExtra("name").toString()
+
+        println("Store Id Check!!" + store_id)
+        println(name)
 
         add_menu_image.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -130,8 +131,7 @@ class AddMenuActivity : AppCompatActivity() {
                 )  {
                     if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                         Log.e("AddMenuActivity", "success")
-                        
-                        //StoreInfoActivity로 돌아왔을 때 변경사항 바로 반영안됨
+                        setResult(Activity.RESULT_OK)
                         finish()
 
 

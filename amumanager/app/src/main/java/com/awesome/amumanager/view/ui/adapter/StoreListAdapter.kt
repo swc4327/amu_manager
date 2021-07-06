@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui.adapter
+package com.awesome.amumanager.view.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ class StoreListAdapter(val context: Context, val stores: ArrayList<Store>) : Bas
             .circleCrop()
             .into(view.store_image)
 
-            view.store_name.setText(stores[p0].name)
+        view.store_name.setText(stores[p0].name)
         return view
     }
 
@@ -36,3 +36,4 @@ class StoreListAdapter(val context: Context, val stores: ArrayList<Store>) : Bas
         return stores.size
     }
 }
+

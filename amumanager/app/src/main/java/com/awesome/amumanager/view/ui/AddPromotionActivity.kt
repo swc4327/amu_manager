@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

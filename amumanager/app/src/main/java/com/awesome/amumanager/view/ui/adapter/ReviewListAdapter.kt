@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui.adapter
+package com.awesome.amumanager.view.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -17,25 +17,27 @@ class ReviewListAdapter(val context: Context, val reviewLists : ArrayList<Review
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val view : View = LayoutInflater.from(context).inflate(R.layout.reviewlist_item, null)
 
-        Glide
-                .with(context)
-                .load(reviewLists[position].review.review_image)
-                .into(view.review_image)
+        if(reviewLists != null) {
+            Glide
+                    .with(context)
+                    .load(reviewLists[position].review.review_image)
+                    .into(view.review_image)
 
-        view.comment.setText(reviewLists[position].review.comment)
+            view.comment.setText(reviewLists[position].review.comment)
 
-        view.ratingBar.rating = reviewLists[position].review.point!!.toFloat()
+            view.ratingBar.rating = reviewLists[position].review.point!!.toFloat()
 
-        view.time.setText(reviewLists[position].review.time)
+            view.time.setText(reviewLists[position].review.time)
 
-        Glide
-                .with(context)
-                .load(reviewLists[position].client.image)
-                .circleCrop()
-                .into(view.client_image)
+            Glide
+                    .with(context)
+                    .load(reviewLists[position].client.image)
+                    .circleCrop()
+                    .into(view.client_image)
 
-        view.client_name.setText(reviewLists[position].client.nickname)
+            view.client_name.setText(reviewLists[position].client.nickname)
 
+        }
         return view
     }
 

@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import android.Manifest
 import android.app.Activity
@@ -17,7 +17,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.awesome.amumanager.MainActivity
 import com.awesome.amumanager.R
 import com.awesome.amumanager.api.Constants
 import com.awesome.amumanager.api.response.DefaultResponse

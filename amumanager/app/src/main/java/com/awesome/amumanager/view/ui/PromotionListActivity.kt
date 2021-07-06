@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,7 @@ import com.awesome.amumanager.api.Constants
 import com.awesome.amumanager.api.response.PromotionListResponse
 import com.awesome.amumanager.api.service.GetPromotionListService
 import com.awesome.amumanager.model.Promotion
-import com.awesome.amumanager.ui.adapter.PromotionListAdapter
+import com.awesome.amumanager.view.ui.adapter.PromotionListAdapter
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_promotion_list.*
 import retrofit2.Call

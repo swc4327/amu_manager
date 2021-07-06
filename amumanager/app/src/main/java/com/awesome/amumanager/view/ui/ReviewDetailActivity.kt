@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +13,6 @@ import com.awesome.amumanager.model.Review
 import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_review_detail.*
-import kotlinx.android.synthetic.main.reviewlist_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

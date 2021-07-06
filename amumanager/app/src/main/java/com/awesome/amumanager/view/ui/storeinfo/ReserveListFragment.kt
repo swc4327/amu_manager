@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui.storeinfo
+package com.awesome.amumanager.view.ui.storeinfo
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,15 +16,12 @@ import com.awesome.amumanager.api.service.GetReserveListService
 import com.awesome.amumanager.model.Client
 import com.awesome.amumanager.model.Reserve
 import com.awesome.amumanager.model.ReserveList
-import com.awesome.amumanager.model.ReviewList
-import com.awesome.amumanager.ui.ReserveDetailActivity
-import com.awesome.amumanager.ui.adapter.ReserveListAdapter
-import com.awesome.amumanager.ui.adapter.ReviewListAdapter
+import com.awesome.amumanager.view.ui.ReserveDetailActivity
+import com.awesome.amumanager.view.ui.adapter.ReserveListAdapter
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_reserve_list.*
 import kotlinx.android.synthetic.main.fragment_reserve_list.view.*
-import kotlinx.android.synthetic.main.fragment_review.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

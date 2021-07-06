@@ -1,11 +1,11 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.awesome.amumanager.MainActivity
+import com.awesome.amumanager.view.MainActivity
 import com.awesome.amumanager.R
 import com.awesome.amumanager.util.FirebaseUtils
 import com.bumptech.glide.Glide
@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_my_page.*
-import kotlinx.android.synthetic.main.main_bottom.*
 
 class MyPageActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()

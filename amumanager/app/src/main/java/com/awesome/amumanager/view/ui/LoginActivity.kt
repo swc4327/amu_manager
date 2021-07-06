@@ -1,10 +1,10 @@
-package com.awesome.amumanager.ui
+package com.awesome.amumanager.view.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.awesome.amumanager.MainActivity
+import com.awesome.amumanager.view.MainActivity
 import com.awesome.amumanager.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*

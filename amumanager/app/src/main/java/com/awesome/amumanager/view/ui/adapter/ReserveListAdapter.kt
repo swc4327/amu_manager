@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui.adapter
+package com.awesome.amumanager.view.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
