@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
-import com.awesome.amumanager.ui.main.view.ui.*
 import com.awesome.amumanager.ui.main.adapter.StoreListAdapter
+import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private var storeListAdapter: StoreListAdapter? = null
     private lateinit var storeViewModel : StoreViewModel
+    private lateinit var firebaseViewModel: FirebaseViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         //auth.signOut()
 
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
-        storeViewModel.getStoreList()
+        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        storeViewModel.getStoreList(firebaseViewModel.getUid())
 
         storeViewModel.storeList.observe(this, Observer<ArrayList<Store>> {
             storeListAdapter = StoreListAdapter(this, it)
@@ -64,10 +66,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if(requestCode ==0) {
             if(resultCode == RESULT_OK) {
-                storeViewModel.getStoreList()
+                storeViewModel.getStoreList(firebaseViewModel.getUid())
             }
         }
     }

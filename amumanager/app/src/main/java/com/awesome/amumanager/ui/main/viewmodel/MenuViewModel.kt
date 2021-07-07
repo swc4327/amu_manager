@@ -3,14 +3,14 @@ package com.awesome.amumanager.ui.main.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.awesome.amumanager.data.model.Menu
-import com.awesome.amumanager.data.model.retrofit.RetrofitFactory
+import com.awesome.amumanager.data.model.factory.MenuListFactory
 
 class MenuViewModel(private val storeId: String?) : ViewModel() {
-    private val retrofitFactory = RetrofitFactory()
+    private val menuListFactory = MenuListFactory()
     val menuList = MutableLiveData<ArrayList<Menu>>()
 
 
     fun getMenuList() {
-        retrofitFactory.getMenuList(menuList, storeId!!)
+        menuListFactory.getMenuList(menuList, storeId!!)
     }
 }
