@@ -90,60 +90,6 @@ class JoinInfoActivity : AppCompatActivity() {
         })
     }
 
-//    private fun addManager(
-//            manager: HashMap<String, String>,
-//            task: String
-//    ) {
-//        db.collection("managers")
-//            .document(auth.currentUser?.uid.toString())
-//            .set(manager)
-//            .addOnSuccessListener {
-//                Log.e("Join To Manager", "성공")
-//
-//                val gson = GsonBuilder().setLenient().create()
-//                val retrofit = Retrofit.Builder()
-//                    .baseUrl(Constants.serverUrl)
-//                    .addConverterFactory(GsonConverterFactory.create(gson))
-//                    .build()
-//
-//                val joinApi = retrofit.create(SignUpService::class.java)
-//
-//                val uid = firebaseViewModel.getUid()
-//                val nickname = join_info_nickname.text.toString()
-//                Log.e("Check nickname", nickname)
-//
-//                val manager =
-//                    Manager(uid, nickname, task)
-//
-//                joinApi.addManager(manager)
-//                    .enqueue(object : Callback<DefaultResponse> {
-//
-//                        override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-//                            Log.e("retrofit add manager", "실패")
-//                            Log.e("Check", t.toString())
-//                        }
-//
-//                        override fun onResponse(
-//                            call: Call<DefaultResponse>,
-//                            response: Response<DefaultResponse>
-//                        )  {
-//                            if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-//                                Log.e("JoinInfoActivity", "success")
-//                                val intent = Intent(this@JoinInfoActivity, MainActivity::class.java)
-//                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                                startActivity(intent)
-//
-//                            } else {
-//                                Log.e("JoinInfoActivity", "실패")
-//                            }
-//                        }
-//                    })
-//            }.addOnFailureListener{
-//                Log.e("JoinInfoActivity", "실패")
-//                    println(it)
-//            }
-//    }
-
     private fun pickImageFromGallery() {
         //Intent to pick image
         val intent = Intent(Intent.ACTION_PICK)
