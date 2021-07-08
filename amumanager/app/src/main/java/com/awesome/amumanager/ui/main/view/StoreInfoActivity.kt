@@ -8,8 +8,8 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.view.storeinfo.ReserveListFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.ReviewFragment
-import com.awesome.amumanager.ui.main.view.ui.storeinfo.MenuFragment
-import com.awesome.amumanager.ui.main.view.ui.storeinfo.InfoFragment
+import com.awesome.amumanager.ui.main.view.storeinfo.MenuFragment
+import com.awesome.amumanager.ui.main.view.storeinfo.InfoFragment
 import kotlinx.android.synthetic.main.activity_store_info.*
 
 class StoreInfoActivity : AppCompatActivity() {

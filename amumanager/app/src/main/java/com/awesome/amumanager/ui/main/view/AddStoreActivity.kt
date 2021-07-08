@@ -53,7 +53,6 @@ class AddStoreActivity : AppCompatActivity() {
 
         storeViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
-                //storeViewModel.status.value = 0
                 setResult(Activity.RESULT_OK)
                 finish()
             }

@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui.main.view.ui.storeinfo
+package com.awesome.amumanager.ui.main.view.storeinfo
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

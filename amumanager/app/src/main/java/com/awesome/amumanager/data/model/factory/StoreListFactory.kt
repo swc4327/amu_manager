@@ -23,7 +23,6 @@ class StoreListFactory {
             .build()
 
 
-
     fun getStoreList(
             storeList: MutableLiveData<ArrayList<Store>>,
             uid: String

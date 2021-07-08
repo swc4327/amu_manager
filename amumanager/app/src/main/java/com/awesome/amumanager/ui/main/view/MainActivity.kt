@@ -27,17 +27,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
+        initListener()
         //auth.signOut()
-
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        observe()
         storeViewModel.getStoreList(firebaseViewModel.getUid())
+    }
 
+    private fun observe() {
         storeViewModel.storeList.observe(this, Observer<ArrayList<Store>> {
             storeListAdapter = StoreListAdapter(this, it)
             store_list.adapter = storeListAdapter
         })
+    }
 
+    private fun initListener() {
         my_page.setOnClickListener{
             if(auth.currentUser == null) { //로그인 no
                 val intent = Intent(this, LoginActivity::class.java)
