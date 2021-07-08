@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.ClientResponse
+import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.ReviewListResponse
 import com.awesome.amumanager.data.api.service.GetClientInfoService
 import com.awesome.amumanager.data.api.service.GetReviewListService
+import com.awesome.amumanager.data.api.service.ReviewFilteringService
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
@@ -113,5 +115,32 @@ class ReviewListFactory {
                         }
                     })
         }
+    }
+
+    fun reviewFiltering(review: Review, client: Client, status : MutableLiveData<Int>) {
+        val joinApi = retrofit.create(ReviewFilteringService::class.java)
+
+
+        joinApi.filterReview(review!!.id.toString(), review!!.store_id)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("review filtering", "실패")
+                    Log.e("Check", t.toString())
+                }
+
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    println(response)
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("review filtering", "success")
+                        status.value = 200
+                    } else {
+
+                    }
+                }
+            })
     }
 }

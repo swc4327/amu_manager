@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.PromotionListResponse
 import com.awesome.amumanager.data.api.service.GetPromotionListService
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.ui.main.adapter.PromotionListAdapter
+import com.awesome.amumanager.ui.main.viewmodel.*
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_promotion_list.*
 import retrofit2.Call
@@ -20,21 +23,27 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PromotionListActivity : AppCompatActivity() {
 
-    var store_id : String = ""
-    var name : String = ""
+    var storeId : String = ""
+    var storeName : String = ""
 
-    private var promotions : ArrayList<Promotion> = ArrayList<Promotion>()
+    private lateinit var promotionViewModel : PromotionViewModel
     private var promotionListAdapter: PromotionListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_promotion_list)
 
-        store_id = intent.getStringExtra("store_id").toString()
-        name = intent.getStringExtra("name").toString()
+        storeId = intent.getStringExtra("storeId").toString()
+        storeName = intent.getStringExtra("storeName").toString()
 
 
-        getPromotionList()
+        var factory = PromotionViewModelFactory(storeId.toString())
+        promotionViewModel = ViewModelProvider(this, factory).get(PromotionViewModel::class.java)
+        promotionViewModel.getPromotionList()
+        promotionViewModel.promotionList.observe(this, Observer<ArrayList<Promotion>>{
+            promotionListAdapter = PromotionListAdapter(this, it)
+            promotion_list.adapter = promotionListAdapter
+        })
 
         close_promotion_list.setOnClickListener {
             finish()
@@ -43,48 +52,19 @@ class PromotionListActivity : AppCompatActivity() {
         add_promotion.setOnClickListener {
             val intent = Intent(this, AddPromotionActivity::class.java)
             //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            intent.putExtra("store_id", store_id)
-            intent.putExtra("name", name)
-            startActivity(intent)
+            intent.putExtra("storeId", storeId)
+            intent.putExtra("storeName", storeName)
+            startActivityForResult(intent, 200)
         }
 
 
     }
-
-    private fun getPromotionList() {
-        val gson = GsonBuilder().setLenient().create()
-        val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.serverUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
-
-        val joinApi = retrofit.create(GetPromotionListService::class.java)
-
-        joinApi.getPromotionList(store_id.toString())
-                .enqueue(object : Callback<PromotionListResponse> {
-
-                    override fun onFailure(call: Call<PromotionListResponse>, t: Throwable) {
-                        Log.e("get promotion list", "실패")
-                        Log.e("Check", t.toString())
-                    }
-
-                    override fun onResponse(
-                            call: Call<PromotionListResponse>,
-                            response: Response<PromotionListResponse>
-                    ) {
-                        if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            Log.e("get promotion list", "success")
-
-                            promotions.addAll(response.body()!!.promotions)
-                            promotionListAdapter = PromotionListAdapter(
-                                    this@PromotionListActivity, promotions
-                            )
-                            promotion_list.adapter = promotionListAdapter
-
-                        } else {
-
-                        }
-                    }
-                })
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 200) {
+            if(resultCode == RESULT_OK) {
+                promotionViewModel.getPromotionList()
+            }
+        }
     }
 }

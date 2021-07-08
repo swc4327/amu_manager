@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.awesome.amumanager.util.FirebaseUtils
 
 class FirebaseViewModel() : ViewModel() {
-    val firebaseUtils = FirebaseUtils()
+    private val firebaseUtils = FirebaseUtils()
     //val status = MutableLiveData<Int>()
     val taskToString = MutableLiveData<String>()
 

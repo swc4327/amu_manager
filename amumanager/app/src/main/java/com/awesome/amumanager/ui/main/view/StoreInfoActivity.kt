@@ -28,15 +28,14 @@ class StoreInfoActivity : AppCompatActivity() {
 
         store_info_name.setOnClickListener {
             val intent = Intent(this, PromotionListActivity::class.java)
-            intent.putExtra("store_id", store!!.id.toString())
-            intent.putExtra("name", store!!.name)
+            intent.putExtra("storeId", store!!.id.toString())
+            intent.putExtra("storeName", store!!.name)
             startActivity(intent)
         }
 
         add_menu.setOnClickListener {
             val intent = Intent(this, AddMenuActivity::class.java)
-            intent.putExtra("store_id", store!!.id.toString())
-            intent.putExtra("name", store!!.name)
+            intent.putExtra("storeId", store!!.id.toString())
             startActivityForResult(intent, 1)
         }
 

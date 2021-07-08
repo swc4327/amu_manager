@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
@@ -40,7 +41,8 @@ class ReviewFragment : Fragment() {
             val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
             intent.putExtra("review", reviewListAdapter!!.getReview(position))
             intent.putExtra("client", reviewListAdapter!!.getClient(position))
-            startActivity(intent)
+            intent.putExtra("storeId", this.storeId)
+            startActivityForResult(intent, 100)
         }
     }
 
@@ -59,5 +61,14 @@ class ReviewFragment : Fragment() {
         reviewViewModel.getReviewList()
 
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode ==100) {
+            if(resultCode == AppCompatActivity.RESULT_OK) {
+                reviewViewModel.getReviewList()
+            }
+        }
     }
 }

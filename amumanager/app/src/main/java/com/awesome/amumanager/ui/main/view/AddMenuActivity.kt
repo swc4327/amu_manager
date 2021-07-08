@@ -12,16 +12,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.service.AddMenuService
 import com.awesome.amumanager.data.model.Menu
+import com.awesome.amumanager.data.model.Store
+import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
+import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
+import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_add_menu.*
+import kotlinx.android.synthetic.main.activity_add_store.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,18 +39,21 @@ import java.io.ByteArrayOutputStream
 
 class AddMenuActivity : AppCompatActivity() {
 
-    var store_id : String = ""
-    var name : String = ""
+    var storeId : String = ""
+
+    private lateinit var firebaseViewModel : FirebaseViewModel
+    private lateinit var menuViewModel : MenuViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_menu)
 
-        store_id = intent.getStringExtra("store_id").toString()
-        name = intent.getStringExtra("name").toString()
+        storeId = intent.getStringExtra("storeId").toString()
 
-        println("Store Id Check!!" + store_id)
-        println(name)
+        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        var factory = MenuViewModelFactory(storeId.toString())
+        menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
+
 
         add_menu_image.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -66,80 +77,29 @@ class AddMenuActivity : AppCompatActivity() {
             finish()
         }
 
-        add_menu_button.setOnClickListener {
-            val bitmap = (add_menu_image.drawable as BitmapDrawable).bitmap
-            val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
-
-
-            var task = FirebaseStorage.getInstance().getReference()
-                .child(store_id.toString()+"_"+menu_name.text.toString())
-            val uploadTask = task.putBytes(data)
-
-            uploadTask.addOnFailureListener {
-                Toast.makeText(this, "업로드실패", Toast.LENGTH_LONG).show()
+        menuViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                //storeViewModel.status.value = 0
+                setResult(Activity.RESULT_OK)
+                finish()
             }
-                .addOnSuccessListener {
-                    Toast.makeText(this, "업로드성공", Toast.LENGTH_LONG).show()
-                    task.downloadUrl
-                        .addOnCompleteListener(OnCompleteListener { task ->
-                            Log.e("Add Menu Url Check", task.result.toString())
-                            addMenu(task)
-//                            val intent = Intent(this, StoreInfoActivity::class.java)
-//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                            intent.putExtra("name", name)
-//                            intent.putExtra("store_id", store_id)
-//                            startActivity(intent)
-                        })
-                }
+        })
 
+        firebaseViewModel.taskToString.observe(this, Observer<String> {
+            val menu = Menu(
+                    null,
+                    menu_name.text.toString(),
+                    it,
+                    menu_price.text.toString(),
+                    menu_comment.text.toString(),
+                    storeId)
+            menuViewModel.addMenu(menu)
+        })
+
+
+        add_menu_button.setOnClickListener {
+            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, menu_name.text.toString())
         }
-    }
-
-    private fun addMenu(
-        task: Task<Uri>
-    ) {
-        val gson = GsonBuilder().setLenient().create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.serverUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val joinApi = retrofit.create(AddMenuService::class.java)
-
-
-        val menu = Menu(
-            null,
-            menu_name.text.toString(),
-            task.result.toString(),
-            menu_price.text.toString(),
-            menu_comment.text.toString(),
-            store_id
-        )
-
-        joinApi.addMenu(menu)
-            .enqueue(object : Callback<DefaultResponse> {
-
-                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                    Log.e("Retrofit Add Menu", "실패")
-                    Log.e("Check", t.toString())
-                }
-                override fun onResponse(
-                    call: Call<DefaultResponse>,
-                    response: Response<DefaultResponse>
-                )  {
-                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                        Log.e("AddMenuActivity", "success")
-                        setResult(Activity.RESULT_OK)
-                        finish()
-
-
-                    } else {
-                        Log.e("AddMenuActivity", "실패")
-                    }
-                }
-            })
     }
 
     private fun pickImageFromGallery() {

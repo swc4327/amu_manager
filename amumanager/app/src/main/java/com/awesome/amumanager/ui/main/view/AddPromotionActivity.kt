@@ -1,83 +1,60 @@
 package com.awesome.amumanager.ui.main.view
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.service.AddPromotionService
 import com.awesome.amumanager.data.model.Promotion
-import com.google.gson.GsonBuilder
+import com.awesome.amumanager.ui.main.viewmodel.PromotionViewModel
+import com.awesome.amumanager.ui.main.viewmodel.PromotionViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_promotion.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class AddPromotionActivity : AppCompatActivity() {
 
-    var store_id : String = ""
-    var name : String = ""
+    var storeId : String = ""
+    var storeName : String = ""
+    private lateinit var promotionViewModel : PromotionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_promotion)
 
+        storeId = intent.getStringExtra("storeId").toString()
+        storeName = intent.getStringExtra("storeName").toString()
+
+        var factory = PromotionViewModelFactory(storeId.toString())
+        promotionViewModel = ViewModelProvider(this, factory).get(PromotionViewModel::class.java)
+
+
         close_add_promotion.setOnClickListener {
             finish()
         }
 
-        store_id = intent.getStringExtra("store_id").toString()
-        name = intent.getStringExtra("name").toString()
+        promotionViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        })
 
         complete_button.setOnClickListener {
-            addPromotion()
+            val promotion = Promotion(
+                    null,
+                    null,
+                    storeName,
+                    promotion_message.text.toString(),
+                    storeId
+            )
+            promotionViewModel.addPromotion(promotion)
         }
-
-
-    }
-
-    private fun addPromotion() {
-        val gson = GsonBuilder().setLenient().create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.serverUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val joinApi = retrofit.create(AddPromotionService::class.java)
-
-
-        val promotion = Promotion(
-            null,
-            null,
-            name,
-            promotion_message.text.toString(),
-            store_id
-        )
-
-        joinApi.addPromotion(promotion)
-            .enqueue(object : Callback<DefaultResponse> {
-
-                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                    Log.e("Retrofit Add Promotion", "실패")
-                    Log.e("Check", t.toString())
-                }
-                override fun onResponse(
-                    call: Call<DefaultResponse>,
-                    response: Response<DefaultResponse>
-                )  {
-                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                        Log.e("AddPromotionActivity", "success")
-                        //바로 반영 안됨.
-                        finish()
-
-
-                    } else {
-                        Log.e("AddPromotionActivity", "실패")
-                    }
-                }
-            })
     }
 }
