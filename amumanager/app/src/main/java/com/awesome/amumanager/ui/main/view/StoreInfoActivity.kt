@@ -20,12 +20,15 @@ class StoreInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store_info)
 
-
         store = intent.getParcelableExtra("store")
 
+        initLayout()
+        initListener()
 
-        store_info_name.setText(store!!.name)
+        goMenuFragment()
+    }
 
+    private fun initListener() {
         store_info_name.setOnClickListener {
             val intent = Intent(this, PromotionListActivity::class.java)
             intent.putExtra("storeId", store!!.id.toString())
@@ -43,8 +46,6 @@ class StoreInfoActivity : AppCompatActivity() {
             finish()
         }
 
-        goMenuFragment()
-
         menu_bar_1.setOnClickListener {
             goMenuFragment()
         }
@@ -61,6 +62,11 @@ class StoreInfoActivity : AppCompatActivity() {
             goReserveListFragment()
         }
     }
+
+    private fun initLayout() {
+        store_info_name.setText(store!!.name)
+    }
+
     private fun goMenuFragment() {
         menu_bar_1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25F)
         menu_bar_2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
