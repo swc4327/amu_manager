@@ -33,9 +33,10 @@ class AddStoreActivity : AppCompatActivity() {
     private var lng : Double? = null
     private var mapView : MapView? = null
     private var kind : String? = null
-    private lateinit var firebaseViewModel : FirebaseViewModel
 
+    private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var storeViewModel : StoreViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,6 @@ class AddStoreActivity : AppCompatActivity() {
 
         initLayout()
         initListener()
-        setMap()
 
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
@@ -57,18 +57,7 @@ class AddStoreActivity : AppCompatActivity() {
         val spinnerAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, spinnerItem)
         store_spinner.adapter = spinnerAdapter
 
-        store_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when(position) {
-                    0 -> {}
-                    1 -> kind = "노래방"
-                    2 -> kind = "스크린야구장"
-                    3 -> kind = "볼링장"
-                }
-            }
-        }
+        setMap()
     }
 
     private fun initListener() {
@@ -81,6 +70,19 @@ class AddStoreActivity : AppCompatActivity() {
 
         add_store_button.setOnClickListener {
             firebaseViewModel.uploadTask(add_store_image.drawable as BitmapDrawable, store_name.text.toString())
+        }
+
+        store_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when(position) {
+                    0 -> {}
+                    1 -> kind = "노래방"
+                    2 -> kind = "스크린야구장"
+                    3 -> kind = "볼링장"
+                }
+            }
         }
 
         add_store_image.setOnClickListener {
