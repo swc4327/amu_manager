@@ -1,25 +1,15 @@
-package com.awesome.amumanager.data.model.factory
+package com.awesome.amumanager.data.model.remote
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.MenuListResponse
-import com.awesome.amumanager.data.api.service.AddMenuService
-import com.awesome.amumanager.data.api.service.GetMenuListService
 import com.awesome.amumanager.data.model.Menu
-import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class MenuListFactory {
-    private val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.serverUrl)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .build()
+class MenuListApi {
 
     fun getMenuList(
             menuList: MutableLiveData<ArrayList<Menu>>,
@@ -27,7 +17,7 @@ class MenuListFactory {
 
         var menusTemp = ArrayList<Menu>()
 
-        val joinApi = retrofit.create(GetMenuListService::class.java)
+        val joinApi = RetrofitObject.getMenuListService
 
         joinApi.getMenuList(storeId.toString())
                 .enqueue(object : Callback<MenuListResponse> {
@@ -53,7 +43,7 @@ class MenuListFactory {
     }
 
     fun addMenu(menu: Menu, status: MutableLiveData<Int>) {
-        val joinApi = retrofit.create(AddMenuService::class.java)
+        val joinApi = RetrofitObject.addMenuService
 
         joinApi.addMenu(menu)
                 .enqueue(object : Callback<DefaultResponse> {

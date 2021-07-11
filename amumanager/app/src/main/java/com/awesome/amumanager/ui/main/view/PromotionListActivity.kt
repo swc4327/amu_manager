@@ -3,23 +3,13 @@ package com.awesome.amumanager.ui.main.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.api.Constants
-import com.awesome.amumanager.data.api.response.PromotionListResponse
-import com.awesome.amumanager.data.api.service.GetPromotionListService
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.ui.main.adapter.PromotionListAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_promotion_list.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class PromotionListActivity : AppCompatActivity() {
 

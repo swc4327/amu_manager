@@ -1,30 +1,19 @@
-package com.awesome.amumanager.data.model.factory
+package com.awesome.amumanager.data.model.remote
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.ClientResponse
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.ReviewListResponse
-import com.awesome.amumanager.data.api.service.GetClientInfoService
-import com.awesome.amumanager.data.api.service.GetReviewListService
-import com.awesome.amumanager.data.api.service.ReviewFilteringService
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
-import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class ReviewListFactory {
-    private val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.serverUrl)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .build()
+class ReviewListApi {
 
     fun getReviewList(
             mReviewLists: MutableLiveData<ArrayList<ReviewList>>,
@@ -32,9 +21,7 @@ class ReviewListFactory {
 
         var reviewsTemp = ArrayList<Review>()
 
-        val joinApi = retrofit.create(GetReviewListService::class.java)
-        Log.e("store_id check", storeId.toString())
-
+        val joinApi = RetrofitObject.getReviewListService
 
         joinApi.getReviewList(storeId.toString())
                 .enqueue(object : Callback<ReviewListResponse> {
@@ -93,7 +80,7 @@ class ReviewListFactory {
     private fun getClient(clientId: String): Observable<Client> {
         return Observable.create { emitter ->
 
-            val joinApi = retrofit.create(GetClientInfoService::class.java)
+            val joinApi = RetrofitObject.getClientInfoService
             joinApi.getClient(clientId)
                     .enqueue(object : Callback<ClientResponse> {
 
@@ -118,7 +105,7 @@ class ReviewListFactory {
     }
 
     fun reviewFiltering(review: Review, client: Client, status : MutableLiveData<Int>) {
-        val joinApi = retrofit.create(ReviewFilteringService::class.java)
+        val joinApi = RetrofitObject.reviewFilteringService
 
 
         joinApi.filterReview(review!!.id.toString(), review!!.store_id)

@@ -1,28 +1,16 @@
-package com.awesome.amumanager.data.model.factory
+package com.awesome.amumanager.data.model.remote
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.ClientResponse
 import com.awesome.amumanager.data.api.response.ReserveListResponse
-import com.awesome.amumanager.data.api.service.GetClientInfoService
-import com.awesome.amumanager.data.api.service.GetReserveListService
 import com.awesome.amumanager.data.model.*
-import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class ReserveListFactory {
-    private val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.serverUrl)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .build()
-
-
+class ReserveListApi {
 
     fun getReserveList(
             mReserveLists: MutableLiveData<ArrayList<ReserveList>>,
@@ -31,7 +19,7 @@ class ReserveListFactory {
 
         var reservesTemp = ArrayList<Reserve>()
 
-        val joinApi = retrofit.create(GetReserveListService::class.java)
+        val joinApi = RetrofitObject.getReserveListService
 
         joinApi.getReserveList(storeId)
                 .enqueue(object : Callback<ReserveListResponse> {
@@ -88,7 +76,7 @@ class ReserveListFactory {
     private fun getClient(clientId: String): Observable<Client> {
         return Observable.create { emitter ->
 
-            val joinApi = retrofit.create(GetClientInfoService::class.java)
+            val joinApi = RetrofitObject.getClientInfoService
             joinApi.getClient(clientId)
                     .enqueue(object : Callback<ClientResponse> {
 

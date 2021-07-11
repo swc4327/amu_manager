@@ -3,27 +3,16 @@ package com.awesome.amumanager.ui.main.view
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.api.Constants
-import com.awesome.amumanager.data.api.response.DefaultResponse
-import com.awesome.amumanager.data.api.service.ReviewFilteringService
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
-import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
 import com.bumptech.glide.Glide
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_review_detail.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ReviewDetailActivity : AppCompatActivity() {
 

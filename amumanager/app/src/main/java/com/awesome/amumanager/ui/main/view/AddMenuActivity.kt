@@ -4,38 +4,19 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.api.Constants
-import com.awesome.amumanager.data.api.response.DefaultResponse
-import com.awesome.amumanager.data.api.service.AddMenuService
 import com.awesome.amumanager.data.model.Menu
-import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
-import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.FirebaseStorage
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_add_menu.*
-import kotlinx.android.synthetic.main.activity_add_store.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.ByteArrayOutputStream
 
 class AddMenuActivity : AppCompatActivity() {
 

@@ -1,27 +1,16 @@
-package com.awesome.amumanager.data.model.factory
+package com.awesome.amumanager.data.model.remote
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.awesome.amumanager.data.api.Constants
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.StoreListResponse
-import com.awesome.amumanager.data.api.service.AddStoreService
-import com.awesome.amumanager.data.api.service.GetStoreListService
 import com.awesome.amumanager.data.model.Store
-import com.awesome.amumanager.util.FirebaseUtils
-import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class StoreListFactory {
-    private val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.serverUrl)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .build()
 
+class StoreListApi {
 
     fun getStoreList(
             storeList: MutableLiveData<ArrayList<Store>>,
@@ -30,7 +19,7 @@ class StoreListFactory {
 
         var storesTemp = ArrayList<Store>()
 
-        val joinApi = retrofit.create(GetStoreListService::class.java)
+        val joinApi = RetrofitObject.getStoreListService
 
         joinApi.getStoreList(uid)
                 .enqueue(object : Callback<StoreListResponse> {
@@ -42,7 +31,7 @@ class StoreListFactory {
                     override fun onResponse(
                             call: Call<StoreListResponse>,
                             response: Response<StoreListResponse>
-                    )  {
+                    ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             storesTemp.addAll(response.body()!!.stores)
@@ -55,7 +44,7 @@ class StoreListFactory {
     }
 
     fun addStore(store : Store, status : MutableLiveData<Int>) {
-        val joinApi = retrofit.create(AddStoreService::class.java)
+        val joinApi = RetrofitObject.addStoreService
 
         joinApi.addStore(store)
                 .enqueue(object : Callback<DefaultResponse> {
