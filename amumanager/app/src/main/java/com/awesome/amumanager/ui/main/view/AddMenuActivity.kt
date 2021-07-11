@@ -30,19 +30,24 @@ class AddMenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_menu)
 
         storeId = intent.getStringExtra("storeId").toString()
+        initListener()
 
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
         var factory = MenuViewModelFactory(storeId.toString())
         menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
 
+        observe()
 
+    }
+
+    private fun initListener() {
         add_menu_image.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_DENIED) {
+                        PackageManager.PERMISSION_DENIED) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions,
-                        AddMenuActivity.PERMISSION_CODE
+                            AddMenuActivity.PERMISSION_CODE
                     )
                 }
                 else {
@@ -58,6 +63,12 @@ class AddMenuActivity : AppCompatActivity() {
             finish()
         }
 
+        add_menu_button.setOnClickListener {
+            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, menu_name.text.toString())
+        }
+    }
+
+    private fun observe() {
         menuViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 //storeViewModel.status.value = 0
@@ -78,9 +89,6 @@ class AddMenuActivity : AppCompatActivity() {
         })
 
 
-        add_menu_button.setOnClickListener {
-            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, menu_name.text.toString())
-        }
     }
 
     private fun pickImageFromGallery() {
