@@ -40,23 +40,22 @@ class AddStoreActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_store)
+        auth = FirebaseAuth.getInstance()
+
+        initLayout()
+        initListener()
+        setMap()
 
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-        auth = FirebaseAuth.getInstance()
-        setMap()
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
 
+        observe()
+    }
 
+    private fun initLayout() {
         val spinnerItem = listOf("업체구분","노래방","스크린야구장","볼링장")
         val spinnerAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, spinnerItem)
         store_spinner.adapter = spinnerAdapter
-
-        storeViewModel.status.observe(this, Observer<Int> {
-            if(it == 200) {
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        })
 
         store_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -70,31 +69,9 @@ class AddStoreActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
-
-        add_store_button.setOnClickListener {
-            firebaseViewModel.uploadTask(add_store_image.drawable as BitmapDrawable, store_name.text.toString())
-        }
-
-        firebaseViewModel.taskToString.observe(this, Observer<String> {
-                val manager_uid = firebaseViewModel.getUid()
-                val name = store_name.text.toString()
-                val store = Store(
-                        null,
-                        name,
-                        it,
-                        manager_uid,
-                        lat!!.toString(),
-                        lng!!.toString(),
-                        store_place.text.toString(),
-                        store_place_detail.text.toString(),
-                        kind,
-                        null,
-                        null
-                )
-                storeViewModel.addStore(store)
-        })
-
+    private fun initListener() {
         close_add_store.setOnClickListener {
             finish()
         }
@@ -102,7 +79,9 @@ class AddStoreActivity : AppCompatActivity() {
             searchPlace()
         }
 
-
+        add_store_button.setOnClickListener {
+            firebaseViewModel.uploadTask(add_store_image.drawable as BitmapDrawable, store_name.text.toString())
+        }
 
         add_store_image.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -121,6 +100,34 @@ class AddStoreActivity : AppCompatActivity() {
                 pickImageFromGallery()
             }
         }
+    }
+
+    private fun observe() {
+        storeViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        })
+
+        firebaseViewModel.taskToString.observe(this, Observer<String> {
+            val manager_uid = firebaseViewModel.getUid()
+            val name = store_name.text.toString()
+            val store = Store(
+                    null,
+                    name,
+                    it,
+                    manager_uid,
+                    lat!!.toString(),
+                    lng!!.toString(),
+                    store_place.text.toString(),
+                    store_place_detail.text.toString(),
+                    kind,
+                    null,
+                    null
+            )
+            storeViewModel.addStore(store)
+        })
     }
 
     private fun searchPlace() {

@@ -31,20 +31,19 @@ class AddPromotionActivity : AppCompatActivity() {
         storeId = intent.getStringExtra("storeId").toString()
         storeName = intent.getStringExtra("storeName").toString()
 
+        initListener()
+
         var factory = PromotionViewModelFactory(storeId.toString())
         promotionViewModel = ViewModelProvider(this, factory).get(PromotionViewModel::class.java)
 
+        observe()
 
+
+    }
+    private fun initListener() {
         close_add_promotion.setOnClickListener {
             finish()
         }
-
-        promotionViewModel.status.observe(this, Observer<Int> {
-            if(it == 200) {
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        })
 
         complete_button.setOnClickListener {
             val promotion = Promotion(
@@ -56,5 +55,14 @@ class AddPromotionActivity : AppCompatActivity() {
             )
             promotionViewModel.addPromotion(promotion)
         }
+    }
+
+    private fun observe() {
+        promotionViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        })
     }
 }

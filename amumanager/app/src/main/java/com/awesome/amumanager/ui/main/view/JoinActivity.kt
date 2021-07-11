@@ -18,9 +18,13 @@ class JoinActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        initListener()
+
+    }
+    private fun initListener() {
         join_button.setOnClickListener {
             auth.createUserWithEmailAndPassword(join_email.text.toString(),
-                join_password.text.toString()).addOnCompleteListener(this){ task ->
+                    join_password.text.toString()).addOnCompleteListener(this){ task ->
                 if(task.isSuccessful) {
                     val intent = Intent(this, JoinInfoActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -31,6 +35,5 @@ class JoinActivity : AppCompatActivity() {
             }
 
         }
-
     }
 }
