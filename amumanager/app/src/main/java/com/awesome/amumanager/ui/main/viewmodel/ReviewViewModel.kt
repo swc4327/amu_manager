@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
-import com.awesome.amumanager.data.model.remote.ReviewListApi
+import com.awesome.amumanager.data.model.remote.ReviewApi
 
 class ReviewViewModel(private val storeId: String?) : ViewModel() {
-    private val reviewListFactory = ReviewListApi()
+    private val reviewListFactory = ReviewApi()
     val reviewLists = MutableLiveData<ArrayList<ReviewList>>()
     val status = MutableLiveData<Int>()
 

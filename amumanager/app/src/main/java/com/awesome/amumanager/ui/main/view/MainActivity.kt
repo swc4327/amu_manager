@@ -11,6 +11,7 @@ import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.adapter.StoreListAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_bottom.*
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observe() {
         storeViewModel.storeList.observe(this, Observer<ArrayList<Store>> {
-            storeListAdapter = StoreListAdapter(this, it)
+            storeListAdapter = StoreListAdapter(it, Glide.with(this))
             store_list.adapter = storeListAdapter
         })
     }
@@ -63,11 +64,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        store_list.setOnItemClickListener { parent, view, position, id ->
-            val intent = Intent(this, StoreInfoActivity::class.java)
-            intent.putExtra("store", storeListAdapter!!.getItem(position))
-            startActivity(intent)
-        }
+//        store_list.setOnItemClickListener { parent, view, position, id ->
+//            val intent = Intent(this, StoreInfoActivity::class.java)
+//            intent.putExtra("store", storeListAdapter!!.getItem(position))
+//            startActivity(intent)
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -3,13 +3,13 @@ package com.awesome.amumanager.data.model.remote
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
-import com.awesome.amumanager.data.api.response.MenuListResponse
+import com.awesome.amumanager.data.api.response.MenuResponse
 import com.awesome.amumanager.data.model.Menu
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MenuListApi {
+class MenuApi {
 
     fun getMenuList(
             menuList: MutableLiveData<ArrayList<Menu>>,
@@ -17,19 +17,19 @@ class MenuListApi {
 
         var menusTemp = ArrayList<Menu>()
 
-        val joinApi = RetrofitObject.getMenuListService
+        val joinApi = RetrofitObject.getMenuService
 
         joinApi.getMenuList(storeId.toString())
-                .enqueue(object : Callback<MenuListResponse> {
+                .enqueue(object : Callback<MenuResponse> {
 
-                    override fun onFailure(call: Call<MenuListResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<MenuResponse>, t: Throwable) {
                         Log.e("Menu Retrofit getMenu", "실패")
                         Log.e("Check", t.toString())
                     }
 
                     override fun onResponse(
-                            call: Call<MenuListResponse>,
-                            response: Response<MenuListResponse>
+                            call: Call<MenuResponse>,
+                            response: Response<MenuResponse>
                     )  {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Getmenu Retrofit", "success")

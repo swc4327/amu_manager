@@ -3,14 +3,14 @@ package com.awesome.amumanager.data.model.remote
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.ClientResponse
-import com.awesome.amumanager.data.api.response.ReserveListResponse
+import com.awesome.amumanager.data.api.response.ReserveResponse
 import com.awesome.amumanager.data.model.*
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReserveListApi {
+class ReserveApi {
 
     fun getReserveList(
             mReserveLists: MutableLiveData<ArrayList<ReserveList>>,
@@ -19,18 +19,18 @@ class ReserveListApi {
 
         var reservesTemp = ArrayList<Reserve>()
 
-        val joinApi = RetrofitObject.getReserveListService
+        val joinApi = RetrofitObject.getReserveService
 
         joinApi.getReserveList(storeId)
-                .enqueue(object : Callback<ReserveListResponse> {
+                .enqueue(object : Callback<ReserveResponse> {
 
-                    override fun onFailure(call: Call<ReserveListResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<ReserveResponse>, t: Throwable) {
                         Log.e("Main Retrofit getStore", "실패")
                     }
 
                     override fun onResponse(
-                            call: Call<ReserveListResponse>,
-                            response: Response<ReserveListResponse>
+                            call: Call<ReserveResponse>,
+                            response: Response<ReserveResponse>
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
@@ -76,7 +76,7 @@ class ReserveListApi {
     private fun getClient(clientId: String): Observable<Client> {
         return Observable.create { emitter ->
 
-            val joinApi = RetrofitObject.getClientInfoService
+            val joinApi = RetrofitObject.getClientService
             joinApi.getClient(clientId)
                     .enqueue(object : Callback<ClientResponse> {
 

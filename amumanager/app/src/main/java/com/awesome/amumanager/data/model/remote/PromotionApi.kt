@@ -3,13 +3,13 @@ package com.awesome.amumanager.data.model.remote
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
-import com.awesome.amumanager.data.api.response.PromotionListResponse
+import com.awesome.amumanager.data.api.response.PromotionResponse
 import com.awesome.amumanager.data.model.Promotion
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PromotionListApi {
+class PromotionApi {
 
     fun getPromotionList(
             promotionList: MutableLiveData<ArrayList<Promotion>>,
@@ -18,18 +18,18 @@ class PromotionListApi {
 
         var promotionListTemp = ArrayList<Promotion>()
 
-        val joinApi = RetrofitObject.getPromotionListService
+        val joinApi = RetrofitObject.getPromotionService
 
         joinApi.getPromotionList(storeId)
-                .enqueue(object : Callback<PromotionListResponse> {
+                .enqueue(object : Callback<PromotionResponse> {
 
-                    override fun onFailure(call: Call<PromotionListResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<PromotionResponse>, t: Throwable) {
                         Log.e("Retrofit get Promotion", "실패")
                     }
 
                     override fun onResponse(
-                            call: Call<PromotionListResponse>,
-                            response: Response<PromotionListResponse>
+                            call: Call<PromotionResponse>,
+                            response: Response<PromotionResponse>
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {

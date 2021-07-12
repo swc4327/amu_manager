@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.ClientResponse
 import com.awesome.amumanager.data.api.response.DefaultResponse
-import com.awesome.amumanager.data.api.response.ReviewListResponse
+import com.awesome.amumanager.data.api.response.ReviewResponse
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReviewListApi {
+class ReviewApi {
 
     fun getReviewList(
             mReviewLists: MutableLiveData<ArrayList<ReviewList>>,
@@ -21,19 +21,19 @@ class ReviewListApi {
 
         var reviewsTemp = ArrayList<Review>()
 
-        val joinApi = RetrofitObject.getReviewListService
+        val joinApi = RetrofitObject.getReviewService
 
         joinApi.getReviewList(storeId.toString())
-                .enqueue(object : Callback<ReviewListResponse> {
+                .enqueue(object : Callback<ReviewResponse> {
 
-                    override fun onFailure(call: Call<ReviewListResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
                         Log.e("Retrofit GetReview", "실패")
                         Log.e("Check", t.toString())
                     }
 
                     override fun onResponse(
-                            call: Call<ReviewListResponse>,
-                            response: Response<ReviewListResponse>
+                            call: Call<ReviewResponse>,
+                            response: Response<ReviewResponse>
                     )  {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Get ReviewList Retrofit" , "success")
@@ -80,7 +80,7 @@ class ReviewListApi {
     private fun getClient(clientId: String): Observable<Client> {
         return Observable.create { emitter ->
 
-            val joinApi = RetrofitObject.getClientInfoService
+            val joinApi = RetrofitObject.getClientService
             joinApi.getClient(clientId)
                     .enqueue(object : Callback<ClientResponse> {
 

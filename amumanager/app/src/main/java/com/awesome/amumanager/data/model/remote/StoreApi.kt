@@ -3,14 +3,14 @@ package com.awesome.amumanager.data.model.remote
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
-import com.awesome.amumanager.data.api.response.StoreListResponse
+import com.awesome.amumanager.data.api.response.StoreResponse
 import com.awesome.amumanager.data.model.Store
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class StoreListApi {
+class StoreApi {
 
     fun getStoreList(
             storeList: MutableLiveData<ArrayList<Store>>,
@@ -19,18 +19,18 @@ class StoreListApi {
 
         var storesTemp = ArrayList<Store>()
 
-        val joinApi = RetrofitObject.getStoreListService
+        val joinApi = RetrofitObject.getStoreService
 
         joinApi.getStoreList(uid)
-                .enqueue(object : Callback<StoreListResponse> {
+                .enqueue(object : Callback<StoreResponse> {
 
-                    override fun onFailure(call: Call<StoreListResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<StoreResponse>, t: Throwable) {
                         Log.e("Main Retrofit getStore", "실패")
                     }
 
                     override fun onResponse(
-                            call: Call<StoreListResponse>,
-                            response: Response<StoreListResponse>
+                            call: Call<StoreResponse>,
+                            response: Response<StoreResponse>
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
