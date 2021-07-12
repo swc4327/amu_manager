@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
-import com.awesome.amumanager.ui.main.view.storeinfo.ReserveListFragment
+import com.awesome.amumanager.ui.main.view.storeinfo.ReserveFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.ReviewFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.MenuFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.InfoFragment
@@ -122,7 +122,7 @@ class StoreInfoActivity : AppCompatActivity() {
         menu_bar_4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25F)
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_area, ReserveListFragment().apply {
+                .replace(R.id.fragment_area, ReserveFragment().apply {
                     arguments = Bundle().apply {
                         putString("store_id", store!!.id.toString())
                     }

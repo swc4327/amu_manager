@@ -12,7 +12,7 @@ import com.awesome.amumanager.data.model.ReviewList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.reviewlist_item.view.*
 
-class ReviewListAdapter(val context: Context, val reviewLists : ArrayList<ReviewList>): BaseAdapter() {
+class ReviewAdapter(val context: Context, val reviewLists : ArrayList<ReviewList>): BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val view : View = LayoutInflater.from(context).inflate(R.layout.reviewlist_item, null)

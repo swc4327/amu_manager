@@ -12,7 +12,7 @@ import com.awesome.amumanager.data.model.ReserveList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_reserve.view.*
 
-class ReserveListAdapter(val context: Context, val reserveLists: ArrayList<ReserveList>) : BaseAdapter() {
+class ReserveAdapter(val context: Context, val reserveLists: ArrayList<ReserveList>) : BaseAdapter() {
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = LayoutInflater.from(context).inflate(R.layout.item_reserve, null)
 

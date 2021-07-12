@@ -10,7 +10,7 @@ import com.awesome.amumanager.data.model.Menu
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.menulist_item.view.*
 
-class MenuListAdapter(val context: Context, val menus : ArrayList<Menu>): BaseAdapter() {
+class MenuAdapter(val context: Context, val menus : ArrayList<Menu>): BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view : View = LayoutInflater.from(context).inflate(R.layout.menulist_item, null)
 

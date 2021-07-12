@@ -9,14 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
-import com.awesome.amumanager.ui.main.adapter.MenuListAdapter
+import com.awesome.amumanager.ui.main.adapter.MenuAdapter
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
 import kotlinx.android.synthetic.main.fragment_menu.*
 
 class MenuFragment() : Fragment() {
 
-    private var menuListAdapter: MenuListAdapter? = null
+    private var menuAdapter: MenuAdapter? = null
     private var storeId: String? = ""
     private lateinit var menuViewModel : MenuViewModel
 
@@ -39,8 +39,8 @@ class MenuFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         menuViewModel.menuList.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {
-            menuListAdapter = MenuListAdapter(requireContext(), it)
-            menu_list.adapter = menuListAdapter
+            menuAdapter = MenuAdapter(requireContext(), it)
+            menu_list.adapter = menuAdapter
         })
 
     }

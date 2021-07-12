@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.ReviewList
-import com.awesome.amumanager.ui.main.adapter.ReviewListAdapter
+import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
@@ -23,7 +23,7 @@ import kotlin.collections.ArrayList
 class ReviewFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
-    private var reviewListAdapter: ReviewListAdapter? = null
+    private var reviewAdapter: ReviewAdapter? = null
     private var storeId: String? = ""
     private lateinit var reviewViewModel : ReviewViewModel
 
@@ -32,15 +32,15 @@ class ReviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         reviewViewModel.reviewLists.observe(viewLifecycleOwner, Observer<ArrayList<ReviewList>> {
-            reviewListAdapter = ReviewListAdapter(requireContext(), it)
-            review_list.adapter = reviewListAdapter
+            reviewAdapter = ReviewAdapter(requireContext(), it)
+            review_list.adapter = reviewAdapter
         })
 
 
         view.review_list.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-            intent.putExtra("review", reviewListAdapter!!.getReview(position))
-            intent.putExtra("client", reviewListAdapter!!.getClient(position))
+            intent.putExtra("review", reviewAdapter!!.getReview(position))
+            intent.putExtra("client", reviewAdapter!!.getClient(position))
             intent.putExtra("storeId", this.storeId)
             startActivityForResult(intent, 100)
         }

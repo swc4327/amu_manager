@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
-import com.awesome.amumanager.ui.main.adapter.StoreListAdapter
+import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
 import com.bumptech.glide.Glide
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.main_bottom.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private var storeListAdapter: StoreListAdapter? = null
+    private var storeAdapter: StoreAdapter? = null
     private lateinit var storeViewModel : StoreViewModel
     private lateinit var firebaseViewModel: FirebaseViewModel
 
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun observe() {
         storeViewModel.storeList.observe(this, Observer<ArrayList<Store>> {
-            storeListAdapter = StoreListAdapter(it, Glide.with(this))
-            store_list.adapter = storeListAdapter
+            storeAdapter = StoreAdapter(it, Glide.with(this))
+            store_list.adapter = storeAdapter
         })
     }
 

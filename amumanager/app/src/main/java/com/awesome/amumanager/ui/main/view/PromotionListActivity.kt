@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
-import com.awesome.amumanager.ui.main.adapter.PromotionListAdapter
+import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
 import kotlinx.android.synthetic.main.activity_promotion_list.*
 
@@ -17,7 +17,7 @@ class PromotionListActivity : AppCompatActivity() {
     var storeName : String = ""
 
     private lateinit var promotionViewModel : PromotionViewModel
-    private var promotionListAdapter: PromotionListAdapter? = null
+    private var promotionAdapter: PromotionAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +31,8 @@ class PromotionListActivity : AppCompatActivity() {
         promotionViewModel = ViewModelProvider(this, factory).get(PromotionViewModel::class.java)
         promotionViewModel.getPromotionList()
         promotionViewModel.promotionList.observe(this, Observer<ArrayList<Promotion>>{
-            promotionListAdapter = PromotionListAdapter(this, it)
-            promotion_list.adapter = promotionListAdapter
+            promotionAdapter = PromotionAdapter(this, it)
+            promotion_list.adapter = promotionAdapter
         })
 
         close_promotion_list.setOnClickListener {

@@ -9,7 +9,7 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
 import kotlinx.android.synthetic.main.promotionlist_item.view.*
 
-class PromotionListAdapter(val context: Context, val promotions : ArrayList<Promotion>): BaseAdapter() {
+class PromotionAdapter(val context: Context, val promotions : ArrayList<Promotion>): BaseAdapter() {
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
