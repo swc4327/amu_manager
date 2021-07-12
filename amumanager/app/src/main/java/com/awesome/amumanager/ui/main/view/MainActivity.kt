@@ -2,6 +2,7 @@ package com.awesome.amumanager.ui.main.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -39,7 +40,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun observe() {
         storeViewModel.storeList.observe(this, Observer<ArrayList<Store>> {
-            storeAdapter = StoreAdapter(it, Glide.with(this))
+            storeAdapter = StoreAdapter(it, Glide.with(this)) { store ->
+                val intent = Intent(this, StoreInfoActivity::class.java)
+                intent.putExtra("store", store)
+                startActivity(intent)
+            }
             store_list.adapter = storeAdapter
         })
     }
@@ -63,12 +68,6 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, 0)
             }
         }
-
-//        store_list.setOnItemClickListener { parent, view, position, id ->
-//            val intent = Intent(this, StoreInfoActivity::class.java)
-//            intent.putExtra("store", storeListAdapter!!.getItem(position))
-//            startActivity(intent)
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -8,13 +8,14 @@ import com.awesome.amumanager.data.model.Store
 import com.bumptech.glide.RequestManager
 
 
-class StoreAdapter(stores : ArrayList<Store>, requestManager : RequestManager): RecyclerView.Adapter<StoreViewHolder>() {
+class StoreAdapter(stores : ArrayList<Store>, requestManager : RequestManager, val itemClick: (Store) -> Unit): RecyclerView.Adapter<StoreViewHolder>() {
 
     private val stores = stores
     private val requestManager = requestManager
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreViewHolder {
-        return StoreViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_store, parent,false))
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_store, parent,false)
+        return StoreViewHolder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
