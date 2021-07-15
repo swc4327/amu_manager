@@ -35,7 +35,7 @@ class MenuFragment() : Fragment() {
         var factory = MenuViewModelFactory(storeId.toString())
         menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
 
-        menuViewModel.getMenuList()
+        menuViewModel.getMenu()
 
         return view
     }

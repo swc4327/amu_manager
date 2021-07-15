@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class MenuApi {
 
-    fun getMenuList(
+    fun getMenu(
             menus: MutableLiveData<ArrayList<Menu>>,
             storeId: String) {
 

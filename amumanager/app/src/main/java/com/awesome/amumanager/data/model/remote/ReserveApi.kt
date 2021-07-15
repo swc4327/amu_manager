@@ -13,7 +13,7 @@ import retrofit2.Response
 class ReserveApi {
 
     fun getReserveList(
-            mReserveLists: MutableLiveData<ArrayList<ReserveList>>,
+            ReserveLists: MutableLiveData<ArrayList<ReserveList>>,
             storeId: String
     ) {
 
@@ -35,7 +35,7 @@ class ReserveApi {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             reservesTemp.addAll(response.body()!!.reserves)
-                            getClientInfo(mReserveLists, reservesTemp)
+                            getClientInfo(ReserveLists, reservesTemp)
                         } else {
 
                         }
@@ -43,11 +43,11 @@ class ReserveApi {
                 })
     }
 
-    private fun getClientInfo(mReserveLists: MutableLiveData<ArrayList<ReserveList>>,
+    private fun getClientInfo(ReserveLists: MutableLiveData<ArrayList<ReserveList>>,
                               reservesTemp: ArrayList<Reserve>) {
 
         var clientsTemp : ArrayList<Client> = ArrayList<Client>()
-        var reserveListsTemp = ArrayList<ReserveList>()
+        //var reserveListsTemp = ArrayList<ReserveList>()
 
         val clientIds = reservesTemp.map { it.client_id }.distinct()
         val disposable = Observable.just(clientIds)
@@ -65,8 +65,7 @@ class ReserveApi {
                     reserveLists
                 }
                 .subscribe({ reserveLists ->
-                    reserveListsTemp = reserveLists
-                    mReserveLists.value = reserveListsTemp
+                    ReserveLists.value = reserveLists
 
                 }, {
 

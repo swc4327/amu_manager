@@ -1,36 +1,39 @@
 package com.awesome.amumanager.ui.main.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
-import kotlinx.android.synthetic.main.item_promotion.view.*
+import com.bumptech.glide.RequestManager
 
-class PromotionAdapter(val context: Context, val promotions : ArrayList<Promotion>): BaseAdapter() {
+class PromotionAdapter(private val promotions : ArrayList<Promotion>,
+                   private val requestManager : RequestManager)
+    : RecyclerView.Adapter<PromotionViewHolder>() {
 
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view : View = LayoutInflater.from(context).inflate(R.layout.item_promotion, null)
-
-        view.store_name.setText(promotions[position].store_name)
-        view.message.setText(promotions[position].message)
-        view.date.setText(promotions[position].date)
-
-        return view
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PromotionViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_promotion, parent, false)
+        return PromotionViewHolder(view)
     }
 
-    override fun getItem(position: Int): Any {
-        return 0
-    }
-
-    override fun getItemId(position: Int): Long {
-        return 0
-    }
-
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return promotions.size
+    }
+
+    override fun onBindViewHolder(holder: PromotionViewHolder, position: Int) {
+        holder.bind(promotions[position], requestManager)
+    }
+
+    fun update(promotions: ArrayList<Promotion>) {
+        val endPosition = this.promotions.size
+
+        if (this.promotions.isEmpty()) {
+            this.promotions.addAll(promotions)
+        } else {
+            for (index in endPosition until promotions.size) {
+                this.promotions.add(index, promotions[index])
+            }
+        }
+        notifyItemRangeInserted(endPosition, this.promotions.size - endPosition)
     }
 }

@@ -11,8 +11,8 @@ class MenuViewModel(private val storeId: String?) : ViewModel() {
     val status = MutableLiveData<Int>()
 
 
-    fun getMenuList() {
-        menuApi.getMenuList(menus, storeId!!)
+    fun getMenu() {
+        menuApi.getMenu(menus, storeId!!)
     }
 
     fun addMenu(menu : Menu) {

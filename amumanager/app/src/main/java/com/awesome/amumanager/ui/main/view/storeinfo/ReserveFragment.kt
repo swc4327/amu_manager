@@ -14,8 +14,8 @@ import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
 import com.awesome.amumanager.ui.main.view.ReserveDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_reserve.*
-import kotlinx.android.synthetic.main.fragment_reserve.view.*
 
 class ReserveFragment() : Fragment() {
 
@@ -26,17 +26,25 @@ class ReserveFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        reserveViewModel.reserveLists.observe(viewLifecycleOwner, Observer<ArrayList<ReserveList>> {
-            reserveAdapter = ReserveAdapter(requireContext(), it)
-            reserve_list.adapter = reserveAdapter
+        reserveViewModel.reserveLists.observe(viewLifecycleOwner, Observer<ArrayList<ReserveList>> {reserveLists->
+            if(reserveAdapter == null) {
+                reserveAdapter = ReserveAdapter(arrayListOf(), Glide.with(this)) {reserveList->
+                    val intent = Intent(requireContext(), ReserveDetailActivity::class.java)
+                    intent.putExtra("reserve", reserveList.reserve)
+                    intent.putExtra("client", reserveList.client)
+                    startActivity(intent)
+                }
+                reserve_list.adapter = reserveAdapter
+            }
+            reserveAdapter!!.update(reserveLists)
         })
 
-        view.reserve_list.setOnItemClickListener { parent, view, position, id ->
-            val intent = Intent(requireContext(), ReserveDetailActivity::class.java)
-            intent.putExtra("reserve", reserveAdapter!!.getReserve(position))
-            intent.putExtra("client", reserveAdapter!!.getClient(position))
-            startActivity(intent)
-        }
+//        view.reserve_list.setOnItemClickListener { parent, view, position, id ->
+//            val intent = Intent(requireContext(), ReserveDetailActivity::class.java)
+//            intent.putExtra("reserve", reserveAdapter!!.getReserve(position))
+//            intent.putExtra("client", reserveAdapter!!.getClient(position))
+//            startActivity(intent)
+//        }
     }
 
 

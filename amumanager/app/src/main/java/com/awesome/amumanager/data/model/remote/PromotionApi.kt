@@ -11,13 +11,10 @@ import retrofit2.Response
 
 class PromotionApi {
 
-    fun getPromotionList(
-            promotionList: MutableLiveData<ArrayList<Promotion>>,
+    fun getPromotion(
+            promotions: MutableLiveData<ArrayList<Promotion>>,
             storeId : String
     ) {
-
-        var promotionListTemp = ArrayList<Promotion>()
-
         val joinApi = RetrofitObject.getPromotionService
 
         joinApi.getPromotionList(storeId)
@@ -33,8 +30,7 @@ class PromotionApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            promotionListTemp.addAll(response.body()!!.promotions)
-                            promotionList.value = promotionListTemp
+                            promotions.value = response.body()!!.promotions
                         } else {
 
                         }
