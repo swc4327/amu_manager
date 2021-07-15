@@ -33,23 +33,12 @@ class ReviewDetailActivity : AppCompatActivity() {
         var factory = ReviewViewModelFactory(storeId.toString())
         reviewViewModel = ViewModelProvider(this, factory).get(ReviewViewModel::class.java)
 
-        reviewViewModel.status.observe(this, Observer<Int> {
-            if(it == 200) {
-                Toast.makeText(this@ReviewDetailActivity, "1개의 리뷰를 삭제 했어요!!", Toast.LENGTH_LONG).show()
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        })
+        initLayout()
+        initListener()
+        observe()
+    }
 
-
-        review_detail_client_name.setText(client!!.nickname)
-        review_detail_client_count.setText("리뷰 수 " + client!!.count.toString())
-        review_detail_client_point.setText("평균 평점 " + client!!.point.toString())
-        Glide
-            .with(this)
-            .load(client!!.image)
-            .into(profile_img)
-
+    private fun initListener() {
         close_review_detail.setOnClickListener {
             finish()
         }
@@ -62,5 +51,26 @@ class ReviewDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "리뷰를 삭제할 수 없습니다!!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun initLayout() {
+        review_detail_client_name.setText(client!!.nickname)
+        review_detail_client_count.setText("리뷰 수 " + client!!.count.toString())
+        review_detail_client_point.setText("평균 평점 " + client!!.point.toString())
+        Glide
+            .with(this)
+            .load(client!!.image)
+            .into(profile_img)
+    }
+
+    private fun observe() {
+        reviewViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                Toast.makeText(this@ReviewDetailActivity, "1개의 리뷰를 삭제 했어요!!", Toast.LENGTH_LONG).show()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        })
+
     }
 }
