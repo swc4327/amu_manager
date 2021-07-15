@@ -24,14 +24,52 @@ class ReserveDetailActivity : AppCompatActivity() {
         reserve = intent.getParcelableExtra("reserve")
         client = intent.getParcelableExtra("client")
 
+        setMap()
+        initLayout()
+        initListener()
+//
 
+
+    }
+
+    private fun initLayout() {
         detail_client_name.setText(client!!.nickname)
         detail_client_phone.setText(reserve!!.phone)
         detail_client_arrive.setText(reserve!!.arrive)
         detail_client_request.setText(reserve!!.request)
         detail_date.setText(reserve!!.date)
+        setClientLocation()
+    }
 
+    private fun initListener() {
+        close_reserve_detail.setOnClickListener {
+            finish()
+        }
 
+        detail_reserve_cancel.setOnClickListener {
+            //취소처리
+            //transaction, reservelist 에서 삭제
+            finish()
+        }
+
+        detail_reserve_complete.setOnClickListener {
+            //완료처리
+            //reservelist에서 삭제
+            finish()
+        }
+    }
+
+    private fun setClientLocation() {
+        mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(reserve!!.lat!!.toDouble(), reserve!!.lng!!.toDouble()),true)
+        var marker = MapPOIItem()
+        marker.setItemName("고객의 예약위치")
+        marker.setTag(0)
+        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(reserve!!.lat!!.toDouble(), reserve!!.lng!!.toDouble()))
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin)
+        mapView!!.addPOIItem(marker)
+    }
+
+    private fun setMap() {
         mapView = MapView(this)
         mapView!!.setMapViewEventListener(object : MapView.MapViewEventListener {
             override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
@@ -72,29 +110,5 @@ class ReserveDetailActivity : AppCompatActivity() {
 
         })
         info_map_view.addView(mapView)
-        mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(reserve!!.lat!!.toDouble(), reserve!!.lng!!.toDouble()),true)
-        var marker = MapPOIItem()
-        marker.setItemName("고객의 예약위치")
-        marker.setTag(0)
-        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(reserve!!.lat!!.toDouble(), reserve!!.lng!!.toDouble()))
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin)
-        mapView!!.addPOIItem(marker)
-
-
-        close_reserve_detail.setOnClickListener {
-            finish()
-        }
-
-        detail_reserve_cancel.setOnClickListener {
-            //취소처리
-            //transaction, reservelist 에서 삭제
-            finish()
-        }
-
-        detail_reserve_complete.setOnClickListener {
-            //완료처리
-            //reservelist에서 삭제
-            finish()
-        }
     }
 }
