@@ -8,66 +8,34 @@ import com.awesome.amumanager.data.model.Store
 import com.bumptech.glide.RequestManager
 
 
-class StoreAdapter(stores : ArrayList<Store>, requestManager : RequestManager, val itemClick: (Store) -> Unit): RecyclerView.Adapter<StoreViewHolder>() {
-
-    private val stores = stores
-    private val requestManager = requestManager
+class StoreAdapter(private val stores : ArrayList<Store>,
+                   private val requestManager : RequestManager,
+                   private val itemClick: (Store) -> Unit)
+    : RecyclerView.Adapter<StoreViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_store, parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_store, parent, false)
         return StoreViewHolder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
-        return this.stores.size
+        return stores.size
     }
 
     override fun onBindViewHolder(holder: StoreViewHolder, position: Int) {
-        holder.bind(this.stores[position], requestManager)
+        holder.bind(stores[position], requestManager)
+    }
+
+    fun update(stores: ArrayList<Store>) {
+        val endPosition = this.stores.size
+
+        if (this.stores.isEmpty()) {
+            this.stores.addAll(stores)
+        } else {
+            for (index in endPosition until stores.size) {
+                this.stores.add(index, stores[index])
+            }
+        }
+        notifyItemRangeInserted(endPosition, this.stores.size - endPosition)
     }
 }
-
-
-
-
-
-
-//package com.awesome.amumanager.ui.main.adapter
-//
-//import android.content.Context
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.BaseAdapter
-//import com.awesome.amumanager.R
-//import com.awesome.amumanager.data.model.Store
-//import com.bumptech.glide.Glide
-//import kotlinx.android.synthetic.main.item_store.view.*
-//
-//class StoreListAdapter(val context: Context, val stores: ArrayList<Store>) : BaseAdapter() {
-//    override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-//        val view: View = LayoutInflater.from(context).inflate(R.layout.item_store, null)
-//
-//        Glide
-//            .with(context)
-//            .load(stores[p0].image)
-//            .circleCrop()
-//            .into(view.store_image)
-//
-//        view.store_name.setText(stores[p0].name)
-//        return view
-//    }
-//
-//    override fun getItem(position: Int): Store {
-//        return stores[position]
-//    }
-//
-//    override fun getItemId(position: Int): Long {
-//        return 0
-//    }
-//
-//    override fun getCount(): Int {
-//        return stores.size
-//    }
-//}
-//

@@ -12,10 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
+import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
+import com.awesome.amumanager.ui.main.view.StoreInfoActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_review.*
 import kotlinx.android.synthetic.main.fragment_review.view.*
 import kotlin.collections.ArrayList
@@ -31,20 +35,33 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        reviewViewModel.reviewLists.observe(viewLifecycleOwner, Observer<ArrayList<ReviewList>> {
-            reviewAdapter = ReviewAdapter(requireContext(), it)
-            review_list.adapter = reviewAdapter
-        })
 
 
-        view.review_list.setOnItemClickListener { parent, view, position, id ->
-            val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-            intent.putExtra("review", reviewAdapter!!.getReview(position))
-            intent.putExtra("client", reviewAdapter!!.getClient(position))
-            intent.putExtra("storeId", this.storeId)
-            startActivityForResult(intent, 100)
-        }
+        reviewViewModel.reviewLists.observe(
+            viewLifecycleOwner,
+            Observer<ArrayList<ReviewList>> { reviewLists ->
+                if (reviewAdapter == null) {
+                    reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
+                        val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
+                        intent.putExtra("review", reviewList.review)
+                        intent.putExtra("client", reviewList.client)
+                        intent.putExtra("storeId", this.storeId)
+                        startActivityForResult(intent, 100)
+                    }
+                    review_list.adapter = reviewAdapter
+                }
+                reviewAdapter!!.update(reviewLists)
+            })
     }
+
+
+//        view.review_list.setOnItemClickListener { parent, view, position, id ->
+//            val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
+//            intent.putExtra("review", reviewAdapter!!.getReview(position))
+//            intent.putExtra("client", reviewAdapter!!.getClient(position))
+//            intent.putExtra("storeId", this.storeId)
+//            startActivityForResult(intent, 100)
+//        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -6,15 +6,15 @@ import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.data.model.remote.StoreApi
 
 class StoreViewModel() : ViewModel() {
-    private val storeListFactory = StoreApi()
-    val storeList = MutableLiveData<ArrayList<Store>>()
+    private val storeApi = StoreApi()
+    val stores = MutableLiveData<ArrayList<Store>>()
     val status = MutableLiveData<Int>()
 
-    fun getStoreList(uid: String) {
-        storeListFactory.getStoreList(storeList, uid)
+    fun getStore(uid: String) {
+        storeApi.getStore(stores, uid)
     }
 
     fun addStore(store : Store) {
-        storeListFactory.addStore(store, status)
+        storeApi.addStore(store, status)
     }
 }

@@ -6,12 +6,12 @@ import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.data.model.remote.ReserveApi
 
 class ReserveViewModel(private var storeId: String) : ViewModel() {
-    private val reserveListFactory = ReserveApi()
+    private val reserveListApi = ReserveApi()
     val reserveLists = MutableLiveData<ArrayList<ReserveList>>()
     val status = MutableLiveData<Int>()
 
     fun getReserveList() {
-        reserveListFactory.getReserveList(reserveLists, storeId)
+        reserveListApi.getReserveList(reserveLists, storeId)
     }
 
 }

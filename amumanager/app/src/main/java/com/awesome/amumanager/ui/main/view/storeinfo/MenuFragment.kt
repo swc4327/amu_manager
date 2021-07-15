@@ -40,7 +40,7 @@ class MenuFragment() : Fragment() {
 
         menuViewModel.menuList.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {
             menuAdapter = MenuAdapter(requireContext(), it)
-            menu_list.adapter = menuAdapter
+            //menu_list.adapter = menuAdapter
         })
 
     }

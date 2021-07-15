@@ -6,10 +6,10 @@ import com.awesome.amumanager.data.model.Manager
 import com.awesome.amumanager.data.model.remote.ManagerApi
 
 class ManagerViewModel : ViewModel() {
-    private val managerFactory = ManagerApi()
+    private val managerApi = ManagerApi()
     val status = MutableLiveData<Int>()
 
     fun addManager(manager: Manager) {
-        managerFactory.addManager(manager, status)
+        managerApi.addManager(manager, status)
     }
 }

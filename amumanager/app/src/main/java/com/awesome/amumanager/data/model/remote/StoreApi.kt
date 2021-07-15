@@ -12,16 +12,14 @@ import retrofit2.Response
 
 class StoreApi {
 
-    fun getStoreList(
-            storeList: MutableLiveData<ArrayList<Store>>,
+    fun getStore(
+            stores: MutableLiveData<ArrayList<Store>>,
             uid: String
     ) {
 
-        var storesTemp = ArrayList<Store>()
-
         val joinApi = RetrofitObject.getStoreService
 
-        joinApi.getStoreList(uid)
+        joinApi.getStore(uid)
                 .enqueue(object : Callback<StoreResponse> {
 
                     override fun onFailure(call: Call<StoreResponse>, t: Throwable) {
@@ -34,8 +32,7 @@ class StoreApi {
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            storesTemp.addAll(response.body()!!.stores)
-                            storeList.value = storesTemp
+                            stores.value = response.body()!!.stores
                         } else {
 
                         }

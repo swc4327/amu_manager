@@ -8,15 +8,15 @@ import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.data.model.remote.ReviewApi
 
 class ReviewViewModel(private val storeId: String?) : ViewModel() {
-    private val reviewListFactory = ReviewApi()
+    private val reviewListApi = ReviewApi()
     val reviewLists = MutableLiveData<ArrayList<ReviewList>>()
     val status = MutableLiveData<Int>()
 
     fun getReviewList() {
-        reviewListFactory.getReviewList(reviewLists, storeId!!)
+        reviewListApi.getReviewList(reviewLists, storeId!!)
     }
 
     fun reviewFiltering(review : Review, client : Client) {
-        reviewListFactory.reviewFiltering(review, client, status)
+        reviewListApi.reviewFiltering(review, client, status)
     }
 }

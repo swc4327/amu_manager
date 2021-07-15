@@ -7,6 +7,6 @@ import retrofit2.http.*
 interface GetStoreService {
     @Headers("accept: application/json",
         "content-type: application/json")
-    @GET("/getStoreList")
-    fun getStoreList(@Query("uid") uid:String) : Call<StoreResponse>
+    @GET("/getStore")
+    fun getStore(@Query("uid") uid:String) : Call<StoreResponse>
 }
