@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.data.model.ReviewList
 import com.bumptech.glide.RequestManager
-import kotlinx.android.synthetic.main.reviewlist_item.view.*
+import kotlinx.android.synthetic.main.item_review.view.*
 
 class ReviewViewHolder(itemView: View, private val itemClick: (ReviewList) -> Unit): RecyclerView.ViewHolder(itemView) {
 

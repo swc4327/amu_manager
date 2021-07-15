@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
-import kotlinx.android.synthetic.main.promotionlist_item.view.*
+import kotlinx.android.synthetic.main.item_promotion.view.*
 
 class PromotionAdapter(val context: Context, val promotions : ArrayList<Promotion>): BaseAdapter() {
 

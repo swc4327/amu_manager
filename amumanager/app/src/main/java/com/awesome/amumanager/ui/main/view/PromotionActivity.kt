@@ -9,7 +9,7 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
-import kotlinx.android.synthetic.main.activity_promotion_list.*
+import kotlinx.android.synthetic.main.activity_promotion.*
 
 class PromotionActivity : AppCompatActivity() {
 

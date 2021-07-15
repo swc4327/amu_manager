@@ -16,7 +16,7 @@ import retrofit2.Response
 class ReviewApi {
 
     fun getReviewList(
-            mReviewLists: MutableLiveData<ArrayList<ReviewList>>,
+            ReviewLists: MutableLiveData<ArrayList<ReviewList>>,
             storeId: String) {
 
         var reviewsTemp = ArrayList<Review>()
@@ -37,9 +37,8 @@ class ReviewApi {
                     )  {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Get ReviewList Retrofit" , "success")
-
                             reviewsTemp.addAll(response.body()!!.reviews)
-                            getClientInfo(mReviewLists, reviewsTemp)
+                            getClientInfo(ReviewLists, reviewsTemp)
 
                         } else {
 
@@ -47,7 +46,7 @@ class ReviewApi {
                     }
                 })
     }
-    private fun getClientInfo(mReviewLists: MutableLiveData<ArrayList<ReviewList>>,
+    private fun getClientInfo(ReviewLists: MutableLiveData<ArrayList<ReviewList>>,
                               reviewsTemp: ArrayList<Review>) {
 
         var clientsTemp : ArrayList<Client> = ArrayList<Client>()
@@ -69,8 +68,8 @@ class ReviewApi {
                     reviewLists
                 }
                 .subscribe({ reviewLists ->
-                    reviewListsTemp = reviewLists
-                    mReviewLists.value = reviewListsTemp
+                    //reviewListsTemp = reviewLists
+                    ReviewLists.value = reviewLists
 
                 }, {
 

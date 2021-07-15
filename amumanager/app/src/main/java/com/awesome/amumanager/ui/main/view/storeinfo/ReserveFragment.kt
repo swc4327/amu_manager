@@ -14,8 +14,8 @@ import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
 import com.awesome.amumanager.ui.main.view.ReserveDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
-import kotlinx.android.synthetic.main.fragment_reserve_list.*
-import kotlinx.android.synthetic.main.fragment_reserve_list.view.*
+import kotlinx.android.synthetic.main.fragment_reserve.*
+import kotlinx.android.synthetic.main.fragment_reserve.view.*
 
 class ReserveFragment() : Fragment() {
 
