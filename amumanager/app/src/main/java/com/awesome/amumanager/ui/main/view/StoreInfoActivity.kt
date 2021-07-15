@@ -30,7 +30,7 @@ class StoreInfoActivity : AppCompatActivity() {
 
     private fun initListener() {
         store_info_name.setOnClickListener {
-            val intent = Intent(this, PromotionListActivity::class.java)
+            val intent = Intent(this, PromotionActivity::class.java)
             intent.putExtra("storeId", store!!.id.toString())
             intent.putExtra("storeName", store!!.name)
             startActivity(intent)

@@ -11,7 +11,7 @@ import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
 import kotlinx.android.synthetic.main.activity_promotion_list.*
 
-class PromotionListActivity : AppCompatActivity() {
+class PromotionActivity : AppCompatActivity() {
 
     var storeId : String = ""
     var storeName : String = ""
@@ -21,7 +21,7 @@ class PromotionListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_promotion_list)
+        setContentView(R.layout.activity_promotion)
 
         storeId = intent.getStringExtra("storeId").toString()
         storeName = intent.getStringExtra("storeName").toString()

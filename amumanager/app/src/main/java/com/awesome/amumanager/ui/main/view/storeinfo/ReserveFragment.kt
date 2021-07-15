@@ -45,7 +45,7 @@ class ReserveFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_reserve_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_reserve, container, false)
         storeId = arguments?.getString("store_id")
 
         var factory = ReserveViewModelFactory(storeId.toString())

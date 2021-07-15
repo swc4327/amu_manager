@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Amumanager"
         android:usesCleartextTraffic="true">
         <activity android:name="com.awesome.amumanager.ui.main.view.ReviewDetailActivity"></activity>
-        <activity android:name="com.awesome.amumanager.ui.main.view.PromotionListActivity" />
+        <activity android:name="com.awesome.amumanager.ui.main.view.PromotionActivity" />
         <activity android:name="com.awesome.amumanager.ui.main.view.AddPromotionActivity" />
         <activity android:name="com.awesome.amumanager.ui.main.view.ReserveDetailActivity" />
 
