@@ -19,6 +19,11 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         //auth 초기화
 
+        initListener()
+
+    }
+
+    private fun initListener() {
         login_button.setOnClickListener {
             auth.signInWithEmailAndPassword(login_email.text.toString(), login_password.text.toString())
                 .addOnCompleteListener(this){task ->
