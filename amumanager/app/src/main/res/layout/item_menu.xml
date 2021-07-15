@@ -6,7 +6,7 @@
     android:layout_height="70dp">
 
     <ImageView
-        android:id="@+id/menu_list_image"
+        android:id="@+id/menu_image"
         android:src="@drawable/noimage"
         android:layout_width="60dp"
         android:layout_height="80dp"/>
@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/menu_list_name"
+            android:id="@+id/menu_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -27,14 +27,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/menu_list_price"
+            android:id="@+id/menu_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="메뉴가격"
             android:textSize="10dp"/>
 
         <TextView
-            android:id="@+id/menu_list_comment"
+            android:id="@+id/menu_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="메뉴설명"

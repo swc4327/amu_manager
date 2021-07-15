@@ -12,10 +12,8 @@ import retrofit2.Response
 class MenuApi {
 
     fun getMenuList(
-            menuList: MutableLiveData<ArrayList<Menu>>,
+            menus: MutableLiveData<ArrayList<Menu>>,
             storeId: String) {
-
-        var menusTemp = ArrayList<Menu>()
 
         val joinApi = RetrofitObject.getMenuService
 
@@ -33,8 +31,7 @@ class MenuApi {
                     )  {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Getmenu Retrofit", "success")
-                            menusTemp.addAll(response.body()!!.menus)
-                            menuList.value = menusTemp
+                            menus.value = response.body()!!.menus
                         } else {
 
                         }

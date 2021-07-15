@@ -6,16 +6,16 @@ import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.data.model.remote.MenuApi
 
 class MenuViewModel(private val storeId: String?) : ViewModel() {
-    private val menuListApi = MenuApi()
-    val menuList = MutableLiveData<ArrayList<Menu>>()
+    private val menuApi = MenuApi()
+    val menus = MutableLiveData<ArrayList<Menu>>()
     val status = MutableLiveData<Int>()
 
 
     fun getMenuList() {
-        menuListApi.getMenuList(menuList, storeId!!)
+        menuApi.getMenuList(menus, storeId!!)
     }
 
     fun addMenu(menu : Menu) {
-        menuListApi.addMenu(menu, status)
+        menuApi.addMenu(menu, status)
     }
 }
