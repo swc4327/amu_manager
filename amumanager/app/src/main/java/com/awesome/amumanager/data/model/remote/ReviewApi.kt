@@ -50,7 +50,6 @@ class ReviewApi {
                               reviewsTemp: ArrayList<Review>) {
 
         var clientsTemp : ArrayList<Client> = ArrayList<Client>()
-        var reviewListsTemp = ArrayList<ReviewList>()
 
         val clientIds = reviewsTemp.map { it.client_id }.distinct()
         val disposable = Observable.just(clientIds)
@@ -68,7 +67,6 @@ class ReviewApi {
                     reviewLists
                 }
                 .subscribe({ reviewLists ->
-                    //reviewListsTemp = reviewLists
                     ReviewLists.value = reviewLists
 
                 }, {
