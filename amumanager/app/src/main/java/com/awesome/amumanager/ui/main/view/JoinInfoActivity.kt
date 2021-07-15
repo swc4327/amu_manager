@@ -38,14 +38,51 @@ class JoinInfoActivity : AppCompatActivity() {
 
         managerViewModel = ViewModelProvider(this).get(ManagerViewModel::class.java)
 
+        initListener()
+        observe()
+
+    }
+
+    private fun observe() {
+        managerViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                Toast.makeText(this, "회원가입이 완료 되었어요!!", Toast.LENGTH_LONG).show()
+                val intent = Intent(this@JoinInfoActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        })
+
+        firebaseViewModel.taskToString.observe(this, Observer<String> {
+            val taskToString = it
+            db.collection("managers")
+                .document(auth.currentUser?.uid.toString())
+                .set(hashMapOf(
+                    "nickname" to join_info_nickname.text.toString()
+                ))
+                .addOnSuccessListener {
+                    Log.e("Join To Manager", "성공")
+                    val uid = firebaseViewModel.getUid()
+                    val nickname = join_info_nickname.text.toString()
+                    val manager = Manager(uid, nickname, taskToString)
+                    managerViewModel.addManager(manager)
+
+                }.addOnFailureListener{
+                    Log.e("JoinInfoActivity", "실패")
+                    println(it)
+                }
+        })
+    }
+
+    private fun initListener() {
         //프로필 설정
         join_info_profile_img.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                        PackageManager.PERMISSION_DENIED) {
+                    PackageManager.PERMISSION_DENIED) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions,
-                            JoinInfoActivity.PERMISSION_CODE
+                        JoinInfoActivity.PERMISSION_CODE
                     )
                 } else {
                     pickImageFromGallery()
@@ -60,34 +97,6 @@ class JoinInfoActivity : AppCompatActivity() {
             firebaseViewModel.uploadTask(join_info_profile_img.drawable as BitmapDrawable, "_profile")
         }
 
-        managerViewModel.status.observe(this, Observer<Int> {
-            if(it == 200) {
-                Toast.makeText(this, "회원가입이 완료 되었어요!!", Toast.LENGTH_LONG).show()
-                val intent = Intent(this@JoinInfoActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
-        })
-
-        firebaseViewModel.taskToString.observe(this, Observer<String> {
-            val taskToString = it
-            db.collection("managers")
-                    .document(auth.currentUser?.uid.toString())
-                    .set(hashMapOf(
-                            "nickname" to join_info_nickname.text.toString()
-                    ))
-                    .addOnSuccessListener {
-                        Log.e("Join To Manager", "성공")
-                        val uid = firebaseViewModel.getUid()
-                        val nickname = join_info_nickname.text.toString()
-                        val manager = Manager(uid, nickname, taskToString)
-                        managerViewModel.addManager(manager)
-
-                    }.addOnFailureListener{
-                        Log.e("JoinInfoActivity", "실패")
-                        println(it)
-            }
-        })
     }
 
     private fun pickImageFromGallery() {
