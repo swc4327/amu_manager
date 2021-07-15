@@ -28,24 +28,24 @@ class MyPageActivity : AppCompatActivity() {
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
         auth = FirebaseAuth.getInstance()
+
+        setProfileName()
+        setProfileImage()
+        initListener()
+
+
+    }
+
+    private fun setProfileName() {
         val docRef = db.collection("managers")
             .document(auth.currentUser?.uid.toString())
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             nickname_area.setText(documentSnapshot.get("nickname").toString())
         }
+    }
 
-        close_my_page.setOnClickListener {
-            finish()
-        }
-
-        mypage_logout_button.setOnClickListener {
-            auth.signOut()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        }
-
+    private fun setProfileImage() {
         val ref = FirebaseStorage.getInstance()
             .getReference(firebaseViewModel.getUid()+"_profile")
 
@@ -62,5 +62,19 @@ class MyPageActivity : AppCompatActivity() {
                     Toast.makeText(this, "실패", Toast.LENGTH_LONG).show()
                 }
             })
+    }
+
+    private fun initListener() {
+        close_my_page.setOnClickListener {
+            finish()
+        }
+
+        mypage_logout_button.setOnClickListener {
+            auth.signOut()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
     }
 }
