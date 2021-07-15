@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.ReviewList
-import com.awesome.amumanager.data.model.Store
 import com.bumptech.glide.RequestManager
 
 class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
@@ -14,7 +13,7 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
     : RecyclerView.Adapter<ReviewViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.reviewlist_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
         return ReviewViewHolder(view, itemClick)
     }
 

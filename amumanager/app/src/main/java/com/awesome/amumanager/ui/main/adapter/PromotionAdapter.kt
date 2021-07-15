@@ -13,7 +13,7 @@ class PromotionAdapter(val context: Context, val promotions : ArrayList<Promotio
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view : View = LayoutInflater.from(context).inflate(R.layout.promotionlist_item, null)
+        val view : View = LayoutInflater.from(context).inflate(R.layout.item_promotion, null)
 
         view.store_name.setText(promotions[position].store_name)
         view.message.setText(promotions[position].message)

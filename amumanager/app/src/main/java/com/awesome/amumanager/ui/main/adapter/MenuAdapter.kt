@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.menulist_item.view.*
 
 class MenuAdapter(val context: Context, val menus : ArrayList<Menu>): BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view : View = LayoutInflater.from(context).inflate(R.layout.menulist_item, null)
+        val view : View = LayoutInflater.from(context).inflate(R.layout.item_menu, null)
 
         view.menu_list_name.setText(menus[position].name)
         view.menu_list_price.setText(menus[position].price)
