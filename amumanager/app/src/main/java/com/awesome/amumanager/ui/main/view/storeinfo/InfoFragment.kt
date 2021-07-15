@@ -32,10 +32,23 @@ class InfoFragment() : Fragment() {
         place_detail = arguments?.getString("place_detail")
 
 
+        setMap()
+        setStoreLocation()
+
+
+        view.info_map_view.addView(mapView)
+        view.info_place.setText(place)
+        view.info_place_detail.setText(place_detail)
+
+        return view
+    }
+
+    private fun setMap() {
+
         mapView = MapView(requireContext())
         mapView!!.setMapViewEventListener(object : MapView.MapViewEventListener {
             override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
-                TODO("Not yet implemented")
+                println("onMapViewDoubleTapped")
             }
 
             override fun onMapViewInitialized(p0: MapView?) {
@@ -43,7 +56,7 @@ class InfoFragment() : Fragment() {
             }
 
             override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
-                TODO("Not yet implemented")
+                println("onMapViewDragStarted")
             }
 
             override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
@@ -51,31 +64,29 @@ class InfoFragment() : Fragment() {
             }
 
             override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-                TODO("Not yet implemented")
+                println("onMapViewCenterPointMoved")
             }
 
             override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
-                TODO("Not yet implemented")
+                println("onMapViewDragEnded")
             }
 
             override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-                TODO("Not yet implemented")
+                println("onMapViewSingleTapped")
             }
 
             override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-                TODO("Not yet implemented")
+                println("onMapViewZoomLevelChanged")
             }
 
             override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
-                TODO("Not yet implemented")
+                println("onMapViewLongPressed")
             }
 
         })
-        view.info_map_view.addView(mapView)
-        view.info_place.setText(place)
-        view.info_place_detail.setText(place_detail)
+    }
 
-
+    private fun setStoreLocation() {
         mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat!!.toDouble(), lng!!.toDouble()),true)
         var marker = MapPOIItem()
         marker.setItemName("업체위치")
@@ -84,7 +95,6 @@ class InfoFragment() : Fragment() {
         marker.setMarkerType(MapPOIItem.MarkerType.BluePin)
         //marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         mapView!!.addPOIItem(marker);
-        return view
-    }
 
+    }
 }
