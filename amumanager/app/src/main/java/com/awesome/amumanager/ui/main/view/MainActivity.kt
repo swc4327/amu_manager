@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         observe()
         initListener()
 
-        storeViewModel.getStore(firebaseViewModel.getUid())
+        storeViewModel.getStore(firebaseViewModel.getUid(), "0")
     }
 
 
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 store_list.adapter = storeAdapter
             }
+            println("AAAA"+storeAdapter!!.itemCount.toString())
             storeAdapter!!.update(stores)
             })
     }
@@ -72,13 +75,26 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, 0)
             }
         }
+
+        store_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
+
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
+                }
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==0) {
             if(resultCode == RESULT_OK) {
-                storeViewModel.getStore(firebaseViewModel.getUid())
+                storeViewModel.getStore(firebaseViewModel.getUid(), "0")
             }
         }
     }

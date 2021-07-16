@@ -8,5 +8,5 @@ interface GetStoreService {
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("/getStore")
-    fun getStore(@Query("uid") uid:String) : Call<StoreResponse>
+    fun getStore(@Query("uid") uid:String, @Query("itemCount") itemCount: String) : Call<StoreResponse>
 }
