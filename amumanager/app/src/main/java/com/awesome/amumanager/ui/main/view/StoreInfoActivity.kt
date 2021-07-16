@@ -65,6 +65,8 @@ class StoreInfoActivity : AppCompatActivity() {
 
     private fun initLayout() {
         store_info_name.setText(store!!.name)
+        point.text = store!!.point!!.toString()
+        count.text = "("+store!!.count.toString()+")"
     }
 
     private fun goMenuFragment() {

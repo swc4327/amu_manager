@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/main_text"
-        android:text="사장님의 가게목록"
+        android:text="나의 점포"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="30dp"
