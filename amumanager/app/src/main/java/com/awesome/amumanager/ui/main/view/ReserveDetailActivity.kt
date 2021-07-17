@@ -1,10 +1,16 @@
 package com.awesome.amumanager.ui.main.view
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Reserve
+import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
 import kotlinx.android.synthetic.main.activity_reserve_detail.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -16,6 +22,9 @@ class ReserveDetailActivity : AppCompatActivity() {
     private var mapView : MapView? = null
     private var reserve : Reserve? = null
     private var client : Client? = null
+    private var storeId : String? = null
+
+    private lateinit var reserveViewModel : ReserveViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +33,23 @@ class ReserveDetailActivity : AppCompatActivity() {
         reserve = intent.getParcelableExtra("reserve")
         client = intent.getParcelableExtra("client")
 
+        var factory = ReserveViewModelFactory(storeId.toString())
+        reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
+
         setMap()
         initLayout()
         initListener()
-//
 
+        observe()
+    }
 
+    private fun observe() {
+        reserveViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        })
     }
 
     private fun initLayout() {
@@ -39,6 +59,13 @@ class ReserveDetailActivity : AppCompatActivity() {
         detail_client_request.setText(reserve!!.request)
         detail_date.setText(reserve!!.date)
         setClientLocation()
+
+        if(reserve!!.is_confirmed == "0") {
+            detail_reserve_complete.visibility = GONE
+        } else {
+            detail_reserve_cancel.visibility = GONE
+            detail_reserve_confirm.visibility = GONE
+        }
     }
 
     private fun initListener() {
@@ -46,16 +73,19 @@ class ReserveDetailActivity : AppCompatActivity() {
             finish()
         }
 
+        //예약거부
         detail_reserve_cancel.setOnClickListener {
-            //취소처리
-            //transaction, reservelist 에서 삭제
-            finish()
+            reserveViewModel.cancelReserve(reserve!!.id.toString())
         }
 
+        //예약확정
+        detail_reserve_confirm.setOnClickListener {
+            reserveViewModel.confirmReserve(reserve!!.id.toString())
+        }
+
+        //완료
         detail_reserve_complete.setOnClickListener {
-            //완료처리
-            //reservelist에서 삭제
-            finish()
+
         }
     }
 

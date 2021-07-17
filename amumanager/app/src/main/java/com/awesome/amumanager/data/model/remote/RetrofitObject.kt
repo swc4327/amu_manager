@@ -22,4 +22,6 @@ object RetrofitObject {
     val getReviewService : GetReviewService = retrofit.create(GetReviewService::class.java)
     val reviewFilteringService : ReviewFilteringService = retrofit.create(ReviewFilteringService::class.java)
     val signUpService : SignUpService = retrofit.create(SignUpService::class.java)
+    val confirmReserveService : ConfirmReserveService = retrofit.create(ConfirmReserveService::class.java)
+    val cancelReserveService : CancelReserveService = retrofit.create(CancelReserveService::class.java)
 }

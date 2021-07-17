@@ -3,6 +3,7 @@ package com.awesome.amumanager.data.model.remote
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.ClientResponse
+import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.ReserveResponse
 import com.awesome.amumanager.data.model.*
 import io.reactivex.Observable
@@ -97,5 +98,59 @@ class ReserveApi {
                         }
                     })
         }
+    }
+
+    fun confirmReserve(
+        reserveId: String,
+        status: MutableLiveData<Int>
+    ) {
+        val joinApi = RetrofitObject.confirmReserveService
+
+        joinApi.confirmReserve(reserveId)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("confirm Reserve", "실패")
+                    Log.e("Check", t.toString())
+                }
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("Confirm Reserve", "success")
+                        status.value = 200
+                    } else {
+                        Log.e("Confirm Reserve", "실패")
+                    }
+                }
+            })
+    }
+
+    fun cancelReserve(
+        reserveId: String,
+        status: MutableLiveData<Int>
+    ) {
+        val joinApi = RetrofitObject.cancelReserveService
+
+        joinApi.cancelReserve(reserveId)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("cancel Reserve", "실패")
+                    Log.e("Check", t.toString())
+                }
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("cancel Reserve", "success")
+                        status.value = 200
+                    } else {
+                        Log.e("cancel Reserve", "실패")
+                    }
+                }
+            })
     }
 }

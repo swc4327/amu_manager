@@ -14,4 +14,12 @@ class ReserveViewModel(private var storeId: String) : ViewModel() {
         reserveApi.getReserveList(reserveLists, storeId)
     }
 
+    fun confirmReserve(reserveId: String) {
+        reserveApi.confirmReserve(reserveId, status)
+    }
+    //거부
+    fun cancelReserve(reserveId : String) {
+        reserveApi.cancelReserve(reserveId, status)
+    }
+
 }

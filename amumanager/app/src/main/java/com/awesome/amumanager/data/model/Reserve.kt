@@ -16,4 +16,5 @@ data class Reserve(var id: Int?,
               var store_id : String,
               var client_id : String,
               var is_reviewed: String,
-              var is_completed: String) : Parcelable
+              var is_confirmed: String,
+                   var is_completed: String) : Parcelable

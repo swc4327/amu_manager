@@ -32,3 +32,7 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
         notifyDataSetChanged()
     }
 }
+
+//취소, 예약확정, 완료
+//취소, 예약확정
+//예약확정 -> 완료
