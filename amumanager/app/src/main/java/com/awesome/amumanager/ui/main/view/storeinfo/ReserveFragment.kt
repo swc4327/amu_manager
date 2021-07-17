@@ -38,7 +38,7 @@ class ReserveFragment() : Fragment() {
                 }
                 reserve_list.adapter = reserveAdapter
             }
-            reserveAdapter!!.update(reserveLists)
+            reserveAdapter!!.update(reserveLists.reversed() as ArrayList<ReserveList>)
         })
 
 //        view.reserve_list.setOnItemClickListener { parent, view, position, id ->
