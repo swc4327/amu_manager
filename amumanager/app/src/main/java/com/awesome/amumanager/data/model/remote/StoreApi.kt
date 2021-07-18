@@ -34,6 +34,9 @@ class StoreApi {
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                            if(itemCount.toInt() == 0 && storesTemp.isNotEmpty()) {
+                                storesTemp.clear()
+                            }
                             storesTemp.addAll(response.body()!!.stores)
                             stores.value = storesTemp
 
