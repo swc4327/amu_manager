@@ -24,8 +24,12 @@ class ReserveViewHolder(itemView: View, private val itemClick: (ReserveList) -> 
         if(reserveList.reserve.is_confirmed == "1") {
             itemView.setBackgroundColor(Color.parseColor("#B4FBFF"))
         }
-        itemView.setOnClickListener{ itemClick(reserveList)}
 
+        if(reserveList.reserve.is_completed == "1") {
+            itemView.setBackgroundColor(Color.parseColor("#E16A9D"))
+        }
+
+        itemView.setOnClickListener{ itemClick(reserveList)}
 
     }
 }

@@ -22,4 +22,8 @@ class ReserveViewModel(private var storeId: String) : ViewModel() {
         reserveApi.cancelReserve(reserveId, status)
     }
 
+    fun completeReserve(reserveId : String) {
+        reserveApi.completeReserve(reserveId, status)
+    }
+
 }

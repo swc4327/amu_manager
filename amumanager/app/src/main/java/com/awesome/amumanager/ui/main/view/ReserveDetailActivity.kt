@@ -85,7 +85,8 @@ class ReserveDetailActivity : AppCompatActivity() {
 
         //완료
         detail_reserve_complete.setOnClickListener {
-
+            //이거 1이어야 리뷰 작성 가능
+            reserveViewModel.completeReserve(reserve!!.id.toString())
         }
     }
 

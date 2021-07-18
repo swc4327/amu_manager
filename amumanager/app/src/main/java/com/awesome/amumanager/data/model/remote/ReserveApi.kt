@@ -153,4 +153,30 @@ class ReserveApi {
                 }
             })
     }
+    fun completeReserve(
+        reserveId : String,
+        status : MutableLiveData<Int>
+    ) {
+        val joinApi = RetrofitObject.completeReserveService
+
+        joinApi.completeReserve(reserveId)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("Complete Reserve", "실패")
+                    Log.e("Check", t.toString())
+                }
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("Complete Reserve", "success")
+                        status.value = 200
+                    } else {
+                        Log.e("Complete Reserve", "실패")
+                    }
+                }
+            })
+    }
 }
