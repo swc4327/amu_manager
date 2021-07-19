@@ -64,7 +64,7 @@ class AddMenuActivity : AppCompatActivity() {
         }
 
         add_menu_button.setOnClickListener {
-            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, menu_name.text.toString())
+            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, storeId+menu_name.text.toString())
         }
     }
 

@@ -66,6 +66,12 @@ class ReserveDetailActivity : AppCompatActivity() {
             detail_reserve_cancel.visibility = GONE
             detail_reserve_confirm.visibility = GONE
         }
+
+        if(reserve!!.is_completed == "1") {
+            detail_reserve_complete.visibility = GONE
+            detail_reserve_cancel.visibility = GONE
+            detail_reserve_confirm.visibility = GONE
+        }
     }
 
     private fun initListener() {
