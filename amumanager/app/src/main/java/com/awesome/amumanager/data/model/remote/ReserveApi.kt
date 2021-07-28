@@ -15,14 +15,16 @@ class ReserveApi {
 
     fun getReserveList(
             ReserveLists: MutableLiveData<ArrayList<ReserveList>>,
-            storeId: String
+            storeId: String,
+            itemCount: String,
+            reservesTemp : ArrayList<Reserve>
     ) {
 
-        var reservesTemp = ArrayList<Reserve>()
+        //var reservesTemp = ArrayList<Reserve>()
 
         val joinApi = RetrofitObject.getReserveService
 
-        joinApi.getReserveList(storeId)
+        joinApi.getReserveList(storeId, itemCount)
                 .enqueue(object : Callback<ReserveResponse> {
 
                     override fun onFailure(call: Call<ReserveResponse>, t: Throwable) {
@@ -35,6 +37,10 @@ class ReserveApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+
+                            if(itemCount.toInt() == 0 && reservesTemp.isNotEmpty()) {
+                                reservesTemp.clear()
+                            }
                             reservesTemp.addAll(response.body()!!.reserves)
                             getClientInfo(ReserveLists, reservesTemp)
                         } else {

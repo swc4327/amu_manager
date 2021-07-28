@@ -8,5 +8,5 @@ interface GetReserveService {
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("/getReserveList")
-    fun getReserveList(@Query("store_id") uid:String) : Call<ReserveResponse>
+    fun getReserveList(@Query("store_id") uid:String, @Query("itemCount") itemCount: String) : Call<ReserveResponse>
 }

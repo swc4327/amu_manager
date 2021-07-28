@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
@@ -17,7 +19,7 @@ import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_reserve.*
-import kotlin.collections.reverse as reverse
+import kotlinx.android.synthetic.main.fragment_reserve.view.*
 
 class ReserveFragment() : Fragment() {
 
@@ -41,13 +43,6 @@ class ReserveFragment() : Fragment() {
             }
             reserveAdapter!!.update(reserveLists)
         })
-
-//        view.reserve_list.setOnItemClickListener { parent, view, position, id ->
-//            val intent = Intent(requireContext(), ReserveDetailActivity::class.java)
-//            intent.putExtra("reserve", reserveAdapter!!.getReserve(position))
-//            intent.putExtra("client", reserveAdapter!!.getClient(position))
-//            startActivity(intent)
-//        }
     }
 
 
@@ -59,10 +54,12 @@ class ReserveFragment() : Fragment() {
         val view = inflater.inflate(R.layout.fragment_reserve, container, false)
         storeId = arguments?.getString("store_id")
 
+        initRecyclerView(view)
+
         var factory = ReserveViewModelFactory(storeId.toString())
         reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
 
-        reserveViewModel.getReserveList()
+        reserveViewModel.getReserveList("0")
 
         return view
     }
@@ -71,8 +68,24 @@ class ReserveFragment() : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==200) {
             if(resultCode == AppCompatActivity.RESULT_OK) {
-                reserveViewModel.getReserveList()
+                reserveViewModel.getReserveList("0")
             }
         }
+    }
+
+    private fun initRecyclerView(view: View) {
+        view.reserve_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
+
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    reserveViewModel.getReserveList(recyclerView.adapter!!.itemCount.toString())
+                }
+            }
+        })
+
     }
 }

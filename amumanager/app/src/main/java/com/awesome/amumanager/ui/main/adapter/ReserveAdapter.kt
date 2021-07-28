@@ -26,10 +26,16 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
     }
 
     fun update(reserveLists: ArrayList<ReserveList>) {
-        if(this.reserveLists.isNotEmpty())
-            this.reserveLists.clear()
-        this.reserveLists.addAll(reserveLists)
-        notifyDataSetChanged()
+        val endPosition = this.reserveLists.size
+
+        if (this.reserveLists.isEmpty()) {
+            this.reserveLists.addAll(reserveLists)
+        } else {
+            for (index in endPosition until reserveLists.size) {
+                this.reserveLists.add(index, reserveLists[index])
+            }
+        }
+        notifyItemRangeInserted(endPosition, this.reserveLists.size - endPosition)
     }
 }
 
