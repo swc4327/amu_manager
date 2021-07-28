@@ -17,6 +17,7 @@ import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_reserve.*
+import kotlin.collections.reverse as reverse
 
 class ReserveFragment() : Fragment() {
 
@@ -38,7 +39,7 @@ class ReserveFragment() : Fragment() {
                 }
                 reserve_list.adapter = reserveAdapter
             }
-            reserveAdapter!!.update(reserveLists.reversed() as ArrayList<ReserveList>)
+            reserveAdapter!!.update(reserveLists)
         })
 
 //        view.reserve_list.setOnItemClickListener { parent, view, position, id ->

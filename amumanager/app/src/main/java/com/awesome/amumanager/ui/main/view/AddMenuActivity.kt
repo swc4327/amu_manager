@@ -44,10 +44,10 @@ class AddMenuActivity : AppCompatActivity() {
         add_menu_image.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                        PackageManager.PERMISSION_DENIED) {
+                    PackageManager.PERMISSION_DENIED) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions,
-                            AddMenuActivity.PERMISSION_CODE
+                        AddMenuActivity.PERMISSION_CODE
                     )
                 }
                 else {
