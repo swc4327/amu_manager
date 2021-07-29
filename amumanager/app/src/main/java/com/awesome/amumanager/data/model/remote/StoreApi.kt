@@ -15,13 +15,13 @@ class StoreApi {
     fun getStore(
         stores: MutableLiveData<ArrayList<Store>>,
         uid: String,
-        itemCount: String,
-        storesTemp: ArrayList<Store>
+        storesTemp: ArrayList<Store>,
+        lastId: String
     ) {
 
         val joinApi = RetrofitObject.getStoreService
 
-        joinApi.getStore(uid, itemCount)
+        joinApi.getStore(uid, lastId)
                 .enqueue(object : Callback<StoreResponse> {
 
                     override fun onFailure(call: Call<StoreResponse>, t: Throwable) {
@@ -34,7 +34,7 @@ class StoreApi {
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            if(itemCount.toInt() == 0 && storesTemp.isNotEmpty()) {
+                            if(lastId.toInt() == 0 && storesTemp.isNotEmpty()) {
                                 storesTemp.clear()
                             }
                             storesTemp.addAll(response.body()!!.stores)

@@ -12,8 +12,8 @@ class ReviewViewModel(private val storeId: String?) : ViewModel() {
     val reviewLists = MutableLiveData<ArrayList<ReviewList>>()
     val status = MutableLiveData<Int>()
 
-    fun getReviewList() {
-        reviewListApi.getReviewList(reviewLists, storeId!!)
+    fun getReviewList(itemCount : String) {
+        reviewListApi.getReviewList(reviewLists, storeId!!, itemCount)
     }
 
     fun reviewFiltering(review : Review, client : Client) {

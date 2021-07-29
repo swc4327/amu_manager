@@ -17,13 +17,15 @@ class ReviewApi {
 
     fun getReviewList(
             ReviewLists: MutableLiveData<ArrayList<ReviewList>>,
-            storeId: String) {
+            storeId: String,
+            itemCount: String)
+    {
 
         var reviewsTemp = ArrayList<Review>()
 
         val joinApi = RetrofitObject.getReviewService
 
-        joinApi.getReviewList(storeId.toString())
+        joinApi.getReviewList(storeId.toString(), itemCount)
                 .enqueue(object : Callback<ReviewResponse> {
 
                     override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
@@ -37,6 +39,11 @@ class ReviewApi {
                     )  {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Get ReviewList Retrofit" , "success")
+
+                            if(itemCount.toInt() == 0 && reviewsTemp.isNotEmpty()) {
+                                reviewsTemp.clear()
+                            }
+
                             reviewsTemp.addAll(response.body()!!.reviews)
                             getClientInfo(ReviewLists, reviewsTemp)
 

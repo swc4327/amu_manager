@@ -26,6 +26,14 @@ class StoreAdapter(private val stores : ArrayList<Store>,
         holder.bind(stores[position], requestManager)
     }
 
+    fun getLastStoreId(position : Int) : String {
+        return this.stores[position].id.toString()
+    }
+
+    fun getLastStoreName(position : Int) : String {
+        return this.stores[position].id.toString()
+    }
+
     fun update(stores: ArrayList<Store>) {
         val endPosition = this.stores.size
 

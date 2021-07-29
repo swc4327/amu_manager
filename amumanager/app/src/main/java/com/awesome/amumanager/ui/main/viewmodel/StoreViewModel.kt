@@ -12,8 +12,8 @@ class StoreViewModel() : ViewModel() {
 
     val status = MutableLiveData<Int>()
 
-    fun getStore(uid: String, itemCount : String) {
-        storeApi.getStore(stores, uid, itemCount, storesTemp)
+    fun getStore(uid: String, lastId : String) {
+        storeApi.getStore(stores, uid, storesTemp, lastId)
     }
 
     fun addStore(store : Store) {

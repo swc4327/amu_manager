@@ -26,10 +26,16 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
     }
 
     fun update(reviewLists: ArrayList<ReviewList>) {
-        if(this.reviewLists.isNotEmpty())
-            this.reviewLists.clear()
-        this.reviewLists.addAll(reviewLists)
-        notifyDataSetChanged()
+        val endPosition = this.reviewLists.size
+
+        if (this.reviewLists.isEmpty()) {
+            this.reviewLists.addAll(reviewLists)
+        } else {
+            for (index in endPosition until reviewLists.size) {
+                this.reviewLists.add(index, reviewLists[index])
+            }
+        }
+        notifyItemRangeInserted(endPosition, this.reviewLists.size - endPosition)
     }
 }
 
