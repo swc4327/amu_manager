@@ -12,12 +12,14 @@ import retrofit2.Response
 class PromotionApi {
 
     fun getPromotion(
-            promotions: MutableLiveData<ArrayList<Promotion>>,
-            storeId : String
+        promotions: MutableLiveData<ArrayList<Promotion>>,
+        storeId: String,
+        itemCount: String,
+        promotionsTemp: ArrayList<Promotion>
     ) {
         val joinApi = RetrofitObject.getPromotionService
 
-        joinApi.getPromotionList(storeId)
+        joinApi.getPromotionList(storeId, itemCount)
                 .enqueue(object : Callback<PromotionResponse> {
 
                     override fun onFailure(call: Call<PromotionResponse>, t: Throwable) {
@@ -30,7 +32,11 @@ class PromotionApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            promotions.value = response.body()!!.promotions
+                            if(itemCount.toInt() == 0 && promotionsTemp.isNotEmpty()) {
+                                promotionsTemp.clear()
+                            }
+                            promotionsTemp.addAll(response.body()!!.promotions)
+                            promotions.value = promotionsTemp
                         } else {
 
                         }

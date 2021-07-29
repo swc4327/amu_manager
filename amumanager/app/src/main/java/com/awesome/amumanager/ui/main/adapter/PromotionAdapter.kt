@@ -25,15 +25,9 @@ class PromotionAdapter(private val promotions : ArrayList<Promotion>,
     }
 
     fun update(promotions: ArrayList<Promotion>) {
-        val endPosition = this.promotions.size
-
-        if (this.promotions.isEmpty()) {
-            this.promotions.addAll(promotions)
-        } else {
-            for (index in endPosition until promotions.size) {
-                this.promotions.add(index, promotions[index])
-            }
-        }
-        notifyItemRangeInserted(endPosition, this.promotions.size - endPosition)
+        if(this.promotions.isNotEmpty())
+            this.promotions.clear()
+        this.promotions.addAll(promotions)
+        notifyDataSetChanged()
     }
 }

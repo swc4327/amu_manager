@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_promotion.*
 
 class PromotionActivity : AppCompatActivity() {
@@ -34,7 +37,7 @@ class PromotionActivity : AppCompatActivity() {
         initListener()
         observe()
 
-        promotionViewModel.getPromotion()
+        promotionViewModel.getPromotion("0")
 
 
     }
@@ -51,6 +54,18 @@ class PromotionActivity : AppCompatActivity() {
             intent.putExtra("storeName", storeName)
             startActivityForResult(intent, 200)
         }
+        promotion_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
+
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    promotionViewModel.getPromotion(recyclerView.adapter!!.itemCount.toString())
+                }
+            }
+        })
     }
 
     private fun observe() {
@@ -67,7 +82,7 @@ class PromotionActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 200) {
             if(resultCode == RESULT_OK) {
-                promotionViewModel.getPromotion()
+                promotionViewModel.getPromotion("0")
             }
         }
     }
