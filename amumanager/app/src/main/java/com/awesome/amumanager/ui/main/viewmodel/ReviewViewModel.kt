@@ -10,10 +10,11 @@ import com.awesome.amumanager.data.model.remote.ReviewApi
 class ReviewViewModel(private val storeId: String?) : ViewModel() {
     private val reviewListApi = ReviewApi()
     val reviewLists = MutableLiveData<ArrayList<ReviewList>>()
+    private var reviewsTemp = ArrayList<Review>()
     val status = MutableLiveData<Int>()
 
-    fun getReviewList(itemCount : String) {
-        reviewListApi.getReviewList(reviewLists, storeId!!, itemCount)
+    fun getReviewList(lastId : String) {
+        reviewListApi.getReviewList(reviewLists, storeId!!, lastId, reviewsTemp)
     }
 
     fun reviewFiltering(review : Review, client : Client) {

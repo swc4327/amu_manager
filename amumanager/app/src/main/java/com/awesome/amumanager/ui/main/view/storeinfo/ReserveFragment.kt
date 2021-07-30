@@ -81,6 +81,11 @@ class ReserveFragment() : Fragment() {
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
                 val itemTotalCount = recyclerView.adapter!!.itemCount - 1
 
+                println("itemCount:" + recyclerView.adapter!!.itemCount)
+                println("#####")
+                println("last value:" + lastVisibleItemPosition.toString())
+
+
                 if (lastVisibleItemPosition == itemTotalCount) {
                     reserveViewModel.getReserveList(recyclerView.adapter!!.itemCount.toString())
                 }

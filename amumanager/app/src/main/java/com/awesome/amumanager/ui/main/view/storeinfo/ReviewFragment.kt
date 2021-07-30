@@ -19,7 +19,6 @@ import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_reserve.view.*
 import kotlinx.android.synthetic.main.fragment_review.*
 import kotlinx.android.synthetic.main.fragment_review.view.*
 import kotlin.collections.ArrayList
@@ -31,29 +30,6 @@ class ReviewFragment : Fragment() {
     private var storeId: String? = ""
     private lateinit var reviewViewModel : ReviewViewModel
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-        reviewViewModel.reviewLists.observe(
-            viewLifecycleOwner,
-            Observer<ArrayList<ReviewList>> { reviewLists ->
-                if (reviewAdapter == null) {
-                    reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
-                        val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-                        intent.putExtra("review", reviewList.review)
-                        intent.putExtra("client", reviewList.client)
-                        intent.putExtra("storeId", this.storeId)
-                        startActivityForResult(intent, 100)
-                    }
-                    review_list.adapter = reviewAdapter
-                }
-                reviewAdapter!!.update(reviewLists)
-            })
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,39 +38,65 @@ class ReviewFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
         storeId = arguments?.getString("store_id")
-
-        initRecyclerView(view)
-
+        //initRecyclerView(view)
         var factory = ReviewViewModelFactory(storeId.toString())
         reviewViewModel = ViewModelProvider(this, factory).get(ReviewViewModel::class.java)
 
-        reviewViewModel.getReviewList("0")
+
 
         return view
     }
 
-    private fun initRecyclerView(view: View) {
-        view.review_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
+        initRecyclerView(view)
+        reviewViewModel.getReviewList("-1")
 
-                if (lastVisibleItemPosition == itemTotalCount) {
-                    reviewViewModel.getReviewList(recyclerView.adapter!!.itemCount.toString())
+        reviewViewModel.reviewLists.observe(
+            viewLifecycleOwner,
+            Observer<ArrayList<ReviewList>> { reviewLists ->
+                if (reviewAdapter == null) {
+                    println("OBSERVE!!!")
+                    reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
+                        val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
+                        intent.putExtra("review", reviewList.review)
+                        intent.putExtra("client", reviewList.client)
+                        intent.putExtra("storeId", this.storeId)
+                        startActivityForResult(intent, 100)
+                    }
+                    review_list.adapter = reviewAdapter
+
                 }
-            }
-        })
-
+                println("OBSERVE!~!@~")
+                reviewAdapter!!.update(reviewLists)
+            })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==100) {
             if(resultCode == RESULT_OK) {
-                reviewViewModel.getReviewList("0")
+                reviewViewModel.getReviewList("-1")
             }
         }
+    }
+
+    private fun initRecyclerView(view: View) {
+        view.review_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                println("lastVisibleItemPosition :$lastVisibleItemPosition")
+
+                if(!recyclerView.canScrollVertically((1))) {
+                    reviewViewModel.getReviewList(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition))
+                }
+//                if (lastVisibleItemPosition+a == itemTotalCount) {
+//                    reviewViewModel.getReviewList(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition))
+//                    println(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition).toString())
+//                }
+            }
+        })
     }
 }

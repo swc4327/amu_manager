@@ -20,7 +20,7 @@ class ReviewViewHolder(itemView: View, private val itemClick: (ReviewList) -> Un
         requestManager.load(reviewList.client.image).circleCrop().into(clientImage)
         requestManager.load(reviewList.review.review_image).into(reviewImage)
         reviewComment.text = reviewList.review.comment
-        reviewRating.rating = reviewList.review.point!!.toFloat()
+//        reviewRating.rating = reviewList.review.point!!.toFloat()
         reviewTime.text = reviewList.review.time
         itemView.setOnClickListener{ itemClick(reviewList)}
     }

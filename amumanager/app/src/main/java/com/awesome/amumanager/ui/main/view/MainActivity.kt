@@ -83,6 +83,8 @@ class MainActivity : AppCompatActivity() {
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
                 val itemTotalCount = recyclerView.adapter!!.itemCount - 1
 
+                println(lastVisibleItemPosition.toString()+"~!~!~!")
+
                 if (lastVisibleItemPosition == itemTotalCount) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
                     storeViewModel.getStore(firebaseViewModel.getUid(), storeAdapter!!.getLastStoreId(lastVisibleItemPosition))

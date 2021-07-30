@@ -25,8 +25,15 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
         holder.bind(reviewLists[position], requestManager)
     }
 
+    fun getLastReviewId(position: Int) : String {
+        return this.reviewLists[position].review.id.toString()
+    }
+
     fun update(reviewLists: ArrayList<ReviewList>) {
         val endPosition = this.reviewLists.size
+
+        println("ENDPOSITION:" + endPosition)
+        println("###"+ reviewLists.size.toString())
 
         if (this.reviewLists.isEmpty()) {
             this.reviewLists.addAll(reviewLists)
