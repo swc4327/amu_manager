@@ -57,7 +57,6 @@ class ReviewFragment : Fragment() {
             viewLifecycleOwner,
             Observer<ArrayList<ReviewList>> { reviewLists ->
                 if (reviewAdapter == null) {
-                    println("OBSERVE!!!")
                     reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
                         val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
                         intent.putExtra("review", reviewList.review)
@@ -68,7 +67,6 @@ class ReviewFragment : Fragment() {
                     review_list.adapter = reviewAdapter
 
                 }
-                println("OBSERVE!~!@~")
                 reviewAdapter!!.update(reviewLists)
             })
     }
@@ -89,7 +87,7 @@ class ReviewFragment : Fragment() {
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 println("lastVisibleItemPosition :$lastVisibleItemPosition")
 
-                if(!recyclerView.canScrollVertically((1))) {
+                if(!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     reviewViewModel.getReviewList(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition))
                 }
 //                if (lastVisibleItemPosition+a == itemTotalCount) {

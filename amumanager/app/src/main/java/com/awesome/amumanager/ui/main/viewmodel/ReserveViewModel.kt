@@ -12,8 +12,8 @@ class ReserveViewModel(private var storeId: String) : ViewModel() {
     private var reservesTemp = ArrayList<Reserve>()
     val status = MutableLiveData<Int>()
 
-    fun getReserveList(itemCount : String) {
-        reserveApi.getReserveList(reserveLists, storeId, itemCount, reservesTemp)
+    fun getReserveList(lastId : String) {
+        reserveApi.getReserveList(reserveLists, storeId, lastId, reservesTemp)
     }
 
     fun confirmReserve(reserveId: String) {

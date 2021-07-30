@@ -42,7 +42,7 @@ class ReviewApi {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Get ReviewList Retrofit" , "success")
 
-                            if(lastId == "" && reviewsTemp.isNotEmpty()) {
+                            if(lastId == "-1" && reviewsTemp.isNotEmpty()) {
                                 reviewsTemp.clear()
                             }
 

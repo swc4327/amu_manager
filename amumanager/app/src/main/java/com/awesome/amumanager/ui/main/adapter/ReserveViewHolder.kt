@@ -11,7 +11,6 @@ class ReserveViewHolder(itemView: View, private val itemClick: (ReserveList) -> 
 
     private val clientName = itemView.client_name
     private val clientImage = itemView.client_image
-
     private val reservePhone = itemView.phone
     private val reserveDate = itemView.date
 
@@ -21,12 +20,16 @@ class ReserveViewHolder(itemView: View, private val itemClick: (ReserveList) -> 
         reservePhone.text = reserveList.reserve.phone
         reserveDate.text = reserveList.reserve.date
 
-        if(reserveList.reserve.is_confirmed == "1") {
-            itemView.setBackgroundColor(Color.parseColor("#B4FBFF"))
-        }
-
-        if(reserveList.reserve.is_completed == "1") {
-            itemView.setBackgroundColor(Color.parseColor("#E16A9D"))
+        when {
+            reserveList.reserve.is_completed == "1" -> {
+                itemView.setBackgroundColor(Color.parseColor("#E16A9D"))
+            }
+            reserveList.reserve.is_confirmed == "1" -> {
+                itemView.setBackgroundColor(Color.parseColor("#B4FBFF"))
+            }
+            else -> {
+                itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            }
         }
 
         itemView.setOnClickListener{ itemClick(reserveList)}

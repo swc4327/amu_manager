@@ -44,7 +44,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         }
 
         review_filtering.setOnClickListener {
-            if(client!!.count!!.toInt() >= 3 && client!!.point!!.toDouble() <= 4) {
+            if(client!!.count!!.toInt() >= 2 && client!!.point!!.toDouble() <= 4) {
                 reviewViewModel.reviewFiltering(review!!, client!!)
             }
             else {

@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 store_list.adapter = storeAdapter
             }
-            println("AAAA"+storeAdapter!!.itemCount.toString())
             storeAdapter!!.update(stores)
             })
     }
@@ -82,8 +81,6 @@ class MainActivity : AppCompatActivity() {
 
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
                 val itemTotalCount = recyclerView.adapter!!.itemCount - 1
-
-                println(lastVisibleItemPosition.toString()+"~!~!~!")
 
                 if (lastVisibleItemPosition == itemTotalCount) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())

@@ -32,9 +32,18 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
     fun update(reviewLists: ArrayList<ReviewList>) {
         val endPosition = this.reviewLists.size
 
-        println("ENDPOSITION:" + endPosition)
-        println("###"+ reviewLists.size.toString())
+        //계속 불러오는중
+        if(endPosition < reviewLists.size) {
+            loadMore(reviewLists, endPosition)
+        } else { //삭제했거나, detail 변경 됬을때
+            if(this.reviewLists.isNotEmpty())
+                this.reviewLists.clear()
+            this.reviewLists.addAll(reviewLists)
+            notifyDataSetChanged()
+        }
+    }
 
+    private fun loadMore(reviewLists: ArrayList<ReviewList>, endPosition: Int) {
         if (this.reviewLists.isEmpty()) {
             this.reviewLists.addAll(reviewLists)
         } else {

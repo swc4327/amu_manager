@@ -23,11 +23,27 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
 
     override fun onBindViewHolder(holder: ReserveViewHolder, position: Int) {
         holder.bind(reserveLists[position], requestManager)
+
+    }
+
+    fun getLastReserveId(position : Int) : String {
+        return this.reserveLists[position].reserve.id.toString()
     }
 
     fun update(reserveLists: ArrayList<ReserveList>) {
         val endPosition = this.reserveLists.size
 
+        if(endPosition < reserveLists.size) {
+            loadMore(reserveLists, endPosition)
+        } else {
+            if(this.reserveLists.isNotEmpty())
+                this.reserveLists.clear()
+            this.reserveLists.addAll(reserveLists)
+            notifyDataSetChanged()
+        }
+    }
+
+    private fun loadMore(reserveLists: ArrayList<ReserveList>, endPosition: Int) {
         if (this.reserveLists.isEmpty()) {
             this.reserveLists.addAll(reserveLists)
         } else {

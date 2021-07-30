@@ -59,7 +59,7 @@ class ReserveFragment() : Fragment() {
         var factory = ReserveViewModelFactory(storeId.toString())
         reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
 
-        reserveViewModel.getReserveList("0")
+        reserveViewModel.getReserveList("-1")
 
         return view
     }
@@ -68,7 +68,7 @@ class ReserveFragment() : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==200) {
             if(resultCode == AppCompatActivity.RESULT_OK) {
-                reserveViewModel.getReserveList("0")
+                reserveViewModel.getReserveList("-1")
             }
         }
     }
@@ -78,16 +78,10 @@ class ReserveFragment() : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
 
-                println("itemCount:" + recyclerView.adapter!!.itemCount)
-                println("#####")
-                println("last value:" + lastVisibleItemPosition.toString())
-
-
-                if (lastVisibleItemPosition == itemTotalCount) {
-                    reserveViewModel.getReserveList(recyclerView.adapter!!.itemCount.toString())
+                if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
+                    reserveViewModel.getReserveList(reserveAdapter!!.getLastReserveId(lastVisibleItemPosition))
                 }
             }
         })
