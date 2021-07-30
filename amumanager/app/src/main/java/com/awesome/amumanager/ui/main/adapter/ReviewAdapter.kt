@@ -25,6 +25,10 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
         holder.bind(reviewLists[position], requestManager)
     }
 
+    fun clearReviewLists() {
+        this.reviewLists.clear()
+    }
+
     fun getLastReviewId(position: Int) : String {
         return this.reviewLists[position].review.id.toString()
     }
@@ -35,12 +39,13 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
         //계속 불러오는중
         if(endPosition < reviewLists.size) {
             loadMore(reviewLists, endPosition)
-        } else { //삭제했거나, detail 변경 됬을때
-            if(this.reviewLists.isNotEmpty())
-                this.reviewLists.clear()
-            this.reviewLists.addAll(reviewLists)
-            notifyDataSetChanged()
         }
+//        else { //삭제했을때
+//            if(this.reviewLists.isNotEmpty())
+//                this.reviewLists.clear()
+//            this.reviewLists.addAll(reviewLists)
+//            notifyDataSetChanged()
+//        }
     }
 
     private fun loadMore(reviewLists: ArrayList<ReviewList>, endPosition: Int) {

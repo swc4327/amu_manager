@@ -68,6 +68,7 @@ class ReserveFragment() : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==200) {
             if(resultCode == AppCompatActivity.RESULT_OK) {
+                reserveAdapter?.clearReserveLists()
                 reserveViewModel.getReserveList("-1")
             }
         }
@@ -81,7 +82,7 @@ class ReserveFragment() : Fragment() {
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
-                    reserveViewModel.getReserveList(reserveAdapter!!.getLastReserveId(lastVisibleItemPosition))
+                    reserveAdapter?.getLastReserveId(lastVisibleItemPosition)?.let { reserveViewModel.getReserveList(it) }
                 }
             }
         })

@@ -11,8 +11,8 @@ class PromotionViewModel(private var storeId: String) : ViewModel() {
     private var promotionsTemp = ArrayList<Promotion>()
     val status = MutableLiveData<Int>()
 
-    fun getPromotion(itemCount : String) {
-        promotionApi.getPromotion(promotions, storeId, itemCount, promotionsTemp)
+    fun getPromotion(lastId : String) {
+        promotionApi.getPromotion(promotions, storeId, lastId, promotionsTemp)
     }
 
     fun addPromotion(promotion: Promotion) {

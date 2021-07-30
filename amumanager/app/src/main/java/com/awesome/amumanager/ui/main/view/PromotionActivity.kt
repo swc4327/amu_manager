@@ -37,7 +37,7 @@ class PromotionActivity : AppCompatActivity() {
         initListener()
         observe()
 
-        promotionViewModel.getPromotion("0")
+        promotionViewModel.getPromotion("-1")
 
 
     }
@@ -58,11 +58,10 @@ class PromotionActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
 
-                if (lastVisibleItemPosition == itemTotalCount) {
-                    promotionViewModel.getPromotion(recyclerView.adapter!!.itemCount.toString())
+                if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
+                    promotionAdapter?.getLastPromotionId(lastVisibleItemPosition)?.let { promotionViewModel.getPromotion(it) }
                 }
             }
         })
@@ -74,7 +73,7 @@ class PromotionActivity : AppCompatActivity() {
                 promotionAdapter = PromotionAdapter(arrayListOf(), Glide.with(this))
                 promotion_list.adapter = promotionAdapter
             }
-            promotionAdapter!!.update(promotions)
+            promotionAdapter?.update(promotions)
         })
     }
 
@@ -82,7 +81,8 @@ class PromotionActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 200) {
             if(resultCode == RESULT_OK) {
-                promotionViewModel.getPromotion("0")
+                promotionAdapter?.clearPromotions()
+                promotionViewModel.getPromotion("-1")
             }
         }
     }

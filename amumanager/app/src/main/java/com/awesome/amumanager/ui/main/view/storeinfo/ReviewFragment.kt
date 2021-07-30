@@ -67,7 +67,7 @@ class ReviewFragment : Fragment() {
                     review_list.adapter = reviewAdapter
 
                 }
-                reviewAdapter!!.update(reviewLists)
+                reviewAdapter?.update(reviewLists)
             })
     }
 
@@ -75,6 +75,7 @@ class ReviewFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==100) {
             if(resultCode == RESULT_OK) {
+                reviewAdapter?.clearReviewLists()
                 reviewViewModel.getReviewList("-1")
             }
         }
@@ -88,7 +89,7 @@ class ReviewFragment : Fragment() {
                 println("lastVisibleItemPosition :$lastVisibleItemPosition")
 
                 if(!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
-                    reviewViewModel.getReviewList(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition))
+                    reviewAdapter?.getLastReviewId(lastVisibleItemPosition)?.let { reviewViewModel.getReviewList(it) }
                 }
 //                if (lastVisibleItemPosition+a == itemTotalCount) {
 //                    reviewViewModel.getReviewList(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition))

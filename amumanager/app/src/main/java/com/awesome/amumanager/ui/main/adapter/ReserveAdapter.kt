@@ -26,6 +26,10 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
 
     }
 
+    fun clearReserveLists() {
+        this.reserveLists.clear()
+    }
+
     fun getLastReserveId(position : Int) : String {
         return this.reserveLists[position].reserve.id.toString()
     }
@@ -33,14 +37,16 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
     fun update(reserveLists: ArrayList<ReserveList>) {
         val endPosition = this.reserveLists.size
 
+        //계속 불러오는중
         if(endPosition < reserveLists.size) {
             loadMore(reserveLists, endPosition)
-        } else {
-            if(this.reserveLists.isNotEmpty())
-                this.reserveLists.clear()
-            this.reserveLists.addAll(reserveLists)
-            notifyDataSetChanged()
         }
+//        else { //삭제됬거나, 디테일 변경 됬을 때
+//            if(this.reserveLists.isNotEmpty())
+//                this.reserveLists.clear()
+//            this.reserveLists.addAll(reserveLists)
+//            notifyDataSetChanged()
+//        }
     }
 
     private fun loadMore(reserveLists: ArrayList<ReserveList>, endPosition: Int) {

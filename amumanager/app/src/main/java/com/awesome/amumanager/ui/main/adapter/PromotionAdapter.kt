@@ -24,10 +24,33 @@ class PromotionAdapter(private val promotions : ArrayList<Promotion>,
         holder.bind(promotions[position], requestManager)
     }
 
+    fun clearPromotions() {
+        this.promotions.clear()
+    }
+
+    fun getLastPromotionId(position: Int) : String {
+        return this.promotions[position].id.toString()
+    }
+
     fun update(promotions: ArrayList<Promotion>) {
-        if(this.promotions.isNotEmpty())
-            this.promotions.clear()
-        this.promotions.addAll(promotions)
-        notifyDataSetChanged()
+        val endPosition = this.promotions.size
+
+        println("endPosition:$endPosition")
+        println("promotions.size:"+ promotions.size.toString())
+
+        if(endPosition < promotions.size) {
+            loadMore(promotions, endPosition)
+        }
+    }
+
+    private fun loadMore(promotions: ArrayList<Promotion>, endPosition: Int) {
+        if (this.promotions.isEmpty()) {
+            this.promotions.addAll(promotions)
+        } else {
+            for (index in endPosition until promotions.size) {
+                this.promotions.add(index, promotions[index])
+            }
+        }
+        notifyItemRangeInserted(endPosition, this.promotions.size - endPosition)
     }
 }
