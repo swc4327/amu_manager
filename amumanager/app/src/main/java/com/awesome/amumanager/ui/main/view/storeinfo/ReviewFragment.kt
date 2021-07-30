@@ -42,8 +42,6 @@ class ReviewFragment : Fragment() {
         var factory = ReviewViewModelFactory(storeId.toString())
         reviewViewModel = ViewModelProvider(this, factory).get(ReviewViewModel::class.java)
 
-
-
         return view
     }
 
@@ -73,10 +71,11 @@ class ReviewFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode ==100) {
+        if(requestCode == 100) {
             if(resultCode == RESULT_OK) {
                 reviewAdapter?.clearReviewLists()
                 reviewViewModel.getReviewList("-1")
+
             }
         }
     }

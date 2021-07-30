@@ -70,7 +70,10 @@ class PromotionActivity : AppCompatActivity() {
     private fun observe() {
         promotionViewModel.promotions.observe(this, Observer<ArrayList<Promotion>>{promotions ->
             if(promotionAdapter == null) {
-                promotionAdapter = PromotionAdapter(arrayListOf(), Glide.with(this))
+                promotionAdapter = PromotionAdapter(arrayListOf(), Glide.with(this)) {
+                    println(it)
+                    //프로모션 삭제
+                }
                 promotion_list.adapter = promotionAdapter
             }
             promotionAdapter?.update(promotions)

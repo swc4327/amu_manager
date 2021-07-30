@@ -5,15 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
+import com.awesome.amumanager.data.model.ReviewList
 import com.bumptech.glide.RequestManager
 
-class PromotionAdapter(private val promotions : ArrayList<Promotion>,
-                   private val requestManager : RequestManager)
+class PromotionAdapter(
+        private val promotions : ArrayList<Promotion>,
+        private val requestManager : RequestManager,
+        private val endButtonClick: (String) -> Unit)
     : RecyclerView.Adapter<PromotionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PromotionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_promotion, parent, false)
-        return PromotionViewHolder(view)
+        return PromotionViewHolder(view, endButtonClick)
     }
 
     override fun getItemCount(): Int {
@@ -25,7 +28,10 @@ class PromotionAdapter(private val promotions : ArrayList<Promotion>,
     }
 
     fun clearPromotions() {
-        this.promotions.clear()
+        if(this.promotions.isNotEmpty()) {
+            this.promotions.clear()
+            notifyDataSetChanged()
+        }
     }
 
     fun getLastPromotionId(position: Int) : String {

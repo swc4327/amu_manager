@@ -26,7 +26,10 @@ class ReviewAdapter(private val reviewLists : ArrayList<ReviewList>,
     }
 
     fun clearReviewLists() {
-        this.reviewLists.clear()
+        if(this.reviewLists.isNotEmpty()) {
+            this.reviewLists.clear()
+            notifyDataSetChanged()
+        }
     }
 
     fun getLastReviewId(position: Int) : String {

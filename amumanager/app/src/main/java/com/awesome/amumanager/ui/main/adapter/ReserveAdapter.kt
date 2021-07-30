@@ -23,11 +23,13 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
 
     override fun onBindViewHolder(holder: ReserveViewHolder, position: Int) {
         holder.bind(reserveLists[position], requestManager)
-
-    }
+        }
 
     fun clearReserveLists() {
-        this.reserveLists.clear()
+        if(this.reserveLists.isNotEmpty()) {
+            this.reserveLists.clear()
+            notifyDataSetChanged()
+        }
     }
 
     fun getLastReserveId(position : Int) : String {
