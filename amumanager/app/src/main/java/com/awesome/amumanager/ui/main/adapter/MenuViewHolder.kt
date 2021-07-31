@@ -6,7 +6,7 @@ import com.awesome.amumanager.data.model.Menu
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_menu.view.*
 
-class MenuViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class MenuViewHolder(itemView: View, private val itemClick: (Menu)->Unit): RecyclerView.ViewHolder(itemView) {
 
     private val menuName = itemView.menu_name
     private val menuImage = itemView.menu_image
@@ -18,6 +18,8 @@ class MenuViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         requestManager.load(menu.image).circleCrop().into(menuImage)
         menuComment.text = menu.comment
         menuPrice.text = menu.price
+
+        itemView.setOnClickListener{itemClick(menu)}
     }
 }
 

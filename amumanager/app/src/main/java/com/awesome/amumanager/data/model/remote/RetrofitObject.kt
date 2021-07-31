@@ -26,4 +26,5 @@ object RetrofitObject {
     val cancelReserveService : CancelReserveService = retrofit.create(CancelReserveService::class.java)
     val completeReserveService : CompleteReserveService = retrofit.create(CompleteReserveService::class.java)
     val endPromotionService : EndPromotionService = retrofit.create(EndPromotionService::class.java)
+    val deleteMenuService : DeleteMenuService = retrofit.create(DeleteMenuService::class.java)
 }

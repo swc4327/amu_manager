@@ -9,17 +9,21 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.ui.main.adapter.MenuAdapter
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.view.AddMenuActivity
+import com.awesome.amumanager.ui.main.view.MenuDetailActivity
 import com.awesome.amumanager.ui.main.view.StoreInfoActivity
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_menu.*
+import kotlinx.android.synthetic.main.fragment_reserve.view.*
 
 class MenuFragment() : Fragment() {
 
@@ -37,7 +41,7 @@ class MenuFragment() : Fragment() {
         var factory = MenuViewModelFactory(storeId.toString())
         menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
 
-        menuViewModel.getMenu()
+        menuViewModel.getMenu("-1")
 
         return view
     }
@@ -47,7 +51,24 @@ class MenuFragment() : Fragment() {
 
         initListener()
         observe()
+        initRecyclerView()
 
+    }
+
+    private fun initRecyclerView() {
+        menu_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
+
+                if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
+                    menuAdapter?.getLastMenuId(lastVisibleItemPosition)
+                        ?.let { menuViewModel.getMenu(it) }
+                }
+            }
+        })
     }
 
     private fun initListener() {
@@ -61,7 +82,12 @@ class MenuFragment() : Fragment() {
     private fun observe() {
         menuViewModel.menus.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {menus ->
             if (menuAdapter == null) {
-                menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this))
+                menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this)) {menu->
+                    val intent = Intent(requireContext(), MenuDetailActivity::class.java)
+                    intent.putExtra("Menu", menu)
+                    intent.putExtra("storeId", storeId)
+                    startActivityForResult(intent, 2)
+                }
                 menu_list.adapter = menuAdapter
             }
             menuAdapter!!.update(menus)
@@ -70,9 +96,10 @@ class MenuFragment() : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode ==1) {
+        if(requestCode ==1 || requestCode ==2) {
             if(resultCode == AppCompatActivity.RESULT_OK) {
-                menuViewModel.getMenu()
+                menuAdapter?.clearMenus()
+                menuViewModel.getMenu("-1")
             }
         }
     }

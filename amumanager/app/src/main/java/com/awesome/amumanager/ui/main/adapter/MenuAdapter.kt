@@ -8,12 +8,13 @@ import com.awesome.amumanager.data.model.Menu
 import com.bumptech.glide.RequestManager
 
 class MenuAdapter(private val menus : ArrayList<Menu>,
-                  private val requestManager : RequestManager)
+                  private val requestManager : RequestManager,
+                    private val itemClick : (Menu)->Unit)
     : RecyclerView.Adapter<MenuViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_menu, parent, false)
-        return MenuViewHolder(view)
+        return MenuViewHolder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -24,9 +25,29 @@ class MenuAdapter(private val menus : ArrayList<Menu>,
         holder.bind(menus[position], requestManager)
     }
 
+    fun clearMenus() {
+        if(this.menus.isNotEmpty()) {
+            this.menus.clear()
+            notifyDataSetChanged()
+        }
+    }
+
+    fun getLastMenuId(position: Int) : String {
+        return this.menus[position].id.toString()
+    }
+
     fun update(menus: ArrayList<Menu>) {
         val endPosition = this.menus.size
 
+        if(endPosition < menus.size) {
+            loadMore(menus, endPosition)
+        }
+    }
+
+    private fun loadMore(
+        menus: ArrayList<Menu>,
+        endPosition: Int
+    ) {
         if (this.menus.isEmpty()) {
             this.menus.addAll(menus)
         } else {
@@ -35,5 +56,6 @@ class MenuAdapter(private val menus : ArrayList<Menu>,
             }
         }
         notifyItemRangeInserted(endPosition, this.menus.size - endPosition)
+
     }
 }
