@@ -36,11 +36,11 @@ class StoreInfoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        add_menu.setOnClickListener {
-            val intent = Intent(this, AddMenuActivity::class.java)
-            intent.putExtra("storeId", store!!.id.toString())
-            startActivityForResult(intent, 1)
-        }
+//        add_menu.setOnClickListener {
+//            val intent = Intent(this, AddMenuActivity::class.java)
+//            intent.putExtra("storeId", store!!.id.toString())
+//            startActivityForResult(intent, 1)
+//        }
 
         close_store_info.setOnClickListener {
             finish()
@@ -128,13 +128,13 @@ class StoreInfoActivity : AppCompatActivity() {
                 .commit()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode ==1) {
-            if(resultCode == RESULT_OK) {
-                    goMenuFragment()
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if(requestCode ==1) {
+//            if(resultCode == RESULT_OK) {
+//                    goMenuFragment()
+//            }
+//        }
+//    }
 }

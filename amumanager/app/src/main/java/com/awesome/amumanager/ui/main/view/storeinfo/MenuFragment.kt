@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.ui.main.adapter.MenuAdapter
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
+import com.awesome.amumanager.ui.main.view.AddMenuActivity
 import com.awesome.amumanager.ui.main.view.StoreInfoActivity
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
@@ -43,6 +45,20 @@ class MenuFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initListener()
+        observe()
+
+    }
+
+    private fun initListener() {
+        add_menu.setOnClickListener {
+            val intent = Intent(requireContext(), AddMenuActivity::class.java)
+            intent.putExtra("storeId", storeId)
+            startActivityForResult(intent, 1)
+        }
+    }
+
+    private fun observe() {
         menuViewModel.menus.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {menus ->
             if (menuAdapter == null) {
                 menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this))
@@ -50,6 +66,14 @@ class MenuFragment() : Fragment() {
             }
             menuAdapter!!.update(menus)
         })
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode ==1) {
+            if(resultCode == AppCompatActivity.RESULT_OK) {
+                menuViewModel.getMenu()
+            }
+        }
     }
 }
