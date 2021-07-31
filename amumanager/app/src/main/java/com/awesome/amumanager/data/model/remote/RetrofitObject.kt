@@ -25,4 +25,5 @@ object RetrofitObject {
     val confirmReserveService : ConfirmReserveService = retrofit.create(ConfirmReserveService::class.java)
     val cancelReserveService : CancelReserveService = retrofit.create(CancelReserveService::class.java)
     val completeReserveService : CompleteReserveService = retrofit.create(CompleteReserveService::class.java)
+    val endPromotionService : EndPromotionService = retrofit.create(EndPromotionService::class.java)
 }

@@ -1,5 +1,6 @@
 package com.awesome.amumanager.ui.main.view
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -70,13 +71,19 @@ class PromotionActivity : AppCompatActivity() {
     private fun observe() {
         promotionViewModel.promotions.observe(this, Observer<ArrayList<Promotion>>{promotions ->
             if(promotionAdapter == null) {
-                promotionAdapter = PromotionAdapter(arrayListOf(), Glide.with(this)) {
-                    println(it)
-                    //프로모션 삭제
+                promotionAdapter = PromotionAdapter(arrayListOf(), Glide.with(this)) {promotionId->
+                    endPromotion(promotionId)
                 }
                 promotion_list.adapter = promotionAdapter
             }
             promotionAdapter?.update(promotions)
+        })
+
+        promotionViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                promotionAdapter?.clearPromotions()
+                promotionViewModel.getPromotion("-1")
+            }
         })
     }
 
@@ -88,5 +95,9 @@ class PromotionActivity : AppCompatActivity() {
                 promotionViewModel.getPromotion("-1")
             }
         }
+    }
+
+    private fun endPromotion(promotionId : String) {
+        promotionViewModel.endPromotion(promotionId)
     }
 }

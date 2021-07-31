@@ -19,4 +19,8 @@ class PromotionViewModel(private var storeId: String) : ViewModel() {
         promotionApi.addPromotion(promotion, status)
     }
 
+    fun endPromotion(promotionId : String) {
+        promotionApi.endPromotion(promotionId, status)
+    }
+
 }

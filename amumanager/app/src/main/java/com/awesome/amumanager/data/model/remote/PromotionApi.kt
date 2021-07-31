@@ -68,4 +68,28 @@ class PromotionApi {
                     }
                 })
     }
+
+    fun endPromotion(promotionId : String , status : MutableLiveData<Int>) {
+        val joinApi = RetrofitObject.endPromotionService
+
+        joinApi.endPromotion(promotionId)
+                .enqueue(object : Callback<DefaultResponse> {
+
+                    override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                        Log.e("Retrofit End Promotion", "실패")
+                        Log.e("Check", t.toString())
+                    }
+                    override fun onResponse(
+                            call: Call<DefaultResponse>,
+                            response: Response<DefaultResponse>
+                    )  {
+                        if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                            Log.e("End Promotion", "success")
+                            status.value = 200
+                        } else {
+                            Log.e("End Promotion", "실패")
+                        }
+                    }
+                })
+    }
 }
