@@ -22,9 +22,18 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:scaleType="center"
-                android:src="@drawable/baseline_arrow_back_black_24dp"
+                android:src="@drawable/back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:text="사용자 리뷰 기록"
+                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/close_review_detail"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -50,32 +59,73 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/review_detail_client_name"
-        android:layout_width="match_parent"
-        android:textSize="25dp"
+        android:id="@+id/review_detail_client_name_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:text="닉네임"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_area"
+        app:layout_constraintBottom_toTopOf="@id/review_detail_client_count"/>
+
+    <TextView
+        android:id="@+id/review_detail_client_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="17dp"
         android:hint="client_name"
+        app:layout_constraintStart_toEndOf="@id/review_detail_client_name_text"
         app:layout_constraintTop_toBottomOf="@id/profile_area"
         app:layout_constraintBottom_toTopOf="@id/review_detail_client_count"/>
 
 
     <TextView
-        android:id="@+id/review_detail_client_count"
-        android:layout_width="match_parent"
+        android:id="@+id/review_detail_client_count_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:hint="request"
+        android:textSize="17dp"
+        android:text="총 리뷰수"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/review_detail_client_name"
         app:layout_constraintBottom_toTopOf="@id/review_detail_client_point"/>
 
     <TextView
-        android:id="@+id/review_detail_client_point"
-        android:layout_width="match_parent"
+        android:id="@+id/review_detail_client_count"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:hint="date"
+        android:layout_marginLeft="5dp"
+        android:textSize="17dp"
+        android:hint="count"
+        app:layout_constraintStart_toEndOf="@id/review_detail_client_count_text"
+        app:layout_constraintTop_toBottomOf="@id/review_detail_client_name"
+        app:layout_constraintBottom_toTopOf="@id/review_detail_client_point"/>
+
+
+    <TextView
+        android:id="@+id/review_detail_client_point_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:text="평균평점"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/review_detail_client_count"
         app:layout_constraintBottom_toTopOf="@id/review_filtering"/>
+
+    <TextView
+        android:id="@+id/review_detail_client_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="17dp"
+        android:hint="point"
+        app:layout_constraintStart_toEndOf="@id/review_detail_client_point_text"
+        app:layout_constraintTop_toBottomOf="@id/review_detail_client_count"
+        app:layout_constraintBottom_toTopOf="@id/review_filtering"/>
+
 
     <Button
         android:id="@+id/review_filtering"

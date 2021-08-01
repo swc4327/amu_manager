@@ -9,7 +9,7 @@
 
         <ImageView
             android:id="@+id/menu_image"
-            android:src="@drawable/noimage"
+            android:src="@drawable/no_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/menu_name"

@@ -4,7 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:weightSum="4"
-    android:layout_height="35dp">
+    android:layout_height="33dp"
+    android:background="#EBFBFF">
 
         <ImageView
             android:id="@+id/home"
@@ -19,14 +20,14 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/reservelist"/>
+            android:src="@drawable/history"/>
         <ImageView
             android:id="@+id/my_page"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/mypage"/>
+            android:src="@drawable/profile"/>
 
         <ImageView
             android:id="@+id/add_store"

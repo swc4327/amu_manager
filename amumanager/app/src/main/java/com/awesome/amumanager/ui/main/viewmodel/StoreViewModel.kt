@@ -19,4 +19,9 @@ class StoreViewModel() : ViewModel() {
     fun addStore(store : Store) {
         storeApi.addStore(store, status)
     }
+
+    fun deleteStore(storeId : String) {
+        storeApi.deleteStore(storeId, status)
+
+    }
 }

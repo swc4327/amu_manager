@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 storeAdapter = StoreAdapter(arrayListOf() , Glide.with(this)) { store ->
                     val intent = Intent(this, StoreInfoActivity::class.java)
                     intent.putExtra("store", store)
-                    startActivity(intent)
+                    startActivityForResult(intent, 1)
                 }
                 store_list.adapter = storeAdapter
             }
@@ -85,7 +85,6 @@ class MainActivity : AppCompatActivity() {
                 if (lastVisibleItemPosition == itemTotalCount) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
                     storeViewModel.getStore(firebaseViewModel.getUid(), storeAdapter!!.getLastStoreId(lastVisibleItemPosition))
-                    println(storeAdapter!!.getLastStoreName(lastVisibleItemPosition))
                 }
             }
         })
@@ -93,8 +92,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode ==0) {
+        if(requestCode ==0) { //가게추가
             if(resultCode == RESULT_OK) {
+                storeAdapter?.clearStores()
+                storeViewModel.getStore(firebaseViewModel.getUid(), "0")
+            }
+        } else if(requestCode == 1) { //StoreInfo - 삭제
+            if(resultCode == RESULT_OK) {
+                storeAdapter?.clearStores()
                 storeViewModel.getStore(firebaseViewModel.getUid(), "0")
             }
         }

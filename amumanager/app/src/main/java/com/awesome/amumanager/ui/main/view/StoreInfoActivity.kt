@@ -1,5 +1,6 @@
 package com.awesome.amumanager.ui.main.view
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_store_info.*
 class StoreInfoActivity : AppCompatActivity() {
 
     private var store : Store? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +38,13 @@ class StoreInfoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        add_menu.setOnClickListener {
-//            val intent = Intent(this, AddMenuActivity::class.java)
-//            intent.putExtra("storeId", store!!.id.toString())
-//            startActivityForResult(intent, 1)
-//        }
+        setting.setOnClickListener {
+            //settingactivity로 이동
+            val intent = Intent(this, StoreInfoSettingActivity::class.java)
+            intent.putExtra("store", store)
+            startActivityForResult(intent, 400)
+            //가게삭제, 영업시작, 영업종료
+        }
 
         close_store_info.setOnClickListener {
             finish()
@@ -128,13 +132,14 @@ class StoreInfoActivity : AppCompatActivity() {
                 .commit()
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if(requestCode ==1) {
-//            if(resultCode == RESULT_OK) {
-//                    goMenuFragment()
-//            }
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode ==400) {
+            if(resultCode == Activity.RESULT_OK) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
+    }
 }

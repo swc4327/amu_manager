@@ -71,4 +71,29 @@ class StoreApi {
                     }
                 })
     }
+
+    fun deleteStore(storeId : String, status : MutableLiveData<Int>) {
+        val joinApi = RetrofitObject.deleteStoreService
+
+        joinApi.deleteStore(storeId)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("Retrofit Delete Store", "실패")
+                    Log.e("Check", t.toString())
+                }
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("Delete Store", "success")
+                        status.value = 200
+
+                    } else {
+                        Log.e("Delete Store", "실패")
+                    }
+                }
+            })
+    }
 }

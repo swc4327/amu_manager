@@ -23,7 +23,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:scaleType="center"
-                android:src="@drawable/baseline_arrow_back_black_24dp"
+                android:src="@drawable/back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:scaleType="center"
-                android:src="@drawable/baseline_add_circle_outline_black_24dp"
+                android:src="@drawable/add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
