@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         auth = FirebaseAuth.getInstance()
+        //auth.signOut()
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
@@ -80,9 +81,9 @@ class MainActivity : AppCompatActivity() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val itemTotalCount = recyclerView.adapter!!.itemCount - 1
 
-                if (lastVisibleItemPosition == itemTotalCount) {
+                println(lastVisibleItemPosition.toString()+"ppppppppppppppppppppppppp")
+                if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
                     storeViewModel.getStore(firebaseViewModel.getUid(), storeAdapter!!.getLastStoreId(lastVisibleItemPosition))
                 }

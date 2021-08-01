@@ -17,12 +17,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.view.storeinfo.InfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="가게위치"/>
+
         <RelativeLayout
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:id="@+id/info_map_view"
             android:layout_width="match_parent"
             android:layout_height="500dp"/>
@@ -31,7 +43,7 @@
             android:id="@+id/info_place"
             android:text="가게주소"
             android:layout_gravity="center"
-            android:textSize="30dp"
+            android:textSize="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -40,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:text="상세주소"
-            android:textSize="30dp"
+            android:textSize="18dp"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

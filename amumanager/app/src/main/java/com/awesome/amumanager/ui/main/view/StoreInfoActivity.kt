@@ -74,7 +74,7 @@ class StoreInfoActivity : AppCompatActivity() {
     }
 
     private fun goMenuFragment() {
-        menu_bar_1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25F)
+        menu_bar_1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
         menu_bar_2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         menu_bar_3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         menu_bar_4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
@@ -90,7 +90,7 @@ class StoreInfoActivity : AppCompatActivity() {
 
     private fun goInfoFragment() {
         menu_bar_1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
-        menu_bar_2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25F)
+        menu_bar_2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
         menu_bar_3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         menu_bar_4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         supportFragmentManager.beginTransaction()
@@ -105,7 +105,7 @@ class StoreInfoActivity : AppCompatActivity() {
     private fun goReviewFragment() {
         menu_bar_1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         menu_bar_2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
-        menu_bar_3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25F)
+        menu_bar_3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
         menu_bar_4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
 
         supportFragmentManager.beginTransaction()
@@ -121,7 +121,7 @@ class StoreInfoActivity : AppCompatActivity() {
         menu_bar_1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         menu_bar_2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
         menu_bar_3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15F)
-        menu_bar_4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25F)
+        menu_bar_4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, ReserveFragment().apply {

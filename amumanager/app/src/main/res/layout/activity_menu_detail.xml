@@ -27,6 +27,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:text="메뉴상세"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/close_menu_detail"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -43,29 +52,68 @@
         android:layout_marginBottom="5dp"/>
 
     <TextView
-        android:id="@+id/detail_menu_name"
-        android:layout_width="match_parent"
-        android:textSize="25dp"
+        android:id="@+id/detail_menu_name_text"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
         android:layout_height="wrap_content"
-        android:hint="menu_name"
+        android:text="메뉴명"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detail_menu_image"
         app:layout_constraintBottom_toTopOf="@id/detail_menu_comment"/>
 
     <TextView
-        android:id="@+id/detail_menu_comment"
-        android:layout_width="match_parent"
-        android:textSize="25dp"
+        android:id="@+id/detail_menu_name"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="17dp"
         android:layout_height="wrap_content"
-        android:hint="menu_comment"
+        android:hint="menu_name"
+        app:layout_constraintStart_toEndOf="@id/detail_menu_name_text"
+        app:layout_constraintTop_toBottomOf="@id/detail_menu_image"
+        app:layout_constraintBottom_toTopOf="@id/detail_menu_comment"/>
+
+    <TextView
+        android:id="@+id/detail_menu_comment_text"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:layout_height="wrap_content"
+        android:text="메뉴설명"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detail_menu_name"
         app:layout_constraintBottom_toTopOf="@id/detail_menu_price"/>
 
     <TextView
-        android:id="@+id/detail_menu_price"
-        android:layout_width="match_parent"
-        android:textSize="25dp"
+        android:id="@+id/detail_menu_comment"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
         android:layout_height="wrap_content"
-        android:hint="menu_price"
+        android:hint="menu_comment"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintStart_toEndOf="@id/detail_menu_comment_text"
+        app:layout_constraintTop_toBottomOf="@id/detail_menu_name"
+        app:layout_constraintBottom_toTopOf="@id/detail_menu_price"/>
+
+    <TextView
+        android:id="@+id/detail_menu_price_text"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:layout_height="wrap_content"
+        android:text="메뉴가격"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_menu_comment"
+        app:layout_constraintBottom_toTopOf="@id/delete_menu"/>
+
+    <TextView
+        android:id="@+id/detail_menu_price"
+        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:layout_marginLeft="5dp"
+        android:layout_height="wrap_content"
+        android:text="menu_price"
+        app:layout_constraintStart_toEndOf="@id/detail_menu_price_text"
         app:layout_constraintTop_toBottomOf="@id/detail_menu_comment"
         app:layout_constraintBottom_toTopOf="@id/delete_menu"/>
 

@@ -52,7 +52,7 @@ class StoreAdapter(private val stores : ArrayList<Store>,
         if (this.stores.isEmpty()) {
             this.stores.addAll(stores)
         } else {
-            for (index in endPosition until this.stores.size) {
+            for (index in endPosition until stores.size) {
                 this.stores.add(index, stores[index])
             }
         }

@@ -15,7 +15,7 @@ class StoreViewHolder(itemView: View, private val itemClick: (Store) -> Unit): R
 
     fun bind(store : Store, requestManager : RequestManager) {
         storeName.text = store.name
-        requestManager.load(store.image).circleCrop().into(storeImage)
+        requestManager.load(store.image).into(storeImage)
         ratingValue.text = store.point!!.toFloat().toString()
         reviewCount.text = "("+ store.count.toString() + ")"
 
