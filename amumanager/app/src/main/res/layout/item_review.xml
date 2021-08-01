@@ -21,7 +21,7 @@
             <ImageView
                 android:id="@+id/client_image"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/profile"
+                android:src="@drawable/profile_gray"
                 android:layout_width="45dp"
                 android:layout_height="45dp"/>
 

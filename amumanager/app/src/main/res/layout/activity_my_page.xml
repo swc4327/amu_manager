@@ -43,9 +43,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_margin="10dp"
-            android:src="@drawable/profile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
+            android:src="@drawable/profile_gray"
+            android:layout_width="75dp"
+            android:layout_height="75dp"/>
         <TextView
             android:id="@+id/nickname_area"
             app:layout_constraintLeft_toRightOf="@id/profile_img"

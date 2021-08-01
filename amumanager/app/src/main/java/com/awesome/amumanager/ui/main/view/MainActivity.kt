@@ -13,12 +13,17 @@ import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
+import com.awesome.amumanager.util.VariableClass.Companion.ADD_STORE
+import com.awesome.amumanager.util.VariableClass.Companion.FIRST_GET_STORE_CALL
+import com.awesome.amumanager.util.VariableClass.Companion.STORE_INFO
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_bottom.*
 
 class MainActivity : AppCompatActivity() {
+
+
 
     private lateinit var auth: FirebaseAuth
     private var storeAdapter: StoreAdapter? = null
@@ -38,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         observe()
         initListener()
 
-        storeViewModel.getStore(firebaseViewModel.getUid(), "0")
+        storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_GET_STORE_CALL)
     }
 
 
@@ -48,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 storeAdapter = StoreAdapter(arrayListOf() , Glide.with(this)) { store ->
                     val intent = Intent(this, StoreInfoActivity::class.java)
                     intent.putExtra("store", store)
-                    startActivityForResult(intent, 1)
+                    startActivityForResult(intent, STORE_INFO)
                 }
                 store_list.adapter = storeAdapter
             }
@@ -72,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "로그인 후 이용하세요!!", Toast.LENGTH_LONG).show()
             } else { //로그인 ok
                 val intent = Intent(this, AddStoreActivity::class.java)
-                startActivityForResult(intent, 0)
+                startActivityForResult(intent, ADD_STORE)
             }
         }
 
@@ -93,15 +98,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode ==0) { //가게추가
+        if(requestCode == ADD_STORE) { //가게추가
             if(resultCode == RESULT_OK) {
                 storeAdapter?.clearStores()
-                storeViewModel.getStore(firebaseViewModel.getUid(), "0")
+                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_GET_STORE_CALL)
             }
-        } else if(requestCode == 1) { //StoreInfo - 삭제
+        } else if(requestCode == STORE_INFO) { //StoreInfo - 삭제
             if(resultCode == RESULT_OK) {
                 storeAdapter?.clearStores()
-                storeViewModel.getStore(firebaseViewModel.getUid(), "0")
+                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_GET_STORE_CALL)
             }
         }
     }

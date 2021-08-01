@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="80dp">
 
     <ImageView
         android:id="@+id/client_image"
@@ -29,12 +29,12 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/phone"
+            android:id="@+id/reserve_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
-            android:text="phone"
+            android:text="reserve_status"
             android:textSize="10dp"/>
 
         <TextView
@@ -44,6 +44,7 @@
             android:layout_marginLeft="10dp"
             android:text="date"
             android:textSize="10dp"/>
+
 
     </LinearLayout>
 
