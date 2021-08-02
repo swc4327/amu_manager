@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants.ADD_PROMOTION_ACTIVITY
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_PROMOTION
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
@@ -38,7 +40,7 @@ class PromotionActivity : AppCompatActivity() {
         initListener()
         observe()
 
-        promotionViewModel.getPromotion("-1")
+        promotionViewModel.getPromotion(FIRST_CALL_GET_PROMOTION)
 
 
     }
@@ -53,7 +55,7 @@ class PromotionActivity : AppCompatActivity() {
             //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.putExtra("storeId", storeId)
             intent.putExtra("storeName", storeName)
-            startActivityForResult(intent, 200)
+            startActivityForResult(intent, ADD_PROMOTION_ACTIVITY)
         }
         promotion_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -82,17 +84,17 @@ class PromotionActivity : AppCompatActivity() {
         promotionViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 promotionAdapter?.clearPromotions()
-                promotionViewModel.getPromotion("-1")
+                promotionViewModel.getPromotion(FIRST_CALL_GET_PROMOTION)
             }
         })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 200) {
+        if(requestCode == ADD_PROMOTION_ACTIVITY) {
             if(resultCode == RESULT_OK) {
                 promotionAdapter?.clearPromotions()
-                promotionViewModel.getPromotion("-1")
+                promotionViewModel.getPromotion(FIRST_CALL_GET_PROMOTION)
             }
         }
     }

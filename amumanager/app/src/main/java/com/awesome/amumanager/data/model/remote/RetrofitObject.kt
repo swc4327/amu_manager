@@ -1,6 +1,7 @@
 package com.awesome.amumanager.data.model.remote
 
 import com.awesome.amumanager.data.api.service.*
+import com.awesome.amumanager.data.model.Constants
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

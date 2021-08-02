@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.MenuResponse
 import com.awesome.amumanager.data.model.Menu
-import com.awesome.amumanager.util.VariableClass.Companion.FIRST_GET_MENU_CALL
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_MENU
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +37,7 @@ class MenuApi {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Getmenu Retrofit", "success")
 
-                            if(lastId == FIRST_GET_MENU_CALL && menusTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL_GET_MENU && menusTemp.isNotEmpty()) {
                                 menusTemp.clear()
                             }
                             menusTemp.addAll(response.body()!!.menus)

@@ -6,6 +6,7 @@ import com.awesome.amumanager.data.api.response.ClientResponse
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.ReserveResponse
 import com.awesome.amumanager.data.model.*
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_RESERVE
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,7 +39,7 @@ class ReserveApi {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
 
-                            if(lastId == "-1" && reservesTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL_GET_RESERVE && reservesTemp.isNotEmpty()) {
                                 reservesTemp.clear()
                             }
                             reservesTemp.addAll(response.body()!!.reserves)

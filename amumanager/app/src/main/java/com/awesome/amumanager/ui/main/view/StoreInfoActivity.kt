@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants.STORE_INFO_SETTING_ACTIVITY
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.view.storeinfo.ReserveFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.ReviewFragment
@@ -42,7 +43,7 @@ class StoreInfoActivity : AppCompatActivity() {
             //settingactivity로 이동
             val intent = Intent(this, StoreInfoSettingActivity::class.java)
             intent.putExtra("store", store)
-            startActivityForResult(intent, 400)
+            startActivityForResult(intent, STORE_INFO_SETTING_ACTIVITY)
             //가게삭제, 영업시작, 영업종료
         }
 
@@ -135,7 +136,7 @@ class StoreInfoActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode ==400) {
+        if(requestCode == STORE_INFO_SETTING_ACTIVITY) {
             if(resultCode == Activity.RESULT_OK) {
                 setResult(Activity.RESULT_OK)
                 finish()

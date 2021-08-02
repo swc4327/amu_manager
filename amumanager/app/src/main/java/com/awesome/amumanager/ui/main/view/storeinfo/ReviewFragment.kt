@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_REVIEW
+import com.awesome.amumanager.data.model.Constants.REVIEW_DETAIL_ACTIVITY
 import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
@@ -49,7 +51,7 @@ class ReviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView(view)
-        reviewViewModel.getReviewList("-1")
+        reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
 
         reviewViewModel.reviewLists.observe(
             viewLifecycleOwner,
@@ -60,7 +62,7 @@ class ReviewFragment : Fragment() {
                         intent.putExtra("review", reviewList.review)
                         intent.putExtra("client", reviewList.client)
                         intent.putExtra("storeId", this.storeId)
-                        startActivityForResult(intent, 100)
+                        startActivityForResult(intent, REVIEW_DETAIL_ACTIVITY)
                     }
                     review_list.adapter = reviewAdapter
 
@@ -71,10 +73,10 @@ class ReviewFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 100) {
+        if(requestCode == REVIEW_DETAIL_ACTIVITY) {
             if(resultCode == RESULT_OK) {
                 reviewAdapter?.clearReviewLists()
-                reviewViewModel.getReviewList("-1")
+                reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
 
             }
         }

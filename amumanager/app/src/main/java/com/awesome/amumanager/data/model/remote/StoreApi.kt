@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.StoreResponse
 import com.awesome.amumanager.data.model.Store
-import com.awesome.amumanager.util.VariableClass.Companion.FIRST_GET_STORE_CALL
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_STORE
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +35,7 @@ class StoreApi {
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            if(lastId == FIRST_GET_STORE_CALL && storesTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL_GET_STORE && storesTemp.isNotEmpty()) {
                                 storesTemp.clear()
                             }
                             storesTemp.addAll(response.body()!!.stores)

@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_RESERVE
+import com.awesome.amumanager.data.model.Constants.RESERVE_DETAIL_ACTIVITY
 import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
 import com.awesome.amumanager.ui.main.view.ReserveDetailActivity
@@ -37,7 +39,7 @@ class ReserveFragment() : Fragment() {
                     intent.putExtra("reserve", reserveList.reserve)
                     intent.putExtra("client", reserveList.client)
                     intent.putExtra("storeId", storeId)
-                    startActivityForResult(intent, 200)
+                    startActivityForResult(intent, RESERVE_DETAIL_ACTIVITY)
                 }
                 reserve_list.adapter = reserveAdapter
             }
@@ -59,17 +61,17 @@ class ReserveFragment() : Fragment() {
         var factory = ReserveViewModelFactory(storeId.toString())
         reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
 
-        reserveViewModel.getReserveList("-1")
+        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
 
         return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode ==200) {
+        if(requestCode ==RESERVE_DETAIL_ACTIVITY) {
             if(resultCode == AppCompatActivity.RESULT_OK) {
                 reserveAdapter?.clearReserveLists()
-                reserveViewModel.getReserveList("-1")
+                reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
             }
         }
     }

@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
+import com.awesome.amumanager.data.model.Constants.ADD_STORE_ACTIVITY
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_STORE
+import com.awesome.amumanager.data.model.Constants.STORE_INFO_ACTIVITY
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
-import com.awesome.amumanager.util.VariableClass.Companion.ADD_STORE
-import com.awesome.amumanager.util.VariableClass.Companion.FIRST_GET_STORE_CALL
-import com.awesome.amumanager.util.VariableClass.Companion.STORE_INFO
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         observe()
         initListener()
 
-        storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_GET_STORE_CALL)
+        storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
     }
 
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 storeAdapter = StoreAdapter(arrayListOf() , Glide.with(this)) { store ->
                     val intent = Intent(this, StoreInfoActivity::class.java)
                     intent.putExtra("store", store)
-                    startActivityForResult(intent, STORE_INFO)
+                    startActivityForResult(intent, STORE_INFO_ACTIVITY)
                 }
                 store_list.adapter = storeAdapter
             }
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "로그인 후 이용하세요!!", Toast.LENGTH_LONG).show()
             } else { //로그인 ok
                 val intent = Intent(this, AddStoreActivity::class.java)
-                startActivityForResult(intent, ADD_STORE)
+                startActivityForResult(intent, ADD_STORE_ACTIVITY)
             }
         }
 
@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity() {
 
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
 
-                println(lastVisibleItemPosition.toString()+"ppppppppppppppppppppppppp")
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
                     storeViewModel.getStore(firebaseViewModel.getUid(), storeAdapter!!.getLastStoreId(lastVisibleItemPosition))
@@ -98,15 +97,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == ADD_STORE) { //가게추가
+        if(requestCode == ADD_STORE_ACTIVITY) { //가게추가
             if(resultCode == RESULT_OK) {
                 storeAdapter?.clearStores()
-                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_GET_STORE_CALL)
+                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
             }
-        } else if(requestCode == STORE_INFO) { //StoreInfo - 삭제
+        } else if(requestCode == STORE_INFO_ACTIVITY) { //StoreInfo - 삭제
             if(resultCode == RESULT_OK) {
                 storeAdapter?.clearStores()
-                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_GET_STORE_CALL)
+                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
             }
         }
     }

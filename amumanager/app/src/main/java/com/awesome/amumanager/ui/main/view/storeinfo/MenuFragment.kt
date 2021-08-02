@@ -12,15 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants.ADD_MENU_ACTIVITY
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_MENU
+import com.awesome.amumanager.data.model.Constants.MENU_DETAIL_ACTIVITY
 import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.ui.main.adapter.MenuAdapter
 import com.awesome.amumanager.ui.main.view.AddMenuActivity
 import com.awesome.amumanager.ui.main.view.MenuDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
-import com.awesome.amumanager.util.VariableClass.Companion.ADD_MENU
-import com.awesome.amumanager.util.VariableClass.Companion.FIRST_GET_MENU_CALL
-import com.awesome.amumanager.util.VariableClass.Companion.MENU_DETAIL
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_menu.*
 
@@ -40,7 +40,7 @@ class MenuFragment() : Fragment() {
         var factory = MenuViewModelFactory(storeId.toString())
         menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
 
-        menuViewModel.getMenu(FIRST_GET_MENU_CALL)
+        menuViewModel.getMenu(FIRST_CALL_GET_MENU)
 
         return view
     }
@@ -74,7 +74,7 @@ class MenuFragment() : Fragment() {
         add_menu.setOnClickListener {
             val intent = Intent(requireContext(), AddMenuActivity::class.java)
             intent.putExtra("storeId", storeId)
-            startActivityForResult(intent, ADD_MENU)
+            startActivityForResult(intent, ADD_MENU_ACTIVITY)
         }
     }
 
@@ -85,7 +85,7 @@ class MenuFragment() : Fragment() {
                     val intent = Intent(requireContext(), MenuDetailActivity::class.java)
                     intent.putExtra("Menu", menu)
                     intent.putExtra("storeId", storeId)
-                    startActivityForResult(intent, MENU_DETAIL)
+                    startActivityForResult(intent, MENU_DETAIL_ACTIVITY)
                 }
                 menu_list.adapter = menuAdapter
             }
@@ -95,10 +95,10 @@ class MenuFragment() : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == ADD_MENU || requestCode ==MENU_DETAIL) {
+        if(requestCode == ADD_MENU_ACTIVITY || requestCode ==MENU_DETAIL_ACTIVITY) {
             if(resultCode == AppCompatActivity.RESULT_OK) {
                 menuAdapter?.clearMenus()
-                menuViewModel.getMenu(FIRST_GET_MENU_CALL)
+                menuViewModel.getMenu(FIRST_CALL_GET_MENU)
             }
         }
     }
