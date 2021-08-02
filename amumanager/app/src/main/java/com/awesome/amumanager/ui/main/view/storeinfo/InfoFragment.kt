@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
+import kotlinx.android.synthetic.main.fragment_info.*
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -21,18 +22,25 @@ class InfoFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_info, container, false)
         store = arguments?.getParcelable("store")
 
         setMap()
         setStoreLocation()
 
-        view.info_map_view.addView(mapView)
-        view.info_place.setText(store?.place)
-        view.info_place_detail.setText(store?.place_detail)
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initLayout()
+    }
+
+    private fun initLayout() {
+        info_map_view.addView(mapView)
+        info_place.text = store?.place
+        info_place_detail.text = store?.place_detail
     }
 
     private fun setMap() {

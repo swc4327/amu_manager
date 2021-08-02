@@ -1,7 +1,10 @@
 package com.awesome.amumanager.ui.main.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -23,8 +26,6 @@ import kotlinx.android.synthetic.main.main_bottom.*
 
 class MainActivity : AppCompatActivity() {
 
-
-
     private lateinit var auth: FirebaseAuth
     private var storeAdapter: StoreAdapter? = null
 
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         initListener()
 
         storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
+
     }
 
 

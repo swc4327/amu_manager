@@ -50,25 +50,10 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView(view)
+        initRecyclerView()
+        observe()
         reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
 
-        reviewViewModel.reviewLists.observe(
-            viewLifecycleOwner,
-            Observer<ArrayList<ReviewList>> { reviewLists ->
-                if (reviewAdapter == null) {
-                    reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
-                        val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-                        intent.putExtra("review", reviewList.review)
-                        intent.putExtra("client", reviewList.client)
-                        intent.putExtra("storeId", this.storeId)
-                        startActivityForResult(intent, REVIEW_DETAIL_ACTIVITY)
-                    }
-                    review_list.adapter = reviewAdapter
-
-                }
-                reviewAdapter?.update(reviewLists)
-            })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,8 +67,27 @@ class ReviewFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView(view: View) {
-        view.review_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+    private fun observe() {
+        reviewViewModel.reviewLists.observe(
+                viewLifecycleOwner,
+                Observer<ArrayList<ReviewList>> { reviewLists ->
+                    if (reviewAdapter == null) {
+                        reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
+                            val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
+                            intent.putExtra("review", reviewList.review)
+                            intent.putExtra("client", reviewList.client)
+                            intent.putExtra("storeId", this.storeId)
+                            startActivityForResult(intent, REVIEW_DETAIL_ACTIVITY)
+                        }
+                        review_list.adapter = reviewAdapter
+
+                    }
+                    reviewAdapter?.update(reviewLists)
+                })
+    }
+
+    private fun initRecyclerView() {
+        review_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()

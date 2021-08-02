@@ -29,9 +29,31 @@ class ReserveFragment() : Fragment() {
     private var storeId: String? = ""
     private lateinit var reserveViewModel : ReserveViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_reserve, container, false)
+        storeId = arguments?.getString("store_id")
+
+        var factory = ReserveViewModelFactory(storeId.toString())
+        reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
+
+        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
+
+        return view
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observe()
+        initRecyclerView()
+
+    }
+
+    private fun observe() {
         reserveViewModel.reserveLists.observe(viewLifecycleOwner, Observer<ArrayList<ReserveList>> {reserveLists->
             if(reserveAdapter == null) {
                 reserveAdapter = ReserveAdapter(arrayListOf(), Glide.with(this)) {reserveList->
@@ -47,25 +69,6 @@ class ReserveFragment() : Fragment() {
         })
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_reserve, container, false)
-        storeId = arguments?.getString("store_id")
-
-        initRecyclerView(view)
-
-        var factory = ReserveViewModelFactory(storeId.toString())
-        reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
-
-        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
-
-        return view
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode ==RESERVE_DETAIL_ACTIVITY) {
@@ -76,8 +79,8 @@ class ReserveFragment() : Fragment() {
         }
     }
 
-    private fun initRecyclerView(view: View) {
-        view.reserve_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun initRecyclerView() {
+        reserve_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
