@@ -1,6 +1,5 @@
 package com.awesome.amumanager.ui.main.view
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -67,7 +66,6 @@ class ReviewDetailActivity : AppCompatActivity() {
         reviewViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 Toast.makeText(this@ReviewDetailActivity, "1개의 리뷰를 삭제 했어요!!", Toast.LENGTH_LONG).show()
-                setResult(Activity.RESULT_OK)
                 finish()
             }
         })

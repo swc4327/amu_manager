@@ -1,6 +1,5 @@
 package com.awesome.amumanager.ui.main.view.storeinfo
 
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -20,9 +19,7 @@ import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_review.*
-import kotlinx.android.synthetic.main.fragment_review.view.*
 import kotlin.collections.ArrayList
 
 class ReviewFragment : Fragment() {
@@ -33,35 +30,40 @@ class ReviewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        storeId = arguments?.getString("store_id")
         reviewViewModel = ViewModelProvider(this, ReviewViewModelFactory(storeId.toString())).get(ReviewViewModel::class.java)
-        observe()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view : View = inflater.inflate(R.layout.fragment_review, container, false)
-        storeId = arguments?.getString("store_id")
-        reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
-        return view
+        return inflater.inflate(R.layout.fragment_review, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        observe()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REVIEW_DETAIL_ACTIVITY) {
-            if(resultCode == RESULT_OK) {
-                reviewAdapter?.clearReviewLists()
-                reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
-
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        reviewAdapter?.clearReviewLists()
+        reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if(requestCode == REVIEW_DETAIL_ACTIVITY) {
+//            if(resultCode == RESULT_OK) {
+//                reviewAdapter?.clearReviewLists()
+//                onResume()
+//                //reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
+//
+//            }
+//        }
+//    }
 
     private fun observe() {
         reviewViewModel.reviewLists.observe(
@@ -73,7 +75,7 @@ class ReviewFragment : Fragment() {
                             intent.putExtra("review", reviewList.review)
                             intent.putExtra("client", reviewList.client)
                             intent.putExtra("storeId", this.storeId)
-                            startActivityForResult(intent, REVIEW_DETAIL_ACTIVITY)
+                            startActivity(intent)
                         }
                         review_list.adapter = reviewAdapter
                     }
