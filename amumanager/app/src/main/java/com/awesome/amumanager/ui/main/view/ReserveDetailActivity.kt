@@ -53,21 +53,21 @@ class ReserveDetailActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        detail_client_name.setText(client!!.nickname)
-        detail_client_phone.setText(reserve!!.phone)
-        detail_client_arrive.setText(reserve!!.arrive)
-        detail_client_request.setText(reserve!!.request)
-        detail_date.setText(reserve!!.date)
+        detail_client_name.text = client?.nickname
+        detail_client_phone.text = reserve?.phone
+        detail_client_arrive.text = reserve?.arrive
+        detail_client_request.text = reserve?.request
+        detail_date.text = reserve?.date
         setClientLocation()
 
-        if(reserve!!.is_confirmed == "0") {
+        if(reserve?.is_confirmed == "0") {
             detail_reserve_complete.visibility = GONE
         } else {
             detail_reserve_cancel.visibility = GONE
             detail_reserve_confirm.visibility = GONE
         }
 
-        if(reserve!!.is_completed == "1") {
+        if(reserve?.is_completed == "1") {
             detail_reserve_complete.visibility = GONE
             detail_reserve_cancel.visibility = GONE
             detail_reserve_confirm.visibility = GONE
@@ -81,34 +81,34 @@ class ReserveDetailActivity : AppCompatActivity() {
 
         //예약거부
         detail_reserve_cancel.setOnClickListener {
-            reserveViewModel.cancelReserve(reserve!!.id.toString())
+            reserveViewModel.cancelReserve(reserve?.id.toString())
         }
 
         //예약확정
         detail_reserve_confirm.setOnClickListener {
-            reserveViewModel.confirmReserve(reserve!!.id.toString())
+            reserveViewModel.confirmReserve(reserve?.id.toString())
         }
 
         //완료
         detail_reserve_complete.setOnClickListener {
             //이거 1이어야 리뷰 작성 가능
-            reserveViewModel.completeReserve(reserve!!.id.toString())
+            reserveViewModel.completeReserve(reserve?.id.toString())
         }
     }
 
     private fun setClientLocation() {
-        mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(reserve!!.lat!!.toDouble(), reserve!!.lng!!.toDouble()),true)
+        mapView?.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(reserve?.lat?.toDouble()!!, reserve?.lng?.toDouble()!!),true)
         var marker = MapPOIItem()
-        marker.setItemName("고객의 예약위치")
-        marker.setTag(0)
-        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(reserve!!.lat!!.toDouble(), reserve!!.lng!!.toDouble()))
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin)
-        mapView!!.addPOIItem(marker)
+        marker.itemName = "고객의 예약위치"
+        marker.tag = 0
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(reserve?.lat?.toDouble()!!, reserve?.lng?.toDouble()!!)
+        marker.markerType = MapPOIItem.MarkerType.BluePin
+        mapView?.addPOIItem(marker)
     }
 
     private fun setMap() {
         mapView = MapView(this)
-        mapView!!.setMapViewEventListener(object : MapView.MapViewEventListener {
+        mapView?.setMapViewEventListener(object : MapView.MapViewEventListener {
             override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
                 println("onMapViewDoubleTapped")
             }

@@ -89,7 +89,7 @@ class MenuFragment() : Fragment() {
                 }
                 menu_list.adapter = menuAdapter
             }
-            menuAdapter!!.update(menus)
+            menuAdapter?.update(menus)
         })
     }
 

@@ -44,7 +44,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         }
 
         review_filtering.setOnClickListener {
-            if(client!!.count!!.toInt() >= 2 && client!!.point!!.toDouble() <= 4) {
+            if(client?.count?.toInt()!! >= 2 && client?.point?.toDouble()!! <= 4) {
                 reviewViewModel.reviewFiltering(review!!, client!!)
             }
             else {
@@ -54,9 +54,9 @@ class ReviewDetailActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        review_detail_client_name.setText(client!!.nickname)
-        review_detail_client_count.setText("리뷰 수 " + client!!.count.toString())
-        review_detail_client_point.setText("평균 평점 " + client!!.point.toString())
+        review_detail_client_name.text = client?.nickname
+        review_detail_client_count.text = "리뷰 수 " + client?.count.toString()
+        review_detail_client_point.text = "평균 평점 " + client?.point.toString()
         Glide
             .with(this)
             .load(client!!.image)

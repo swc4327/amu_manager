@@ -43,7 +43,7 @@ class ReserveFragment() : Fragment() {
                 }
                 reserve_list.adapter = reserveAdapter
             }
-            reserveAdapter!!.update(reserveLists)
+            reserveAdapter?.update(reserveLists)
         })
     }
 

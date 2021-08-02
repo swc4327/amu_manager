@@ -29,15 +29,15 @@ class InfoFragment() : Fragment() {
         setStoreLocation()
 
         view.info_map_view.addView(mapView)
-        view.info_place.setText(store!!.place)
-        view.info_place_detail.setText(store!!.place_detail)
+        view.info_place.setText(store?.place)
+        view.info_place_detail.setText(store?.place_detail)
 
         return view
     }
 
     private fun setMap() {
         mapView = MapView(requireContext())
-        mapView!!.setMapViewEventListener(object : MapView.MapViewEventListener {
+        mapView?.setMapViewEventListener(object : MapView.MapViewEventListener {
             override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
                 println("onMapViewDoubleTapped")
             }
@@ -78,14 +78,14 @@ class InfoFragment() : Fragment() {
     }
 
     private fun setStoreLocation() {
-        mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store!!.lat!!.toDouble(), store!!.lng!!.toDouble()),true)
+        mapView?.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(store?.lat?.toDouble()!!, store?.lng?.toDouble()!!),true)
         var marker = MapPOIItem()
-        marker.setItemName("업체위치")
-        marker.setTag(0)
-        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(store!!.lat!!.toDouble(), store!!.lng!!.toDouble()))
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin)
+        marker.itemName = "업체위치"
+        marker.tag = 0
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(store?.lat?.toDouble()!!, store?.lng?.toDouble()!!)
+        marker.markerType = MapPOIItem.MarkerType.BluePin
         //marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        mapView!!.addPOIItem(marker);
+        mapView?.addPOIItem(marker);
 
     }
 }

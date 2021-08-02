@@ -1,7 +1,7 @@
 package com.awesome.amumanager.data.model
 
 object Constants {
-    const val serverUrl = "http://192.168.35.163:8080"
+    const val serverUrl = "http://172.30.1.44:8080"
 
     const val FIRST_CALL_GET_STORE = "0"
     const val FIRST_CALL_GET_MENU = "-1"

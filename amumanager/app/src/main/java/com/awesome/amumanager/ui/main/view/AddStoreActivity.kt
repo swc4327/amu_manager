@@ -115,20 +115,26 @@ class AddStoreActivity : AppCompatActivity() {
         firebaseViewModel.taskToString.observe(this, Observer<String> {
             val manager_uid = firebaseViewModel.getUid()
             val name = store_name.text.toString()
-            val store = Store(
-                    null,
-                    name,
-                    it,
-                    manager_uid,
-                    lat!!.toString(),
-                    lng!!.toString(),
-                    store_place.text.toString(),
-                    store_place_detail.text.toString(),
-                    kind,
-                    null,
-                    null
-            )
-            storeViewModel.addStore(store)
+            val store = lat?.toString()?.let { lat ->
+                lng?.toString()?.let { lng ->
+                    Store(
+                            null,
+                            name,
+                            it,
+                            manager_uid,
+                            lat,
+                            lng,
+                            store_place.text.toString(),
+                            store_place_detail.text.toString(),
+                            kind,
+                            null,
+                            null
+                    )
+                }
+            }
+            if (store != null) {
+                storeViewModel.addStore(store)
+            }
         })
     }
 
@@ -138,18 +144,18 @@ class AddStoreActivity : AppCompatActivity() {
         lat = result[0].latitude
         lng = result[0].longitude
         Log.e("lat check", lat.toString() + lng.toString())
-        mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat!!, lng!!),true)
+        mapView?.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat!!, lng!!),true)
         var marker = MapPOIItem()
-        marker.setItemName("업체위치")
-        marker.setTag(0)
-        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(lat!!, lng!!))
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin)
-        mapView!!.addPOIItem(marker);
+        marker.itemName = "업체위치"
+        marker.tag = 0
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(lat!!, lng!!)
+        marker.markerType = MapPOIItem.MarkerType.BluePin
+        mapView?.addPOIItem(marker);
     }
 
     private fun setMap() {
         mapView = MapView(this)
-        this.mapView!!.setMapViewEventListener(object : MapView.MapViewEventListener {
+        this.mapView?.setMapViewEventListener(object : MapView.MapViewEventListener {
             override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
                 println("onMapViewDoubleTapped")
             }
@@ -187,7 +193,7 @@ class AddStoreActivity : AppCompatActivity() {
             }
 
         })
-        map_view.addView(mapView)
+        map_view?.addView(mapView)
     }
 
     private fun pickImageFromGallery() {
@@ -201,16 +207,16 @@ class AddStoreActivity : AppCompatActivity() {
 
     companion object {
         //image pick code
-        private val IMAGE_PICK_CODE = 1000;
+        private const val IMAGE_PICK_CODE = 1000;
         //Permission code
-        private val PERMISSION_CODE = 1001;
+        private const val PERMISSION_CODE = 1001;
     }
 
     //handle requested permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
             PERMISSION_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] ==
+                if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
                     //permission from popup granted
                     pickImageFromGallery()

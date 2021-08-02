@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 store_list.adapter = storeAdapter
             }
-            storeAdapter!!.update(stores)
+            storeAdapter?.update(stores)
             })
     }
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
-                    storeViewModel.getStore(firebaseViewModel.getUid(), storeAdapter!!.getLastStoreId(lastVisibleItemPosition))
+                    storeAdapter?.getLastStoreId(lastVisibleItemPosition)?.let { storeViewModel.getStore(firebaseViewModel.getUid(), it) }
                 }
             }
         })

@@ -34,8 +34,8 @@ class StoreInfoActivity : AppCompatActivity() {
     private fun initListener() {
         store_info_name.setOnClickListener {
             val intent = Intent(this, PromotionActivity::class.java)
-            intent.putExtra("storeId", store!!.id.toString())
-            intent.putExtra("storeName", store!!.name)
+            intent.putExtra("storeId", store?.id.toString())
+            intent.putExtra("storeName", store?.name)
             startActivity(intent)
         }
 
@@ -69,9 +69,9 @@ class StoreInfoActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        store_info_name.setText(store!!.name)
-        point.text = store!!.point!!.toString()
-        count.text = "("+store!!.count.toString()+")"
+        store_info_name.text = store?.name
+        point.text = store?.point?.toString()
+        count.text = "("+store?.count.toString()+")"
     }
 
     private fun goMenuFragment() {
@@ -83,7 +83,7 @@ class StoreInfoActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, MenuFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", store!!.id.toString())
+                        putString("store_id", store?.id.toString())
                     }
                 })
                 .commit()
@@ -112,7 +112,7 @@ class StoreInfoActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, ReviewFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", store!!.id.toString())
+                        putString("store_id", store?.id.toString())
                     }
                 })
                 .commit()
@@ -127,7 +127,7 @@ class StoreInfoActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_area, ReserveFragment().apply {
                     arguments = Bundle().apply {
-                        putString("store_id", store!!.id.toString())
+                        putString("store_id", store?.id.toString())
                     }
                 })
                 .commit()
