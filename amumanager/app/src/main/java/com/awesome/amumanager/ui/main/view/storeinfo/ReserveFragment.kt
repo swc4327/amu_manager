@@ -40,7 +40,7 @@ class ReserveFragment() : Fragment() {
         var factory = ReserveViewModelFactory(storeId.toString())
         reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
 
-        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
+
 
         return view
     }
@@ -48,8 +48,9 @@ class ReserveFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe()
         initRecyclerView()
+        observe()
+        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
 
     }
 

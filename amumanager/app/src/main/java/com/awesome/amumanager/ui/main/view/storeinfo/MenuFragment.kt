@@ -40,8 +40,6 @@ class MenuFragment() : Fragment() {
         var factory = MenuViewModelFactory(storeId.toString())
         menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
 
-        menuViewModel.getMenu(FIRST_CALL_GET_MENU)
-
         return view
     }
 
@@ -49,8 +47,10 @@ class MenuFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
-        observe()
         initRecyclerView()
+        observe()
+        menuViewModel.getMenu(FIRST_CALL_GET_MENU)
+
 
     }
 
