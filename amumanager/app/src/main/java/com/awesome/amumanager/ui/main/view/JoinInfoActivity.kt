@@ -22,8 +22,6 @@ import kotlinx.android.synthetic.main.activity_join_info.*
 
 class JoinInfoActivity : AppCompatActivity() {
 
-    private lateinit var auth : FirebaseAuth
-
     private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var managerViewModel : ManagerViewModel
@@ -32,10 +30,7 @@ class JoinInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_info)
 
-        auth = FirebaseAuth.getInstance()
-
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-
         managerViewModel = ViewModelProvider(this).get(ManagerViewModel::class.java)
 
         initListener()
@@ -56,7 +51,7 @@ class JoinInfoActivity : AppCompatActivity() {
         firebaseViewModel.taskToString.observe(this, Observer<String> {
             val taskToString = it
             db.collection("managers")
-                .document(auth.currentUser?.uid.toString())
+                .document(firebaseViewModel.getUid())
                 .set(hashMapOf(
                     "nickname" to join_info_nickname.text.toString()
                 ))

@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.main_bottom.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
     private var storeAdapter: StoreAdapter? = null
 
     private lateinit var storeViewModel : StoreViewModel
@@ -36,10 +35,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        auth = FirebaseAuth.getInstance()
+        //auth = FirebaseAuth.getInstance()
         //auth.signOut()
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+
+        //firebaseViewModel.getAuth()
 
         observe()
         initListener()
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListener() {
         my_page.setOnClickListener{
-            if(auth.currentUser == null) { //로그인 no
+            if(!firebaseViewModel.checkCurrentUser()) { //로그인 no
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else { //로그인 ok
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         add_store.setOnClickListener {
-            if(auth.currentUser == null) { //로그인 no
+            if(!firebaseViewModel.checkCurrentUser()) { //로그인 no
                 Toast.makeText(this, "로그인 후 이용하세요!!", Toast.LENGTH_LONG).show()
             } else { //로그인 ok
                 val intent = Intent(this, AddStoreActivity::class.java)

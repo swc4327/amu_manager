@@ -28,7 +28,6 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 class AddStoreActivity : AppCompatActivity() {
-    private lateinit var auth : FirebaseAuth
     private var lat : Double? = null
     private var lng : Double? = null
     private var mapView : MapView? = null
@@ -41,7 +40,7 @@ class AddStoreActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_store)
-        auth = FirebaseAuth.getInstance()
+        //auth = FirebaseAuth.getInstance()
 
         initLayout()
         initListener()

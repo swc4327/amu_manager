@@ -26,34 +26,30 @@ import kotlinx.android.synthetic.main.fragment_review.view.*
 import kotlin.collections.ArrayList
 
 class ReviewFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
 
     private var reviewAdapter: ReviewAdapter? = null
     private var storeId: String? = ""
     private lateinit var reviewViewModel : ReviewViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        reviewViewModel = ViewModelProvider(this, ReviewViewModelFactory(storeId.toString())).get(ReviewViewModel::class.java)
+        observe()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_review, container, false)
-
-        auth = FirebaseAuth.getInstance()
         storeId = arguments?.getString("store_id")
-        //initRecyclerView(view)
-        var factory = ReviewViewModelFactory(storeId.toString())
-        reviewViewModel = ViewModelProvider(this, factory).get(ReviewViewModel::class.java)
-
+        reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initRecyclerView()
-        observe()
-        reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -80,7 +76,6 @@ class ReviewFragment : Fragment() {
                             startActivityForResult(intent, REVIEW_DETAIL_ACTIVITY)
                         }
                         review_list.adapter = reviewAdapter
-
                     }
                     reviewAdapter?.update(reviewLists)
                 })
@@ -96,10 +91,6 @@ class ReviewFragment : Fragment() {
                 if(!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     reviewAdapter?.getLastReviewId(lastVisibleItemPosition)?.let { reviewViewModel.getReviewList(it) }
                 }
-//                if (lastVisibleItemPosition+a == itemTotalCount) {
-//                    reviewViewModel.getReviewList(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition))
-//                    println(reviewAdapter!!.getLastReviewId(lastVisibleItemPosition).toString())
-//                }
             }
         })
     }

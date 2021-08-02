@@ -17,8 +17,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_my_page.*
 
 class MyPageActivity : AppCompatActivity() {
-    private val db = FirebaseFirestore.getInstance()
-    private lateinit var auth : FirebaseAuth
+    //private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseViewModel : FirebaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,8 +25,6 @@ class MyPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my_page)
 
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-
-        auth = FirebaseAuth.getInstance()
 
         setProfileName()
         setProfileImage()
@@ -37,11 +34,11 @@ class MyPageActivity : AppCompatActivity() {
     }
 
     private fun setProfileName() {
-        val docRef = db.collection("managers")
-            .document(auth.currentUser?.uid.toString())
+        val docRef = firebaseViewModel.getDb().collection("managers")
+            .document(firebaseViewModel.getUid())
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
-            nickname_area.setText(documentSnapshot.get("nickname").toString())
+            nickname_area.text = documentSnapshot.get("nickname").toString()
         }
     }
 
@@ -70,7 +67,7 @@ class MyPageActivity : AppCompatActivity() {
         }
 
         mypage_logout_button.setOnClickListener {
-            auth.signOut()
+            firebaseViewModel.logout()
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
