@@ -8,11 +8,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
-import com.awesome.amumanager.util.FirebaseUtils
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_my_page.*
 

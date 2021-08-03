@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListener() {
         my_page.setOnClickListener{
-            if(!firebaseViewModel.checkCurrentUser()) { //로그인 no
+            if(!firebaseViewModel.isLoggedIn()) { //로그인 no
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else { //로그인 ok
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         add_store.setOnClickListener {
-            if(!firebaseViewModel.checkCurrentUser()) { //로그인 no
+            if(!firebaseViewModel.isLoggedIn()) { //로그인 no
                 Toast.makeText(this, "로그인 후 이용하세요!!", Toast.LENGTH_LONG).show()
             } else { //로그인 ok
                 val intent = Intent(this, AddStoreActivity::class.java)

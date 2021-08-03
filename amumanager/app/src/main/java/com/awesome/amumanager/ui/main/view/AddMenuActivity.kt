@@ -22,8 +22,8 @@ class AddMenuActivity : AppCompatActivity() {
 
     var storeId : String = ""
 
-    private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var menuViewModel : MenuViewModel
+    private lateinit var firebaseViewModel : FirebaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

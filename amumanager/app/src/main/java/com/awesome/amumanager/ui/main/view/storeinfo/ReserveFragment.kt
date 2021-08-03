@@ -6,14 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_RESERVE
-import com.awesome.amumanager.data.model.Constants.RESERVE_DETAIL_ACTIVITY
 import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
 import com.awesome.amumanager.ui.main.view.ReserveDetailActivity

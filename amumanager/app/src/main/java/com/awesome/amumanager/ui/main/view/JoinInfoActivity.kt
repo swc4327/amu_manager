@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Manager
+import com.awesome.amumanager.firebase.FirebaseDatabaseManager
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ManagerViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_join_info.*
 
 class JoinInfoActivity : AppCompatActivity() {
 
-    private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var managerViewModel : ManagerViewModel
 
@@ -39,6 +39,7 @@ class JoinInfoActivity : AppCompatActivity() {
     }
 
     private fun observe() {
+        //서버 db에 넣었을때
         managerViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 Toast.makeText(this, "회원가입이 완료 되었어요!!", Toast.LENGTH_LONG).show()
@@ -48,24 +49,19 @@ class JoinInfoActivity : AppCompatActivity() {
             }
         })
 
-        firebaseViewModel.taskToString.observe(this, Observer<String> {
-            val taskToString = it
-            db.collection("managers")
-                .document(firebaseViewModel.getUid())
-                .set(hashMapOf(
-                    "nickname" to join_info_nickname.text.toString()
-                ))
-                .addOnSuccessListener {
-                    Log.e("Join To Manager", "성공")
-                    val uid = firebaseViewModel.getUid()
-                    val nickname = join_info_nickname.text.toString()
-                    val manager = Manager(uid, nickname, taskToString)
-                    managerViewModel.addManager(manager)
+        //firebase db에 넣었을 때
+        firebaseViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                firebaseViewModel.uploadTask(join_info_profile_img.drawable as BitmapDrawable, "_profile")
+            }
+        })
 
-                }.addOnFailureListener{
-                    Log.e("JoinInfoActivity", "실패")
-                    println(it)
-                }
+        //url 변환 끝났을때
+       firebaseViewModel.taskToString.observe(this, Observer<String> { taskToString ->
+           val uid = firebaseViewModel.getUid()
+           val nickname = join_info_nickname.text.toString()
+           val manager = Manager(uid, nickname, taskToString)
+           managerViewModel.addManager(manager)
         })
     }
 
@@ -87,9 +83,8 @@ class JoinInfoActivity : AppCompatActivity() {
             }
         }
 
-
         join_info_login_button.setOnClickListener {
-            firebaseViewModel.uploadTask(join_info_profile_img.drawable as BitmapDrawable, "_profile")
+            firebaseViewModel.addDatabase("managers", "nickname", join_info_nickname.text.toString())
         }
 
     }
@@ -105,16 +100,16 @@ class JoinInfoActivity : AppCompatActivity() {
 
     companion object {
         //image pick code
-        private val IMAGE_PICK_CODE = 1000;
+        private const val IMAGE_PICK_CODE = 1000;
         //Permission code
-        private val PERMISSION_CODE = 1001;
+        private const val PERMISSION_CODE = 1001;
     }
 
     //handle requested permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
             PERMISSION_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] ==
+                if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
                     //permission from popup granted
                     pickImageFromGallery()

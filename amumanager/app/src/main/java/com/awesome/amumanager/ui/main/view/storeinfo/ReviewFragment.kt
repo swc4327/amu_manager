@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_REVIEW
-import com.awesome.amumanager.data.model.Constants.REVIEW_DETAIL_ACTIVITY
 import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
