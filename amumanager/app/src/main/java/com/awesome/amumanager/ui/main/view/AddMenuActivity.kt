@@ -53,34 +53,6 @@ class AddMenuActivity : AppCompatActivity() {
 
     }
 
-    private fun initListener() {
-        add_menu_image.setOnClickListener {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_DENIED) {
-                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    requestPermissions(permissions,
-                        AddMenuActivity.PERMISSION_CODE
-                    )
-                }
-                else {
-                    pickImageFromGallery()
-                }
-            }
-            else {
-                pickImageFromGallery()
-            }
-        }
-
-        close_add_menu.setOnClickListener {
-            finish()
-        }
-
-        add_menu_button.setOnClickListener {
-            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, storeId+menu_name.text.toString())
-        }
-    }
-
     private fun observe() {
         menuViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
@@ -100,6 +72,35 @@ class AddMenuActivity : AppCompatActivity() {
                     storeId)
             menuViewModel.addMenu(menu)
         })
+    }
+
+    private fun initListener() {
+
+        close_add_menu.setOnClickListener {
+            finish()
+        }
+
+        add_menu_button.setOnClickListener {
+            firebaseViewModel.uploadTask(add_menu_image.drawable as BitmapDrawable, storeId+menu_name.text.toString())
+        }
+
+        add_menu_image.setOnClickListener {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED) {
+                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestPermissions(permissions,
+                        AddMenuActivity.PERMISSION_CODE
+                    )
+                }
+                else {
+                    pickImageFromGallery()
+                }
+            }
+            else {
+                pickImageFromGallery()
+            }
+        }
 
 
     }
