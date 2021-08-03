@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants
 import com.awesome.amumanager.data.model.Constants.STORE_INFO_SETTING_ACTIVITY
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.view.storeinfo.ReserveFragment
@@ -17,6 +18,14 @@ import kotlinx.android.synthetic.main.activity_store_info.*
 class StoreInfoActivity : AppCompatActivity() {
 
     private var store : Store? = null
+
+    companion object {
+        fun startActivityForResult(activity : AppCompatActivity, store : Store, requestCode: Int) {
+            val intent = Intent(activity, StoreInfoActivity::class.java)
+            intent.putExtra("store", store)
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,17 +42,11 @@ class StoreInfoActivity : AppCompatActivity() {
 
     private fun initListener() {
         store_info_name.setOnClickListener {
-            val intent = Intent(this, PromotionActivity::class.java)
-            intent.putExtra("storeId", store?.id.toString())
-            intent.putExtra("storeName", store?.name)
-            startActivity(intent)
+            this.store?.let { store -> PromotionActivity.startActivity(this, store) }
         }
 
         setting.setOnClickListener {
-            //settingactivity로 이동
-            val intent = Intent(this, StoreInfoSettingActivity::class.java)
-            intent.putExtra("store", store)
-            startActivityForResult(intent, STORE_INFO_SETTING_ACTIVITY)
+            this.store?.let { store -> StoreInfoSettingActivity.startActivityForResult(this, store, STORE_INFO_SETTING_ACTIVITY) }
             //가게삭제, 영업시작, 영업종료
         }
 

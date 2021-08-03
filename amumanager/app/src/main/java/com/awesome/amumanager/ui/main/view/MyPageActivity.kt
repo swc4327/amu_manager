@@ -14,6 +14,14 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_my_page.*
 
 class MyPageActivity : AppCompatActivity() {
+
+    companion object {
+        fun startActivity(activity : AppCompatActivity) {
+            val intent = Intent(activity, MyPageActivity::class.java)
+            activity.startActivity(intent)
+        }
+    }
+
     //private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseViewModel : FirebaseViewModel
 
@@ -65,9 +73,7 @@ class MyPageActivity : AppCompatActivity() {
 
         mypage_logout_button.setOnClickListener {
             firebaseViewModel.logout()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            MainActivity.startActivity(this)
         }
 
     }

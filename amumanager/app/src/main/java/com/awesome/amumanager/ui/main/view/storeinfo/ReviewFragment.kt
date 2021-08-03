@@ -1,11 +1,11 @@
 package com.awesome.amumanager.ui.main.view.storeinfo
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,11 +58,7 @@ class ReviewFragment : Fragment() {
                 Observer<ArrayList<ReviewList>> { reviewLists ->
                     if (reviewAdapter == null) {
                         reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
-                            val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-                            intent.putExtra("review", reviewList.review)
-                            intent.putExtra("client", reviewList.client)
-                            intent.putExtra("storeId", this.storeId)
-                            startActivity(intent)
+                            this.storeId?.let { ReviewDetailActivity.startActivity(requireContext() as AppCompatActivity, reviewList, it) }
                         }
                         review_list.adapter = reviewAdapter
                     }

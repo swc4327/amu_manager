@@ -36,6 +36,17 @@ class AddStoreActivity : AppCompatActivity() {
     private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var storeViewModel : StoreViewModel
 
+    companion object {
+        //image pick code
+        private const val IMAGE_PICK_CODE = 1000;
+        //Permission code
+        private const val PERMISSION_CODE = 1001;
+
+        fun startActivityForResult(activity : AppCompatActivity, requestCode: Int) {
+            val intent = Intent(activity, AddStoreActivity::class.java)
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -202,13 +213,6 @@ class AddStoreActivity : AppCompatActivity() {
         startActivityForResult(intent,
             IMAGE_PICK_CODE
         )
-    }
-
-    companion object {
-        //image pick code
-        private const val IMAGE_PICK_CODE = 1000;
-        //Permission code
-        private const val PERMISSION_CODE = 1001;
     }
 
     //handle requested permission result

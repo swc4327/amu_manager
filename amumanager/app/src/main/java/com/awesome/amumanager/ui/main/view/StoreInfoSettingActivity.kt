@@ -1,6 +1,7 @@
 package com.awesome.amumanager.ui.main.view
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -16,11 +17,20 @@ class StoreInfoSettingActivity : AppCompatActivity() {
 
     private lateinit var storeViewModel : StoreViewModel
 
+    companion object {
+        fun startActivityForResult(activity : AppCompatActivity, store : Store, requestCode : Int) {
+            val intent = Intent(activity, StoreInfoSettingActivity::class.java)
+            intent.putExtra("store", store)
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store_info_setting)
 
         store = intent.getParcelableExtra("store")
+        println(store?.id.toString() + "!!!!!!!!!!!!!!!!!")
 
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
 
@@ -29,6 +39,10 @@ class StoreInfoSettingActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
+        close_store_setting.setOnClickListener {
+            finish()
+        }
+
         open.setOnClickListener {
 
         }

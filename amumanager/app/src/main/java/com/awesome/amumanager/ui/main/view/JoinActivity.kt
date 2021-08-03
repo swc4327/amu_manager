@@ -15,6 +15,13 @@ class JoinActivity : AppCompatActivity() {
 
     private lateinit var firebaseViewModel : FirebaseViewModel
 
+    companion object {
+        fun startActivity(activity : AppCompatActivity) {
+            val intent = Intent(activity, JoinActivity::class.java)
+            activity.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
@@ -29,9 +36,7 @@ class JoinActivity : AppCompatActivity() {
             firebaseViewModel.getAuth().createUserWithEmailAndPassword(join_email.text.toString(),
                     join_password.text.toString()).addOnCompleteListener(this){ task ->
                 if(task.isSuccessful) {
-                    val intent = Intent(this, JoinInfoActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+                    JoinInfoActivity.startActivity(this)
                 } else {
                     Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
                 }

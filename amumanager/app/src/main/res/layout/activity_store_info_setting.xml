@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/close_menu_detail"
+                android:id="@+id/close_store_setting"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:scaleType="center"

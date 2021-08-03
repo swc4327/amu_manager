@@ -1,6 +1,7 @@
 package com.awesome.amumanager.ui.main.view
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Reserve
+import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
 import kotlinx.android.synthetic.main.activity_reserve_detail.*
@@ -26,6 +28,16 @@ class ReserveDetailActivity : AppCompatActivity() {
 
     private lateinit var reserveViewModel : ReserveViewModel
 
+    companion object {
+        fun startActivity(activity : AppCompatActivity, reserveList : ReserveList, storeId: String) {
+            val intent = Intent(activity, ReserveDetailActivity::class.java)
+            intent.putExtra("reserve", reserveList.reserve)
+            intent.putExtra("client", reserveList.client)
+            intent.putExtra("storeId", storeId)
+            activity.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reserve_detail)
@@ -33,8 +45,7 @@ class ReserveDetailActivity : AppCompatActivity() {
         reserve = intent.getParcelableExtra("reserve")
         client = intent.getParcelableExtra("client")
 
-        var factory = ReserveViewModelFactory(storeId.toString())
-        reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
+        reserveViewModel = ViewModelProvider(this, ReserveViewModelFactory(storeId.toString())).get(ReserveViewModel::class.java)
 
         setMap()
         initLayout()

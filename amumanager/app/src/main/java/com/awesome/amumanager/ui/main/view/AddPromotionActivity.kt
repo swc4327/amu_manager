@@ -1,6 +1,6 @@
 package com.awesome.amumanager.ui.main.view
 
-import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -17,6 +17,15 @@ class AddPromotionActivity : AppCompatActivity() {
     var storeName : String = ""
     private lateinit var promotionViewModel : PromotionViewModel
 
+    companion object {
+        fun startActivityForResult(activity: AppCompatActivity, storeId: String, storeName: String, requestCode: Int) {
+            val intent = Intent(activity, AddPromotionActivity::class.java)
+            intent.putExtra("storeId", storeId)
+            intent.putExtra("storeName", storeName)
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_promotion)
@@ -25,9 +34,7 @@ class AddPromotionActivity : AppCompatActivity() {
         storeName = intent.getStringExtra("storeName").toString()
 
         initListener()
-
-        var factory = PromotionViewModelFactory(storeId.toString())
-        promotionViewModel = ViewModelProvider(this, factory).get(PromotionViewModel::class.java)
+        promotionViewModel = ViewModelProvider(this, PromotionViewModelFactory(storeId.toString())).get(PromotionViewModel::class.java)
 
         observe()
 

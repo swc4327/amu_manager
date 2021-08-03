@@ -1,5 +1,6 @@
 package com.awesome.amumanager.ui.main.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
+import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
 import com.bumptech.glide.Glide
@@ -20,6 +22,16 @@ class ReviewDetailActivity : AppCompatActivity() {
     private var storeId : String? = ""
 
     private lateinit var reviewViewModel : ReviewViewModel
+
+    companion object {
+        fun startActivity(activity: AppCompatActivity, reviewList : ReviewList, storeId : String) {
+            val intent = Intent(activity, ReviewDetailActivity::class.java)
+            intent.putExtra("review", reviewList.review)
+            intent.putExtra("client", reviewList.client)
+            intent.putExtra("storeId", storeId)
+            activity.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

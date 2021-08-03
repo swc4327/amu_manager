@@ -25,6 +25,19 @@ class AddMenuActivity : AppCompatActivity() {
     private lateinit var menuViewModel : MenuViewModel
     private lateinit var firebaseViewModel : FirebaseViewModel
 
+    companion object {
+        //image pick code
+        private const val IMAGE_PICK_CODE = 1000;
+        //Permission code
+        private const val PERMISSION_CODE = 1001;
+
+        fun startActivity(activity : AppCompatActivity, storeId : String) {
+            val intent = Intent(activity, AddMenuActivity::class.java)
+            intent.putExtra("storeId", storeId)
+            activity.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_menu)
@@ -98,13 +111,6 @@ class AddMenuActivity : AppCompatActivity() {
         startActivityForResult(intent,
             IMAGE_PICK_CODE
         )
-    }
-
-    companion object {
-        //image pick code
-        private const val IMAGE_PICK_CODE = 1000;
-        //Permission code
-        private const val PERMISSION_CODE = 1001;
     }
 
     //handle requested permission result

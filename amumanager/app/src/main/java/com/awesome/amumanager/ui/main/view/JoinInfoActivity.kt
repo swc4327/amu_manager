@@ -26,6 +26,19 @@ class JoinInfoActivity : AppCompatActivity() {
     private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var managerViewModel : ManagerViewModel
 
+    companion object {
+        //image pick code
+        private const val IMAGE_PICK_CODE = 1000;
+        //Permission code
+        private const val PERMISSION_CODE = 1001;
+
+        fun startActivity(activity : AppCompatActivity) {
+            val intent = Intent(activity, JoinInfoActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            activity.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_info)
@@ -43,9 +56,7 @@ class JoinInfoActivity : AppCompatActivity() {
         managerViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 Toast.makeText(this, "회원가입이 완료 되었어요!!", Toast.LENGTH_LONG).show()
-                val intent = Intent(this@JoinInfoActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                MainActivity.startActivity(this)
             }
         })
 
@@ -96,13 +107,6 @@ class JoinInfoActivity : AppCompatActivity() {
         startActivityForResult(intent,
             IMAGE_PICK_CODE
         )
-    }
-
-    companion object {
-        //image pick code
-        private const val IMAGE_PICK_CODE = 1000;
-        //Permission code
-        private const val PERMISSION_CODE = 1001;
     }
 
     //handle requested permission result

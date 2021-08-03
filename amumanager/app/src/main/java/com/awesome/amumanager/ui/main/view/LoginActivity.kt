@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
+import com.awesome.amumanager.data.model.Constants
+import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
@@ -13,6 +15,13 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var firebaseViewModel : FirebaseViewModel
+
+    companion object {
+        fun startActivity(activity : AppCompatActivity) {
+            val intent = Intent(activity, LoginActivity::class.java)
+            activity.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +38,10 @@ class LoginActivity : AppCompatActivity() {
             firebaseViewModel.getAuth().signInWithEmailAndPassword(login_email.text.toString(), login_password.text.toString())
                 .addOnCompleteListener(this){task ->
                     if(task.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        MainActivity.startActivity(this)
+//                        val intent = Intent(this, MainActivity::class.java)
+//                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
                     }
@@ -39,8 +49,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login_join_button.setOnClickListener{
-            val intent = Intent(this, JoinActivity::class.java)
-            startActivity(intent)
+            JoinActivity.startActivity(this)
         }
     }
 }

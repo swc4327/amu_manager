@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,9 +73,8 @@ class MenuFragment() : Fragment() {
 
     private fun initListener() {
         add_menu.setOnClickListener {
-            val intent = Intent(requireContext(), AddMenuActivity::class.java)
-            intent.putExtra("storeId", storeId)
-            startActivity(intent)
+            this.storeId?.let { storeId -> AddMenuActivity.startActivity(requireContext() as AppCompatActivity, storeId) }
+
         }
     }
 
@@ -82,10 +82,8 @@ class MenuFragment() : Fragment() {
         menuViewModel.menus.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {menus ->
             if (menuAdapter == null) {
                 menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this)) {menu->
-                    val intent = Intent(requireContext(), MenuDetailActivity::class.java)
-                    intent.putExtra("Menu", menu)
-                    intent.putExtra("storeId", storeId)
-                    startActivity(intent)
+                    storeId?.let { storeId-> MenuDetailActivity.startActivity(requireContext() as AppCompatActivity, menu, storeId) }
+
                 }
                 menu_list.adapter = menuAdapter
             }

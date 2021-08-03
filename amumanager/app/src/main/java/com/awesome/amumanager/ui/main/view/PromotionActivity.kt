@@ -1,6 +1,5 @@
 package com.awesome.amumanager.ui.main.view
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,29 +11,34 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.ADD_PROMOTION_ACTIVITY
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_PROMOTION
 import com.awesome.amumanager.data.model.Promotion
+import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_promotion.*
 
 class PromotionActivity : AppCompatActivity() {
 
-    var storeId : String = ""
-    var storeName : String = ""
+    private var store : Store? = null
 
     private lateinit var promotionViewModel : PromotionViewModel
     private var promotionAdapter: PromotionAdapter? = null
+
+    companion object {
+        fun startActivity(activity : AppCompatActivity, store : Store) {
+            val intent = Intent(activity, PromotionActivity::class.java)
+            intent.putExtra("store", store)
+            activity.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_promotion)
 
-        storeId = intent.getStringExtra("storeId").toString()
-        storeName = intent.getStringExtra("storeName").toString()
+        store = intent.getParcelableExtra("store")
 
-        var factory = PromotionViewModelFactory(storeId.toString())
-        promotionViewModel = ViewModelProvider(this, factory).get(PromotionViewModel::class.java)
+        promotionViewModel = ViewModelProvider(this, PromotionViewModelFactory(store?.id.toString())).get(PromotionViewModel::class.java)
 
 
         initListener()
@@ -51,11 +55,7 @@ class PromotionActivity : AppCompatActivity() {
         }
 
         add_promotion.setOnClickListener {
-            val intent = Intent(this, AddPromotionActivity::class.java)
-            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            intent.putExtra("storeId", storeId)
-            intent.putExtra("storeName", storeName)
-            startActivityForResult(intent, ADD_PROMOTION_ACTIVITY)
+            store?.name?.let { it1 -> AddPromotionActivity.startActivityForResult(this, store?.id.toString(), it1, ADD_PROMOTION_ACTIVITY) }
         }
         promotion_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

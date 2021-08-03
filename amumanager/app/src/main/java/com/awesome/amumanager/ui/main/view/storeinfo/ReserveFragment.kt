@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,8 +31,7 @@ class ReserveFragment() : Fragment() {
         super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
 
-        var factory = ReserveViewModelFactory(storeId.toString())
-        reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
+        reserveViewModel = ViewModelProvider(this, ReserveViewModelFactory(storeId.toString())).get(ReserveViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -58,11 +58,7 @@ class ReserveFragment() : Fragment() {
         reserveViewModel.reserveLists.observe(viewLifecycleOwner, Observer<ArrayList<ReserveList>> {reserveLists->
             if(reserveAdapter == null) {
                 reserveAdapter = ReserveAdapter(arrayListOf(), Glide.with(this)) {reserveList->
-                    val intent = Intent(requireContext(), ReserveDetailActivity::class.java)
-                    intent.putExtra("reserve", reserveList.reserve)
-                    intent.putExtra("client", reserveList.client)
-                    intent.putExtra("storeId", storeId)
-                    startActivity(intent)
+                    this.storeId?.let { ReserveDetailActivity.startActivity(requireContext() as AppCompatActivity, reserveList, it) }
                 }
                 reserve_list.adapter = reserveAdapter
             }

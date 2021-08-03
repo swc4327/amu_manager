@@ -1,10 +1,7 @@
 package com.awesome.amumanager.ui.main.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -20,7 +17,6 @@ import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_bottom.*
 
@@ -31,16 +27,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var storeViewModel : StoreViewModel
     private lateinit var firebaseViewModel: FirebaseViewModel
 
+    companion object {
+        fun startActivity(activity : AppCompatActivity) {
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            activity.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //auth = FirebaseAuth.getInstance()
-        //auth.signOut()
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-
-        //firebaseViewModel.getAuth()
 
         observe()
         initListener()
@@ -54,9 +54,7 @@ class MainActivity : AppCompatActivity() {
         storeViewModel.stores.observe(this, Observer<ArrayList<Store>> { stores ->
             if (storeAdapter == null) {
                 storeAdapter = StoreAdapter(arrayListOf() , Glide.with(this)) { store ->
-                    val intent = Intent(this, StoreInfoActivity::class.java)
-                    intent.putExtra("store", store)
-                    startActivityForResult(intent, STORE_INFO_ACTIVITY)
+                    StoreInfoActivity.startActivityForResult(this, store, STORE_INFO_ACTIVITY)
                 }
                 store_list.adapter = storeAdapter
             }
@@ -67,11 +65,9 @@ class MainActivity : AppCompatActivity() {
     private fun initListener() {
         my_page.setOnClickListener{
             if(!firebaseViewModel.isLoggedIn()) { //로그인 no
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                LoginActivity.startActivity(this)
             } else { //로그인 ok
-                val intent = Intent(this, MyPageActivity::class.java)
-                startActivity(intent)
+                MyPageActivity.startActivity(this)
             }
         }
 
@@ -79,8 +75,7 @@ class MainActivity : AppCompatActivity() {
             if(!firebaseViewModel.isLoggedIn()) { //로그인 no
                 Toast.makeText(this, "로그인 후 이용하세요!!", Toast.LENGTH_LONG).show()
             } else { //로그인 ok
-                val intent = Intent(this, AddStoreActivity::class.java)
-                startActivityForResult(intent, ADD_STORE_ACTIVITY)
+                AddStoreActivity.startActivityForResult(this, ADD_STORE_ACTIVITY)
             }
         }
 
