@@ -11,4 +11,4 @@ data class Review(var id: Int?,
              var store_id: String,
              var client_id: String,
              var point: String,
-             var reserve_id: String) : Parcelable
+             var reserve_id: String?) : Parcelable
