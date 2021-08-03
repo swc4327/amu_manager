@@ -53,7 +53,7 @@ class AddPromotionActivity : AppCompatActivity() {
     private fun observe() {
         promotionViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
-                setResult(Activity.RESULT_OK)
+                setResult(RESULT_OK)
                 finish()
             }
         })

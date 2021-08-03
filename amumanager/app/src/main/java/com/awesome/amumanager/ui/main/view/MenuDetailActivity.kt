@@ -56,7 +56,7 @@ class MenuDetailActivity : AppCompatActivity() {
     private fun observe() {
         menuViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
-                setResult(Activity.RESULT_OK)
+                //setResult(Activity.RESULT_OK)
                 finish()
             }
         })

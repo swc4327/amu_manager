@@ -30,17 +30,17 @@ class MenuFragment() : Fragment() {
     private var storeId: String? = ""
     private lateinit var menuViewModel : MenuViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        storeId = arguments?.getString("store_id")
+        menuViewModel = ViewModelProvider(this, MenuViewModelFactory(storeId.toString())).get(MenuViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view : View = inflater.inflate(R.layout.fragment_menu, container, false)
-        storeId = arguments?.getString("store_id")
-
-        var factory = MenuViewModelFactory(storeId.toString())
-        menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
-
-        return view
+        return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,9 +49,12 @@ class MenuFragment() : Fragment() {
         initListener()
         initRecyclerView()
         observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        menuAdapter?.clearMenus()
         menuViewModel.getMenu(FIRST_CALL_GET_MENU)
-
-
     }
 
     private fun initRecyclerView() {
@@ -74,7 +77,7 @@ class MenuFragment() : Fragment() {
         add_menu.setOnClickListener {
             val intent = Intent(requireContext(), AddMenuActivity::class.java)
             intent.putExtra("storeId", storeId)
-            startActivityForResult(intent, ADD_MENU_ACTIVITY)
+            startActivity(intent)
         }
     }
 
@@ -85,7 +88,7 @@ class MenuFragment() : Fragment() {
                     val intent = Intent(requireContext(), MenuDetailActivity::class.java)
                     intent.putExtra("Menu", menu)
                     intent.putExtra("storeId", storeId)
-                    startActivityForResult(intent, MENU_DETAIL_ACTIVITY)
+                    startActivity(intent)
                 }
                 menu_list.adapter = menuAdapter
             }
@@ -93,13 +96,13 @@ class MenuFragment() : Fragment() {
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == ADD_MENU_ACTIVITY || requestCode ==MENU_DETAIL_ACTIVITY) {
-            if(resultCode == AppCompatActivity.RESULT_OK) {
-                menuAdapter?.clearMenus()
-                menuViewModel.getMenu(FIRST_CALL_GET_MENU)
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if(requestCode == ADD_MENU_ACTIVITY || requestCode ==MENU_DETAIL_ACTIVITY) {
+//            if(resultCode == AppCompatActivity.RESULT_OK) {
+//                menuAdapter?.clearMenus()
+//                menuViewModel.getMenu(FIRST_CALL_GET_MENU)
+//            }
+//        }
+//    }
 }

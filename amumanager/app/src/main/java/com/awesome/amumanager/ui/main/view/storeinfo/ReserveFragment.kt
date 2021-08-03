@@ -21,7 +21,6 @@ import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_reserve.*
-import kotlinx.android.synthetic.main.fragment_reserve.view.*
 
 class ReserveFragment() : Fragment() {
 
@@ -29,20 +28,19 @@ class ReserveFragment() : Fragment() {
     private var storeId: String? = ""
     private lateinit var reserveViewModel : ReserveViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_reserve, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
 
         var factory = ReserveViewModelFactory(storeId.toString())
         reserveViewModel = ViewModelProvider(this, factory).get(ReserveViewModel::class.java)
+    }
 
-
-
-        return view
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_reserve, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,8 +48,12 @@ class ReserveFragment() : Fragment() {
 
         initRecyclerView()
         observe()
-        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        reserveAdapter?.clearReserveLists()
+        reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
     }
 
     private fun observe() {
@@ -62,22 +64,12 @@ class ReserveFragment() : Fragment() {
                     intent.putExtra("reserve", reserveList.reserve)
                     intent.putExtra("client", reserveList.client)
                     intent.putExtra("storeId", storeId)
-                    startActivityForResult(intent, RESERVE_DETAIL_ACTIVITY)
+                    startActivity(intent)
                 }
                 reserve_list.adapter = reserveAdapter
             }
             reserveAdapter?.update(reserveLists)
         })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode ==RESERVE_DETAIL_ACTIVITY) {
-            if(resultCode == AppCompatActivity.RESULT_OK) {
-                reserveAdapter?.clearReserveLists()
-                reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
-            }
-        }
     }
 
     private fun initRecyclerView() {
@@ -95,3 +87,14 @@ class ReserveFragment() : Fragment() {
 
     }
 }
+
+
+//override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//    super.onActivityResult(requestCode, resultCode, data)
+//    if(requestCode ==RESERVE_DETAIL_ACTIVITY) {
+//        if(resultCode == AppCompatActivity.RESULT_OK) {
+//            reserveAdapter?.clearReserveLists()
+//            reserveViewModel.getReserveList(FIRST_CALL_GET_RESERVE)
+//        }
+//    }
+//}

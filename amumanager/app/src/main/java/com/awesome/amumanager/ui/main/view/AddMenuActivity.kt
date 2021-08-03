@@ -72,7 +72,7 @@ class AddMenuActivity : AppCompatActivity() {
         menuViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 //storeViewModel.status.value = 0
-                setResult(Activity.RESULT_OK)
+                //setResult(Activity.RESULT_OK)
                 finish()
             }
         })

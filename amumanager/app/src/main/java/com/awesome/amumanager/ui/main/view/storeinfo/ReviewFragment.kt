@@ -53,18 +53,6 @@ class ReviewFragment : Fragment() {
         reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if(requestCode == REVIEW_DETAIL_ACTIVITY) {
-//            if(resultCode == RESULT_OK) {
-//                reviewAdapter?.clearReviewLists()
-//                onResume()
-//                //reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
-//
-//            }
-//        }
-//    }
-
     private fun observe() {
         reviewViewModel.reviewLists.observe(
                 viewLifecycleOwner,

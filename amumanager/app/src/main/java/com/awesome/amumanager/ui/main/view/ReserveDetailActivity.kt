@@ -46,7 +46,6 @@ class ReserveDetailActivity : AppCompatActivity() {
     private fun observe() {
         reserveViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
-                setResult(Activity.RESULT_OK)
                 finish()
             }
         })
