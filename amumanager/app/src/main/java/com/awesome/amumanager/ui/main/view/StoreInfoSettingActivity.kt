@@ -30,7 +30,6 @@ class StoreInfoSettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_store_info_setting)
 
         store = intent.getParcelableExtra("store")
-        println(store?.id.toString() + "!!!!!!!!!!!!!!!!!")
 
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
 

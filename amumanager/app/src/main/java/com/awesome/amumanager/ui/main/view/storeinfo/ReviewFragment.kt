@@ -58,7 +58,7 @@ class ReviewFragment : Fragment() {
                 Observer<ArrayList<ReviewList>> { reviewLists ->
                     if (reviewAdapter == null) {
                         reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
-                            this.storeId?.let { ReviewDetailActivity.startActivity(requireContext() as AppCompatActivity, reviewList, it) }
+                            storeId?.let {storeId -> ReviewDetailActivity.startActivity(requireContext() as AppCompatActivity, reviewList, storeId) }
                         }
                         review_list.adapter = reviewAdapter
                     }

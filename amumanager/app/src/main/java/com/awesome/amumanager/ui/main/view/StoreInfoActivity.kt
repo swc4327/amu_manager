@@ -42,11 +42,11 @@ class StoreInfoActivity : AppCompatActivity() {
 
     private fun initListener() {
         store_info_name.setOnClickListener {
-            this.store?.let { store -> PromotionActivity.startActivity(this, store) }
+            store?.let { store -> PromotionActivity.startActivity(this, store) }
         }
 
         setting.setOnClickListener {
-            this.store?.let { store -> StoreInfoSettingActivity.startActivityForResult(this, store, STORE_INFO_SETTING_ACTIVITY) }
+            store?.let { store -> StoreInfoSettingActivity.startActivityForResult(this, store, STORE_INFO_SETTING_ACTIVITY) }
             //가게삭제, 영업시작, 영업종료
         }
 

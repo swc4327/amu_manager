@@ -127,19 +127,21 @@ class AddStoreActivity : AppCompatActivity() {
             val name = store_name.text.toString()
             val store = lat?.toString()?.let { lat ->
                 lng?.toString()?.let { lng ->
-                    Store(
-                            null,
-                            name,
-                            it,
-                            manager_uid,
-                            lat,
-                            lng,
-                            store_place.text.toString(),
-                            store_place_detail.text.toString(),
-                            kind,
-                            null,
-                            null
-                    )
+                    kind?.let { kind ->
+                        Store(
+                                null,
+                                name,
+                                it,
+                                manager_uid,
+                                lat,
+                                lng,
+                                store_place.text.toString(),
+                                store_place_detail.text.toString(),
+                                kind,
+                                null,
+                                null
+                        )
+                    }
                 }
             }
             if (store != null) {

@@ -5,8 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class Client(var uid: String?,
-             var nickname: String?,
-             var image: String?,
-             var count: String?,
-             var point: String?) : Parcelable
+data class Client(var uid: String,
+             var nickname: String,
+             var image: String,
+             var count: String,
+             var point: String) : Parcelable

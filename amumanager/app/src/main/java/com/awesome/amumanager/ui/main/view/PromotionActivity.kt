@@ -55,7 +55,7 @@ class PromotionActivity : AppCompatActivity() {
         }
 
         add_promotion.setOnClickListener {
-            store?.name?.let { it1 -> AddPromotionActivity.startActivityForResult(this, store?.id.toString(), it1, ADD_PROMOTION_ACTIVITY) }
+            AddPromotionActivity.startActivityForResult(this, store?.id.toString(), store?.name.toString(), ADD_PROMOTION_ACTIVITY)
         }
         promotion_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

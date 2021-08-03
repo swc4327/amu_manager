@@ -58,7 +58,7 @@ class ReserveFragment() : Fragment() {
         reserveViewModel.reserveLists.observe(viewLifecycleOwner, Observer<ArrayList<ReserveList>> {reserveLists->
             if(reserveAdapter == null) {
                 reserveAdapter = ReserveAdapter(arrayListOf(), Glide.with(this)) {reserveList->
-                    this.storeId?.let { ReserveDetailActivity.startActivity(requireContext() as AppCompatActivity, reserveList, it) }
+                    storeId?.let {storeId -> ReserveDetailActivity.startActivity(requireContext() as AppCompatActivity, reserveList, storeId) }
                 }
                 reserve_list.adapter = reserveAdapter
             }

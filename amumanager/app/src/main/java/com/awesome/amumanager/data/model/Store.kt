@@ -11,8 +11,8 @@ data class Store(
     var manager_uid : String,
     var lat: String,
     var lng: String,
-    var place: String?,
-    var place_detail: String?,
-    var kind:String?,
+    var place: String,
+    var place_detail: String,
+    var kind:String,
     var count: Int?,
     var point: Float?) : Parcelable

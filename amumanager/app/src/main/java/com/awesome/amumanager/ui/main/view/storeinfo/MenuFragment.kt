@@ -73,7 +73,7 @@ class MenuFragment() : Fragment() {
 
     private fun initListener() {
         add_menu.setOnClickListener {
-            this.storeId?.let { storeId -> AddMenuActivity.startActivity(requireContext() as AppCompatActivity, storeId) }
+            storeId?.let { storeId -> AddMenuActivity.startActivity(requireContext() as AppCompatActivity, storeId) }
 
         }
     }
@@ -82,7 +82,7 @@ class MenuFragment() : Fragment() {
         menuViewModel.menus.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {menus ->
             if (menuAdapter == null) {
                 menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this)) {menu->
-                    storeId?.let { storeId-> MenuDetailActivity.startActivity(requireContext() as AppCompatActivity, menu, storeId) }
+                    storeId?.let {storeId -> MenuDetailActivity.startActivity(requireContext() as AppCompatActivity, menu, storeId) }
 
                 }
                 menu_list.adapter = menuAdapter
