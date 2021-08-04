@@ -8,10 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 object FirebaseDatabaseManager {
     private val db = FirebaseFirestore.getInstance()
 
-    fun getDb(): FirebaseFirestore {
-        return this.db
-    }
-
     fun addDatabase(collectionPath : String, field : String, value : String, status : MutableLiveData<Int>) {
         db.collection(collectionPath)
                 .document(getUid())
@@ -26,5 +22,17 @@ object FirebaseDatabaseManager {
                     Log.e("Join To Manager", "실패")
                     println(it)
                 }
+    }
+
+    fun getDatabase(
+        collectionPath: String,
+        nickname: MutableLiveData<String>
+    ) {
+        val docRef = db.collection(collectionPath).document(getUid())
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            nickname.value = documentSnapshot.get("nickname").toString()
+        }.addOnFailureListener {
+            println(it)
+        }
     }
 }

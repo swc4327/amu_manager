@@ -1,6 +1,5 @@
 package com.awesome.amumanager.ui.main.view
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,20 +10,19 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Reserve
 import com.awesome.amumanager.data.model.ReserveList
+import com.awesome.amumanager.map.MapManager
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
 import kotlinx.android.synthetic.main.activity_reserve_detail.*
-import net.daum.mf.map.api.MapPOIItem
-import net.daum.mf.map.api.MapPoint
-import net.daum.mf.map.api.MapView
 
 class ReserveDetailActivity : AppCompatActivity() {
 
 
-    private var mapView : MapView? = null
     private var reserve : Reserve? = null
     private var client : Client? = null
     private var storeId : String? = null
+
+    private var mapManager : MapManager? = null
 
     private lateinit var reserveViewModel : ReserveViewModel
 
@@ -45,9 +43,15 @@ class ReserveDetailActivity : AppCompatActivity() {
         reserve = intent.getParcelableExtra("reserve")
         client = intent.getParcelableExtra("client")
 
+        mapManager = MapManager(this)
+
         reserveViewModel = ViewModelProvider(this, ReserveViewModelFactory(storeId.toString())).get(ReserveViewModel::class.java)
 
-        setMap()
+        mapManager?.addMapListener(info_map_view)
+        reserve?.lat?.toDouble()?.let {lat->
+            reserve?.lng?.toDouble()?.let {lng ->
+                mapManager?.setMap("고객의 예약위치", lat, lng) }
+        }
         initLayout()
         initListener()
 
@@ -68,7 +72,6 @@ class ReserveDetailActivity : AppCompatActivity() {
         detail_client_arrive.text = reserve?.arrive
         detail_client_request.text = reserve?.request
         detail_date.text = reserve?.date
-        setClientLocation()
 
         if(reserve?.is_confirmed == "0") {
             detail_reserve_complete.visibility = GONE
@@ -104,58 +107,5 @@ class ReserveDetailActivity : AppCompatActivity() {
             //이거 1이어야 리뷰 작성 가능
             reserveViewModel.completeReserve(reserve?.id.toString())
         }
-    }
-
-    private fun setClientLocation() {
-        mapView?.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(reserve?.lat?.toDouble()!!, reserve?.lng?.toDouble()!!),true)
-        var marker = MapPOIItem()
-        marker.itemName = "고객의 예약위치"
-        marker.tag = 0
-        marker.mapPoint = MapPoint.mapPointWithGeoCoord(reserve?.lat?.toDouble()!!, reserve?.lng?.toDouble()!!)
-        marker.markerType = MapPOIItem.MarkerType.BluePin
-        mapView?.addPOIItem(marker)
-    }
-
-    private fun setMap() {
-        mapView = MapView(this)
-        mapView?.setMapViewEventListener(object : MapView.MapViewEventListener {
-            override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewDoubleTapped")
-            }
-
-            override fun onMapViewInitialized(p0: MapView?) {
-                println("onMapViewInitialized")
-            }
-
-            override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewDragStarted")
-            }
-
-            override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewMoveFinished")
-            }
-
-            override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewCenterPointMoved")
-            }
-
-            override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewDragEnded")
-            }
-
-            override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewSingleTapped")
-            }
-
-            override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-                println("onMapViewZoomLevelChanged")
-            }
-
-            override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
-                println("onMapViewLongPressed")
-            }
-
-        })
-        info_map_view.addView(mapView)
     }
 }

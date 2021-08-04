@@ -36,6 +36,7 @@ class AddMenuActivity : AppCompatActivity() {
             intent.putExtra("storeId", storeId)
             activity.startActivity(intent)
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,7 +103,6 @@ class AddMenuActivity : AppCompatActivity() {
             }
         }
 
-
     }
 
     private fun pickImageFromGallery() {
@@ -110,7 +110,7 @@ class AddMenuActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent,
-            IMAGE_PICK_CODE
+                IMAGE_PICK_CODE
         )
     }
 

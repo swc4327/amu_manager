@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
@@ -22,7 +23,6 @@ class MyPageActivity : AppCompatActivity() {
         }
     }
 
-    //private val db = FirebaseFirestore.getInstance()
     private lateinit var firebaseViewModel : FirebaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,17 +34,19 @@ class MyPageActivity : AppCompatActivity() {
         setProfileName()
         setProfileImage()
         initListener()
+        observe()
 
 
     }
 
-    private fun setProfileName() {
-        val docRef = firebaseViewModel.getDb().collection("managers")
-            .document(firebaseViewModel.getUid())
+    private fun observe() {
+        firebaseViewModel.nickname.observe(this, Observer<String> { nickname ->
+            nickname_area.text = nickname
+        })
+    }
 
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            nickname_area.text = documentSnapshot.get("nickname").toString()
-        }
+    private fun setProfileName() {
+        firebaseViewModel.getDatabase("managers")
     }
 
     private fun setProfileImage() {

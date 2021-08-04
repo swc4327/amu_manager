@@ -3,13 +3,10 @@ package com.awesome.amumanager.ui.main.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.model.Constants
-import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -30,22 +27,32 @@ class LoginActivity : AppCompatActivity() {
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
         initListener()
+        observe()
 
+    }
+
+    private fun observe() {
+        firebaseViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                MainActivity.startActivity(this)
+            }
+            else {
+                //에러처리
+            }
+        })
     }
 
     private fun initListener() {
         login_button.setOnClickListener {
-            firebaseViewModel.getAuth().signInWithEmailAndPassword(login_email.text.toString(), login_password.text.toString())
-                .addOnCompleteListener(this){task ->
-                    if(task.isSuccessful) {
-                        MainActivity.startActivity(this)
-//                        val intent = Intent(this, MainActivity::class.java)
-//                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
-                    }
-                }
+            firebaseViewModel.signIn(login_email.text.toString(), login_password.text.toString())
+//            firebaseViewModel.getAuth().signInWithEmailAndPassword(login_email.text.toString(), login_password.text.toString())
+//                .addOnCompleteListener(this){task ->
+//                    if(task.isSuccessful) {
+//                        MainActivity.startActivity(this)
+//                    } else {
+//                        Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+//                    }
+//                }
         }
 
         login_join_button.setOnClickListener{

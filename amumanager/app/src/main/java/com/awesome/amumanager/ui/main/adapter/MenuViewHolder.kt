@@ -4,20 +4,17 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.data.model.Menu
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_menu.view.*
 
 class MenuViewHolder(itemView: View, private val itemClick: (Menu)->Unit): RecyclerView.ViewHolder(itemView) {
 
-    private val menuName = itemView.menu_name
-    private val menuImage = itemView.menu_image
-    private val menuComment = itemView.menu_comment
-    private val menuPrice = itemView.menu_price
-
     fun bind(menu : Menu, requestManager : RequestManager) {
-        menuName.text = menu.name
-        requestManager.load(menu.image).circleCrop().into(menuImage)
-        menuComment.text = menu.comment
-        menuPrice.text = menu.price
+        itemView.menu_name.text = menu.name
+        requestManager.load(menu.image).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).into(itemView.menu_image)
+        itemView.menu_comment.text = menu.comment
+        itemView.menu_price.text = menu.price
 
         itemView.setOnClickListener{itemClick(menu)}
     }

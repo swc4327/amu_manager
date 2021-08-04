@@ -3,11 +3,10 @@ package com.awesome.amumanager.ui.main.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_join.*
 
 class JoinActivity : AppCompatActivity() {
@@ -29,18 +28,31 @@ class JoinActivity : AppCompatActivity() {
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
         initListener()
+        observe()
 
     }
+    private fun observe() {
+        firebaseViewModel.status.observe(this, Observer<Int> {
+            if(it == 200) {
+                JoinInfoActivity.startActivity(this)
+            }
+            else {
+                //에러처리
+            }
+        })
+    }
+
     private fun initListener() {
         join_button.setOnClickListener {
-            firebaseViewModel.getAuth().createUserWithEmailAndPassword(join_email.text.toString(),
-                    join_password.text.toString()).addOnCompleteListener(this){ task ->
-                if(task.isSuccessful) {
-                    JoinInfoActivity.startActivity(this)
-                } else {
-                    Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
-                }
-            }
+            firebaseViewModel.signUp(join_email.text.toString(), join_password.text.toString())
+//            firebaseViewModel.getAuth().createUserWithEmailAndPassword(join_email.text.toString(),
+//                    join_password.text.toString()).addOnCompleteListener(this){ task ->
+//                if(task.isSuccessful) {
+//                    JoinInfoActivity.startActivity(this)
+//                } else {
+//                    Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+//                }
+//            }
 
         }
     }

@@ -7,15 +7,22 @@ import com.awesome.amumanager.firebase.FirebaseAuthManager
 import com.awesome.amumanager.firebase.FirebaseDatabaseManager
 import com.awesome.amumanager.firebase.FirebaseStorageManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseViewModel() : ViewModel() {
-    //private val firebaseUtils = FirebaseUtils()
     val taskToString = MutableLiveData<String>()
     val status = MutableLiveData<Int>()
+    val nickname = MutableLiveData<String>()
 
-    fun getAuth(): FirebaseAuth {
-        return FirebaseAuthManager.getAuth()
+//    fun getAuth(): FirebaseAuth {
+//        return FirebaseAuthManager.getAuth()
+//    }
+
+    fun signUp(email : String, password: String) {
+        FirebaseAuthManager.signUp(email, password, status)
+    }
+
+    fun signIn(email : String, password: String) {
+        FirebaseAuthManager.signIn(email, password, status)
     }
 
     fun getUid() : String {
@@ -32,12 +39,13 @@ class FirebaseViewModel() : ViewModel() {
 
     ////////////////////////////////////////////
 
-    fun getDb(): FirebaseFirestore {
-        return FirebaseDatabaseManager.getDb()
-    }
 
     fun addDatabase(collectionPath : String, filed : String, value : String) {
         FirebaseDatabaseManager.addDatabase(collectionPath, filed, value, status)
+    }
+
+    fun getDatabase(collectionPath: String) {
+        FirebaseDatabaseManager.getDatabase(collectionPath, nickname)
     }
 
     /////////////////////////////////////////////
