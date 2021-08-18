@@ -25,7 +25,7 @@ class ReviewApi {
 
         //var reviewsTemp = ArrayList<Review>()
 
-        val joinApi = RetrofitObject.getReviewService
+        val joinApi = RetrofitObject.reviewService
 
         joinApi.getReviewList(storeId.toString(), lastId)
                 .enqueue(object : Callback<ReviewResponse> {
@@ -112,7 +112,7 @@ class ReviewApi {
     }
 
     fun reviewFiltering(review: Review, client: Client, status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.reviewFilteringService
+        val joinApi = RetrofitObject.reviewService
 
 
         joinApi.filterReview(review!!.id.toString(), review!!.store_id)
