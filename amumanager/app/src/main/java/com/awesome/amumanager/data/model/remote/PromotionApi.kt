@@ -18,7 +18,7 @@ class PromotionApi {
         lastId: String,
         promotionsTemp: ArrayList<Promotion>
     ) {
-        val joinApi = RetrofitObject.getPromotionService
+        val joinApi = RetrofitObject.promotionService
 
         joinApi.getPromotionList(storeId, lastId)
                 .enqueue(object : Callback<PromotionResponse> {
@@ -47,7 +47,7 @@ class PromotionApi {
 
 
     fun addPromotion(promotion : Promotion , status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.addPromotionService
+        val joinApi = RetrofitObject.promotionService
 
         joinApi.addPromotion(promotion)
                 .enqueue(object : Callback<DefaultResponse> {
@@ -71,7 +71,7 @@ class PromotionApi {
     }
 
     fun endPromotion(promotionId : String , status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.endPromotionService
+        val joinApi = RetrofitObject.promotionService
 
         joinApi.endPromotion(promotionId)
                 .enqueue(object : Callback<DefaultResponse> {
