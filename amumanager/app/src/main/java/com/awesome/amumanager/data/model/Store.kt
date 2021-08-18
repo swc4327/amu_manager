@@ -15,4 +15,5 @@ data class Store(
     var place_detail: String,
     var kind:String,
     var count: Int?,
-    var point: Float?) : Parcelable
+    var point: Float?,
+    var is_opened: String) : Parcelable

@@ -139,7 +139,8 @@ class AddStoreActivity : AppCompatActivity() {
                                 store_place_detail.text.toString(),
                                 kind,
                                 null,
-                                null
+                                null,
+                            "0"
                         )
                     }
                 }

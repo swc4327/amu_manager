@@ -13,10 +13,6 @@ class FirebaseViewModel() : ViewModel() {
     val status = MutableLiveData<Int>()
     val nickname = MutableLiveData<String>()
 
-//    fun getAuth(): FirebaseAuth {
-//        return FirebaseAuthManager.getAuth()
-//    }
-
     fun signUp(email : String, password: String) {
         FirebaseAuthManager.signUp(email, password, status)
     }

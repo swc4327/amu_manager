@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
@@ -33,8 +34,19 @@ class StoreInfoSettingActivity : AppCompatActivity() {
 
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
 
+        initLayout()
+
         initListener()
         observe()
+    }
+
+    private fun initLayout() {
+        if(store?.is_opened == "0") {
+            close.visibility = GONE
+
+        } else {
+            open.visibility = GONE
+        }
     }
 
     private fun initListener() {
@@ -43,15 +55,14 @@ class StoreInfoSettingActivity : AppCompatActivity() {
         }
 
         open.setOnClickListener {
-
+            storeViewModel.openStore(store?.id.toString())
         }
 
         close.setOnClickListener {
-
+            storeViewModel.closeStore(store?.id.toString())
         }
 
         delete_store.setOnClickListener {
-            //cascade 적용해야함
             storeViewModel.deleteStore(store?.id.toString())
         }
     }
@@ -59,6 +70,7 @@ class StoreInfoSettingActivity : AppCompatActivity() {
     private fun observe() {
         storeViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
+                //가게 삭제 or 영업시작 or 영업종료 완료
                 setResult(Activity.RESULT_OK)
                 finish()
             }

@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.StoreResponse
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Store
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_STORE
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +35,7 @@ class StoreApi {
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            if(lastId == FIRST_CALL_GET_STORE && storesTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL && storesTemp.isNotEmpty()) {
                                 storesTemp.clear()
                             }
                             storesTemp.addAll(response.body()!!.stores)
@@ -93,6 +93,54 @@ class StoreApi {
 
                     } else {
                         Log.e("Delete Store", "실패")
+                    }
+                }
+            })
+    }
+
+    fun openStore(storeId : String, status : MutableLiveData<Int>) {
+        val joinApi = RetrofitObject.openStoreService
+
+        joinApi.openStore(storeId)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("Retrofit Open Store", "실패")
+                    Log.e("Check", t.toString())
+                }
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("Open Store", "success")
+                        status.value = 200
+                    } else {
+                        Log.e("Open Store", "실패")
+                    }
+                }
+            })
+    }
+
+    fun closeStore(storeId : String, status : MutableLiveData<Int>) {
+        val joinApi = RetrofitObject.closeStoreService
+
+        joinApi.closeStore(storeId)
+            .enqueue(object : Callback<DefaultResponse> {
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.e("Retrofit Close Store", "실패")
+                    Log.e("Check", t.toString())
+                }
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                )  {
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+                        Log.e("Close Store", "success")
+                        status.value = 200
+                    } else {
+                        Log.e("Close Store", "실패")
                     }
                 }
             })

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_REVIEW
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
@@ -49,7 +49,7 @@ class ReviewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         reviewAdapter?.clearReviewLists()
-        reviewViewModel.getReviewList(FIRST_CALL_GET_REVIEW)
+        reviewViewModel.getReviewList(FIRST_CALL)
     }
 
     private fun observe() {

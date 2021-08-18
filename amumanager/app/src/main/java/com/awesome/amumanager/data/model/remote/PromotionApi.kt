@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.PromotionResponse
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_PROMOTION
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Promotion
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,7 +33,7 @@ class PromotionApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            if(lastId == FIRST_CALL_GET_PROMOTION && promotionsTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL && promotionsTemp.isNotEmpty()) {
                                 promotionsTemp.clear()
                             }
                             promotionsTemp.addAll(response.body()!!.promotions)

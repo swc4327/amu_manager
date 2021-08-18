@@ -22,6 +22,13 @@ class StoreViewModel() : ViewModel() {
 
     fun deleteStore(storeId : String) {
         storeApi.deleteStore(storeId, status)
+    }
 
+    fun openStore(storeId : String) {
+        storeApi.openStore(storeId, status)
+    }
+
+    fun closeStore(storeId : String) {
+        storeApi.closeStore(storeId, status)
     }
 }

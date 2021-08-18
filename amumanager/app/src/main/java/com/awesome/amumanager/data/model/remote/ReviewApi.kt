@@ -6,7 +6,7 @@ import com.awesome.amumanager.data.api.response.ClientResponse
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.ReviewResponse
 import com.awesome.amumanager.data.model.Client
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_REVIEW
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
 import io.reactivex.Observable
@@ -43,7 +43,7 @@ class ReviewApi {
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
                             Log.e("Get ReviewList Retrofit" , "success")
 
-                            if(lastId == FIRST_CALL_GET_REVIEW && reviewsTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL && reviewsTemp.isNotEmpty()) {
                                 reviewsTemp.clear()
                             }
 

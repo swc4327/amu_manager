@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.data.model.Constants.ADD_STORE_ACTIVITY
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_STORE
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Constants.STORE_INFO_ACTIVITY
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         observe()
         initListener()
 
-        storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
+        storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL)
 
     }
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private fun observe() {
         storeViewModel.stores.observe(this, Observer<ArrayList<Store>> { stores ->
             if (storeAdapter == null) {
-                storeAdapter = StoreAdapter(arrayListOf() , Glide.with(this)) { store ->
+                storeAdapter = StoreAdapter(arrayListOf() , Glide.with(this), R.layout.item_store) { store ->
                     StoreInfoActivity.startActivityForResult(this, store, STORE_INFO_ACTIVITY)
                 }
                 store_list.adapter = storeAdapter
@@ -87,7 +87,9 @@ class MainActivity : AppCompatActivity() {
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     //storeViewModel.getStore(firebaseViewModel.getUid(), recyclerView.adapter!!.itemCount.toString())
-                    storeAdapter?.getLastStoreId(lastVisibleItemPosition)?.let { storeViewModel.getStore(firebaseViewModel.getUid(), it) }
+
+
+                    storeAdapter?.getLastId(lastVisibleItemPosition)?.let { storeViewModel.getStore(firebaseViewModel.getUid(), it) }
                 }
             }
         })
@@ -97,13 +99,13 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == ADD_STORE_ACTIVITY) { //가게추가
             if(resultCode == RESULT_OK) {
-                storeAdapter?.clearStores()
-                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
+                storeAdapter?.clearList()
+                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL)
             }
-        } else if(requestCode == STORE_INFO_ACTIVITY) { //StoreInfo - 삭제
+        } else if(requestCode == STORE_INFO_ACTIVITY) { //StoreInfo - 삭제, 영업시작
             if(resultCode == RESULT_OK) {
-                storeAdapter?.clearStores()
-                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL_GET_STORE)
+                storeAdapter?.clearList()
+                storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL)
             }
         }
     }

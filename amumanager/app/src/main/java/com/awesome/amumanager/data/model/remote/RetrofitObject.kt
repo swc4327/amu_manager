@@ -29,4 +29,7 @@ object RetrofitObject {
     val endPromotionService : EndPromotionService = retrofit.create(EndPromotionService::class.java)
     val deleteMenuService : DeleteMenuService = retrofit.create(DeleteMenuService::class.java)
     val deleteStoreService : DeleteStoreService = retrofit.create(DeleteStoreService::class.java)
+    val getConfirmedReserveService : GetConfirmedReserveService = retrofit.create(GetConfirmedReserveService::class.java)
+    val openStoreService : OpenStoreService = retrofit.create(OpenStoreService::class.java)
+    val closeStoreService : CloseStoreService = retrofit.create(CloseStoreService::class.java)
 }

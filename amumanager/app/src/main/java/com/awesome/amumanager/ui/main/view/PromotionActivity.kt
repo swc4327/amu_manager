@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.ADD_PROMOTION_ACTIVITY
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_PROMOTION
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
@@ -44,7 +44,7 @@ class PromotionActivity : AppCompatActivity() {
         initListener()
         observe()
 
-        promotionViewModel.getPromotion(FIRST_CALL_GET_PROMOTION)
+        promotionViewModel.getPromotion(FIRST_CALL)
 
 
     }
@@ -84,7 +84,7 @@ class PromotionActivity : AppCompatActivity() {
         promotionViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 promotionAdapter?.clearPromotions()
-                promotionViewModel.getPromotion(FIRST_CALL_GET_PROMOTION)
+                promotionViewModel.getPromotion(FIRST_CALL)
             }
         })
     }
@@ -94,7 +94,7 @@ class PromotionActivity : AppCompatActivity() {
         if(requestCode == ADD_PROMOTION_ACTIVITY) {
             if(resultCode == RESULT_OK) {
                 promotionAdapter?.clearPromotions()
-                promotionViewModel.getPromotion(FIRST_CALL_GET_PROMOTION)
+                promotionViewModel.getPromotion(FIRST_CALL)
             }
         }
     }

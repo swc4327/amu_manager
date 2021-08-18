@@ -6,7 +6,7 @@ import com.awesome.amumanager.data.api.response.ClientResponse
 import com.awesome.amumanager.data.api.response.DefaultResponse
 import com.awesome.amumanager.data.api.response.ReserveResponse
 import com.awesome.amumanager.data.model.*
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_RESERVE
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,7 +39,7 @@ class ReserveApi {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
 
-                            if(lastId == FIRST_CALL_GET_RESERVE && reservesTemp.isNotEmpty()) {
+                            if(lastId == FIRST_CALL && reservesTemp.isNotEmpty()) {
                                 reservesTemp.clear()
                             }
                             reservesTemp.addAll(response.body()!!.reserves)
@@ -49,6 +49,41 @@ class ReserveApi {
                         }
                     }
                 })
+    }
+
+    fun getConfirmedReserveList(
+        ReserveLists: MutableLiveData<ArrayList<ReserveList>>,
+        storeId: String,
+        lastId: String,
+        reservesTemp : ArrayList<Reserve>
+    ) {
+
+        val joinApi = RetrofitObject.getConfirmedReserveService
+
+        joinApi.getConfirmedReserveList(storeId, lastId)
+            .enqueue(object : Callback<ReserveResponse> {
+
+                override fun onFailure(call: Call<ReserveResponse>, t: Throwable) {
+                    Log.e("Main Retrofit getStore", "실패")
+                }
+
+                override fun onResponse(
+                    call: Call<ReserveResponse>,
+                    response: Response<ReserveResponse>
+                )  {
+                    println(response)
+                    if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
+
+                        if(lastId == FIRST_CALL && reservesTemp.isNotEmpty()) {
+                            reservesTemp.clear()
+                        }
+                        reservesTemp.addAll(response.body()!!.reserves)
+                        getClientInfo(ReserveLists, reservesTemp)
+                    } else {
+
+                    }
+                }
+            })
     }
 
     private fun getClientInfo(ReserveLists: MutableLiveData<ArrayList<ReserveList>>,

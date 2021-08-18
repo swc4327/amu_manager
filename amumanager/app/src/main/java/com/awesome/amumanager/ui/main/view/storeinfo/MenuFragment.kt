@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.model.Constants.FIRST_CALL_GET_MENU
+import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.ui.main.adapter.MenuAdapter
 import com.awesome.amumanager.ui.main.view.AddMenuActivity
@@ -51,8 +51,8 @@ class MenuFragment() : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        menuAdapter?.clearMenus()
-        menuViewModel.getMenu(FIRST_CALL_GET_MENU)
+        menuAdapter?.clearList()
+        menuViewModel.getMenu(FIRST_CALL)
     }
 
     private fun initRecyclerView() {
@@ -64,8 +64,7 @@ class MenuFragment() : Fragment() {
                     (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
-                    menuAdapter?.getLastMenuId(lastVisibleItemPosition)
-                        ?.let { menuViewModel.getMenu(it) }
+                    menuAdapter?.getLastId(lastVisibleItemPosition)?.let { menuViewModel.getMenu(it) }
                 }
             }
         })
@@ -81,7 +80,7 @@ class MenuFragment() : Fragment() {
     private fun observe() {
         menuViewModel.menus.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {menus ->
             if (menuAdapter == null) {
-                menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this)) {menu->
+                menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this), R.layout.item_menu) {menu->
                     storeId?.let {storeId -> MenuDetailActivity.startActivity(requireContext() as AppCompatActivity, menu, storeId) }
 
                 }

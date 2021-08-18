@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amumanager"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.base.BaseActivity"></activity>
+        <activity android:name="com.awesome.amumanager.ui.base.BaseActivity"></activity>
         <activity android:name=".ui.main.view.StoreInfoSettingActivity" />
         <activity android:name=".ui.main.view.MenuDetailActivity" />
         <activity android:name=".ui.main.view.ReviewDetailActivity" />
