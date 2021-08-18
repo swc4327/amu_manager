@@ -1,6 +1,5 @@
 package com.awesome.amumanager.ui.main.adapter
 
-
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.data.model.Store
@@ -18,16 +17,3 @@ class StoreViewHolder(itemView: View, private val itemClick: (Store) -> Unit): R
         itemView.setOnClickListener { itemClick(store)}
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

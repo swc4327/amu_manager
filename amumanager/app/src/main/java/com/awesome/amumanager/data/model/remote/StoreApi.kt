@@ -20,7 +20,7 @@ class StoreApi {
         lastId: String
     ) {
 
-        val joinApi = RetrofitObject.getStoreService
+        val joinApi = RetrofitObject.storeService
 
         joinApi.getStore(uid, lastId)
                 .enqueue(object : Callback<StoreResponse> {
@@ -49,7 +49,7 @@ class StoreApi {
     }
 
     fun addStore(store : Store, status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.addStoreService
+        val joinApi = RetrofitObject.storeService
 
         joinApi.addStore(store)
                 .enqueue(object : Callback<DefaultResponse> {
@@ -74,7 +74,7 @@ class StoreApi {
     }
 
     fun deleteStore(storeId : String, status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.deleteStoreService
+        val joinApi = RetrofitObject.storeService
 
         joinApi.deleteStore(storeId)
             .enqueue(object : Callback<DefaultResponse> {
@@ -99,7 +99,7 @@ class StoreApi {
     }
 
     fun openStore(storeId : String, status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.openStoreService
+        val joinApi = RetrofitObject.storeService
 
         joinApi.openStore(storeId)
             .enqueue(object : Callback<DefaultResponse> {
@@ -123,7 +123,7 @@ class StoreApi {
     }
 
     fun closeStore(storeId : String, status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.closeStoreService
+        val joinApi = RetrofitObject.storeService
 
         joinApi.closeStore(storeId)
             .enqueue(object : Callback<DefaultResponse> {
