@@ -23,7 +23,7 @@ class ReserveApi {
 
         //var reservesTemp = ArrayList<Reserve>()
 
-        val joinApi = RetrofitObject.getReserveService
+        val joinApi = RetrofitObject.reserveService
 
         joinApi.getReserveList(storeId, lastId)
                 .enqueue(object : Callback<ReserveResponse> {
@@ -58,7 +58,7 @@ class ReserveApi {
         reservesTemp : ArrayList<Reserve>
     ) {
 
-        val joinApi = RetrofitObject.getConfirmedReserveService
+        val joinApi = RetrofitObject.reserveService
 
         joinApi.getConfirmedReserveList(storeId, lastId)
             .enqueue(object : Callback<ReserveResponse> {
@@ -146,7 +146,7 @@ class ReserveApi {
         reserveId: String,
         status: MutableLiveData<Int>
     ) {
-        val joinApi = RetrofitObject.confirmReserveService
+        val joinApi = RetrofitObject.reserveService
 
         joinApi.confirmReserve(reserveId)
             .enqueue(object : Callback<DefaultResponse> {
@@ -173,7 +173,7 @@ class ReserveApi {
         reserveId: String,
         status: MutableLiveData<Int>
     ) {
-        val joinApi = RetrofitObject.cancelReserveService
+        val joinApi = RetrofitObject.reserveService
 
         joinApi.cancelReserve(reserveId)
             .enqueue(object : Callback<DefaultResponse> {
@@ -199,7 +199,7 @@ class ReserveApi {
         reserveId : String,
         status : MutableLiveData<Int>
     ) {
-        val joinApi = RetrofitObject.completeReserveService
+        val joinApi = RetrofitObject.reserveService
 
         joinApi.completeReserve(reserveId)
             .enqueue(object : Callback<DefaultResponse> {
