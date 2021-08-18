@@ -19,7 +19,7 @@ class MenuApi {
         menusTemp: ArrayList<Menu>
     ) {
 
-        val joinApi = RetrofitObject.getMenuService
+        val joinApi = RetrofitObject.menuService
 
         joinApi.getMenuList(storeId.toString(), lastId)
                 .enqueue(object : Callback<MenuResponse> {
@@ -50,7 +50,7 @@ class MenuApi {
     }
 
     fun addMenu(menu: Menu, status: MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.addMenuService
+        val joinApi = RetrofitObject.menuService
 
         joinApi.addMenu(menu)
                 .enqueue(object : Callback<DefaultResponse> {
@@ -75,7 +75,7 @@ class MenuApi {
     }
 
     fun deleteMenu(menuId: String, status : MutableLiveData<Int>) {
-        val joinApi = RetrofitObject.deleteMenuService
+        val joinApi = RetrofitObject.menuService
 
         joinApi.deleteMenu(menuId)
             .enqueue(object : Callback<DefaultResponse> {

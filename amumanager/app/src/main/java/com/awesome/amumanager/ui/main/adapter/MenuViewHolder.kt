@@ -1,25 +1,24 @@
 package com.awesome.amumanager.ui.main.adapter
-//
-//import android.view.View
-//import androidx.recyclerview.widget.RecyclerView
-//import com.awesome.amumanager.data.model.Menu
-//import com.bumptech.glide.RequestManager
-//import com.bumptech.glide.load.engine.DiskCacheStrategy
-//import kotlinx.android.synthetic.main.item_menu.view.*
-//
-//class MenuViewHolder(itemView: View, private val itemClick: (Menu)->Unit): RecyclerView.ViewHolder(itemView) {
-//
-//    fun bind(menu : Menu, requestManager : RequestManager) {
-////        itemView.menu_name.text = menu.name
-////        requestManager.load(menu.image).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
-////                .skipMemoryCache(true).into(itemView.menu_image)
-////        itemView.menu_comment.text = menu.comment
-////        itemView.menu_price.text = menu.price
-////
-////        itemView.setOnClickListener{itemClick(menu)}
-//    }
-//}
-//
+
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.awesome.amumanager.data.model.Menu
+import com.bumptech.glide.RequestManager
+import kotlinx.android.synthetic.main.item_menu.view.*
+
+class MenuViewHolder(itemView: View, private val itemClick: (Menu)->Unit): RecyclerView.ViewHolder(itemView) {
+
+    fun bind(menu : Menu, requestManager : RequestManager) {
+        itemView.menu_name.text = menu.name
+        requestManager.load(menu.image).circleCrop().into(itemView.menu_image)
+        itemView.menu_comment.text = menu.comment
+        itemView.menu_price.text = menu.price
+
+        itemView.setOnClickListener{itemClick(menu)}
+    }
+}
+//.diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .skipMemoryCache(true).
 //
 //
 //

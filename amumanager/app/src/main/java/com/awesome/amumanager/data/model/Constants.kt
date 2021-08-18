@@ -5,7 +5,6 @@ object Constants {
 
     const val FIRST_CALL = "0"
 
-
     const val STORE_INFO_ACTIVITY = 1
     const val ADD_STORE_ACTIVITY = 2
     const val ADD_PROMOTION_ACTIVITY = 3

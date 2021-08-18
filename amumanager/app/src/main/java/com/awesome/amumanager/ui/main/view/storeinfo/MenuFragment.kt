@@ -51,7 +51,7 @@ class MenuFragment() : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        menuAdapter?.clearList()
+        menuAdapter?.clearMenus()
         menuViewModel.getMenu(FIRST_CALL)
     }
 
@@ -64,7 +64,7 @@ class MenuFragment() : Fragment() {
                     (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
-                    menuAdapter?.getLastId(lastVisibleItemPosition)?.let { menuViewModel.getMenu(it) }
+                    menuAdapter?.getLastMenuId(lastVisibleItemPosition)?.let { menuViewModel.getMenu(it) }
                 }
             }
         })
@@ -80,7 +80,7 @@ class MenuFragment() : Fragment() {
     private fun observe() {
         menuViewModel.menus.observe(viewLifecycleOwner, Observer<ArrayList<Menu>> {menus ->
             if (menuAdapter == null) {
-                menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this), R.layout.item_menu) {menu->
+                menuAdapter = MenuAdapter(arrayListOf() , Glide.with(this)) {menu->
                     storeId?.let {storeId -> MenuDetailActivity.startActivity(requireContext() as AppCompatActivity, menu, storeId) }
 
                 }
