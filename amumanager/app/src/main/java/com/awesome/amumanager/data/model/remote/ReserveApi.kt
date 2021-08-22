@@ -92,7 +92,7 @@ class ReserveApi {
         var clientsTemp : ArrayList<Client> = ArrayList<Client>()
         //var reserveListsTemp = ArrayList<ReserveList>()
 
-        val clientIds = reservesTemp.map { it.client_id }.distinct()
+        val clientIds = reservesTemp.map { it.clientId }.distinct()
         val disposable = Observable.just(clientIds)
                 .concatMapIterable { it }
                 .concatMap { clientId -> getClient(clientId) }
@@ -101,7 +101,7 @@ class ReserveApi {
                     clientsTemp.addAll(clients)
                     val reserveLists : ArrayList<ReserveList> = ArrayList<ReserveList>()
                     for (reserve in reservesTemp) {
-                        val client = clients.find { it.uid == reserve.client_id }
+                        val client = clients.find { it.uid == reserve.clientId }
                         val reserveList = client?.let { ReserveList(it, reserve) }
                         reserveList?.let { reserveLists.add(it) }
                     }

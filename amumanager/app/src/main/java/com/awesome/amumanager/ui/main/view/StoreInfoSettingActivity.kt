@@ -41,7 +41,7 @@ class StoreInfoSettingActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        if(store?.is_opened == "0") {
+        if(store?.isOpened == "0") {
             close.visibility = GONE
 
         } else {

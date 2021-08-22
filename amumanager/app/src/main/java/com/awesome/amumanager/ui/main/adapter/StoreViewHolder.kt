@@ -17,7 +17,7 @@ class StoreViewHolder(itemView: View, private val itemClick: (Store) -> Unit): R
 
         itemView.setOnClickListener { itemClick(store)}
 
-        if(store.is_opened == "0") { //영업종료
+        if(store.isOpened == "0") { //영업종료
             itemView.upper_text.text = "준비중"
             itemView.upper_image.setBackgroundColor(Color.parseColor("#26000000"))
         } else {

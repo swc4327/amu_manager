@@ -61,7 +61,7 @@ class ReviewApi {
 
         var clientsTemp : ArrayList<Client> = ArrayList<Client>()
 
-        val clientIds = reviewsTemp.map { it.client_id }.distinct()
+        val clientIds = reviewsTemp.map { it.clientId }.distinct()
         val disposable = Observable.just(clientIds)
                 .concatMapIterable { it }
                 .concatMap { clientId -> getClient(clientId) }
@@ -70,7 +70,7 @@ class ReviewApi {
                     clientsTemp.addAll(clients)
                     val reviewLists : ArrayList<ReviewList> = ArrayList<ReviewList>()
                     for (review in reviewsTemp) {
-                        val client = clients.find { it.uid == review.client_id }
+                        val client = clients.find { it.uid == review.clientId }
                         val reviewList = client?.let { ReviewList(it, review) }
                         reviewList?.let { reviewLists.add(it) }
                     }
@@ -115,7 +115,7 @@ class ReviewApi {
         val joinApi = RetrofitObject.reviewService
 
 
-        joinApi.filterReview(review!!.id.toString(), review!!.store_id)
+        joinApi.filterReview(review!!.id.toString(), review!!.storeId)
             .enqueue(object : Callback<DefaultResponse> {
 
                 override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {

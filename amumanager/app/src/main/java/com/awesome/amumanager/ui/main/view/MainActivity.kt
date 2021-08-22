@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
+        //firebaseViewModel.logout()
+
         observe()
         initListener()
 

@@ -40,6 +40,6 @@ class InfoFragment() : Fragment() {
 
     private fun initLayout() {
         info_place.text = store?.place
-        info_place_detail.text = store?.place_detail
+        info_place_detail.text = store?.placeDetail
     }
 }

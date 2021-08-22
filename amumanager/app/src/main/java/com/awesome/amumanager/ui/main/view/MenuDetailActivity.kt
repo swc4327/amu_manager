@@ -33,6 +33,8 @@ class MenuDetailActivity : AppCompatActivity() {
 
         menu = intent.getParcelableExtra("Menu")
         storeId = intent.getStringExtra("storeId")
+        println(storeId)
+        println("^^^^^^^^^--")
 
         menuViewModel = ViewModelProvider(this, MenuViewModelFactory(storeId.toString())).get(MenuViewModel::class.java)
 

@@ -1,3 +1,7 @@
 package com.awesome.amumanager.data.model
 
-data class Promotion(var id: Int?, var date: String?, var store_name:String, var message: String, var store_id: String)
+data class Promotion(var id: Int?,
+                     var date: String?,
+                     var storeName:String,
+                     var message: String,
+                     var storeId: String)

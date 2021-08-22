@@ -45,6 +45,7 @@ class AddMenuActivity : AppCompatActivity() {
 
         storeId = intent.getStringExtra("storeId").toString()
         initListener()
+        println("^^^^^^^^^^^^$storeId")
 
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
         var factory = MenuViewModelFactory(storeId.toString())

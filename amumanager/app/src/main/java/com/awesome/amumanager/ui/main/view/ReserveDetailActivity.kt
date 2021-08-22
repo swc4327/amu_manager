@@ -73,14 +73,14 @@ class ReserveDetailActivity : AppCompatActivity() {
         detail_client_request.text = reserve?.request
         detail_date.text = reserve?.date
 
-        if(reserve?.is_confirmed == "0") {
+        if(reserve?.isConfirmed == "0") {
             detail_reserve_complete.visibility = GONE
         } else {
             detail_reserve_cancel.visibility = GONE
             detail_reserve_confirm.visibility = GONE
         }
 
-        if(reserve?.is_completed == "1") {
+        if(reserve?.isCompleted == "1") {
             detail_reserve_complete.visibility = GONE
             detail_reserve_cancel.visibility = GONE
             detail_reserve_confirm.visibility = GONE

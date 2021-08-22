@@ -8,5 +8,5 @@ interface GetClientService {
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("/getClient")
-    fun getClient(@Query("client_id") client_id:String) : Call<ClientResponse>
+    fun getClient(@Query("clientId") clientId:String) : Call<ClientResponse>
 }

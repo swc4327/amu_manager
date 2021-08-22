@@ -13,8 +13,8 @@ interface ReviewService {
         "content-type: application/json")
 
     @GET("/getReviewList")
-    fun getReviewList(@Query("store_id") store_id:String, @Query("lastId") lastId: String) : Call<ReviewResponse>
+    fun getReviewList(@Query("storeId") storeId:String, @Query("lastId") lastId: String) : Call<ReviewResponse>
 
     @DELETE("reviewFiltering")
-    fun filterReview(@Query("review_id") review_id: String?, @Query("store_id") store_id: String?) : Call<DefaultResponse>
+    fun filterReview(@Query("reviewId") reviewId: String?, @Query("storeId") storeId: String?) : Call<DefaultResponse>
 }

@@ -11,7 +11,7 @@ interface MenuService {
         "content-type: application/json")
 
     @GET("/getMenuList")
-    fun getMenuList(@Query("store_id") store_id:String, @Query("lastId") lastId:String) : Call<MenuResponse>
+    fun getMenuList(@Query("storeId") storeId:String, @Query("lastId") lastId:String) : Call<MenuResponse>
 
     @POST("menu")
     fun addMenu(@Body params: Menu) : Call<DefaultResponse>

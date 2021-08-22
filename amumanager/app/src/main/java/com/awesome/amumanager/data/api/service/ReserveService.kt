@@ -10,10 +10,10 @@ interface ReserveService {
         "content-type: application/json")
 
     @GET("/getReserveList")
-    fun getReserveList(@Query("store_id") uid:String, @Query("lastId") lastId: String) : Call<ReserveResponse>
+    fun getReserveList(@Query("storeId") storeId : String, @Query("lastId") lastId: String) : Call<ReserveResponse>
 
     @GET("/getConfirmedReserveList")
-    fun getConfirmedReserveList(@Query("store_id") uid:String, @Query("lastId") lastId: String) : Call<ReserveResponse>
+    fun getConfirmedReserveList(@Query("storeId") storeId:String, @Query("lastId") lastId: String) : Call<ReserveResponse>
 
     @PUT("/confirmReserve")
     fun confirmReserve(@Query("reserveId") reserveId : String) : Call<DefaultResponse>
