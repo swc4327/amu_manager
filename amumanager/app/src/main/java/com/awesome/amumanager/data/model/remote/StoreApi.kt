@@ -16,7 +16,6 @@ class StoreApi {
     fun getStore(
         stores: MutableLiveData<ArrayList<Store>>,
         uid: String,
-        storesTemp: ArrayList<Store>,
         lastId: String
     ) {
 
@@ -35,12 +34,7 @@ class StoreApi {
                     ) {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            if(lastId == FIRST_CALL && storesTemp.isNotEmpty()) {
-                                storesTemp.clear()
-                            }
-                            storesTemp.addAll(response.body()!!.stores)
-                            stores.value = storesTemp
-
+                            stores.value = response.body()!!.stores
                         } else {
 
                         }
