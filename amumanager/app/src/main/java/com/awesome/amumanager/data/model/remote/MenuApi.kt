@@ -15,8 +15,7 @@ class MenuApi {
     fun getMenu(
         menus: MutableLiveData<ArrayList<Menu>>,
         storeId: String,
-        lastId: String,
-        menusTemp: ArrayList<Menu>
+        lastId: String
     ) {
 
         val joinApi = RetrofitObject.menuService
@@ -35,13 +34,8 @@ class MenuApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            Log.e("Getmenu Retrofit", "success")
-
-                            if(lastId == FIRST_CALL && menusTemp.isNotEmpty()) {
-                                menusTemp.clear()
-                            }
-                            menusTemp.addAll(response.body()!!.menus)
-                            menus.value = menusTemp
+                            Log.e("Get menu Retrofit", "success")
+                            menus.value = response.body()!!.menus
                         } else {
 
                         }
