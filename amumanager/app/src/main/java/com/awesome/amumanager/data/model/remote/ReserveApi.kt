@@ -17,8 +17,7 @@ class ReserveApi {
     fun getReserveList(
             ReserveLists: MutableLiveData<ArrayList<ReserveList>>,
             storeId: String,
-            lastId: String,
-            reservesTemp : ArrayList<Reserve>
+            lastId: String
     ) {
 
         //var reservesTemp = ArrayList<Reserve>()
@@ -38,12 +37,7 @@ class ReserveApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-
-                            if(lastId == FIRST_CALL && reservesTemp.isNotEmpty()) {
-                                reservesTemp.clear()
-                            }
-                            reservesTemp.addAll(response.body()!!.reserves)
-                            getClientInfo(ReserveLists, reservesTemp)
+                            getClientInfo(ReserveLists, response.body()!!.reserves)
                         } else {
 
                         }
@@ -54,8 +48,7 @@ class ReserveApi {
     fun getConfirmedReserveList(
         ReserveLists: MutableLiveData<ArrayList<ReserveList>>,
         storeId: String,
-        lastId: String,
-        reservesTemp : ArrayList<Reserve>
+        lastId: String
     ) {
 
         val joinApi = RetrofitObject.reserveService
@@ -73,12 +66,7 @@ class ReserveApi {
                 )  {
                     println(response)
                     if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-
-                        if(lastId == FIRST_CALL && reservesTemp.isNotEmpty()) {
-                            reservesTemp.clear()
-                        }
-                        reservesTemp.addAll(response.body()!!.reserves)
-                        getClientInfo(ReserveLists, reservesTemp)
+                        getClientInfo(ReserveLists, response.body()!!.reserves)
                     } else {
 
                     }

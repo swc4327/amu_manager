@@ -38,31 +38,11 @@ class ReserveAdapter(private val reserveLists : ArrayList<ReserveList>,
 
     fun update(reserveLists: ArrayList<ReserveList>) {
         val endPosition = this.reserveLists.size
-
-        //계속 불러오는중
-        if(endPosition < reserveLists.size) {
-            loadMore(reserveLists, endPosition)
-        }
-//        else { //삭제됬거나, 디테일 변경 됬을 때
-//            if(this.reserveLists.isNotEmpty())
-//                this.reserveLists.clear()
-//            this.reserveLists.addAll(reserveLists)
-//            notifyDataSetChanged()
-//        }
+        loadMore(reserveLists, endPosition)
     }
 
     private fun loadMore(reserveLists: ArrayList<ReserveList>, endPosition: Int) {
-        if (this.reserveLists.isEmpty()) {
-            this.reserveLists.addAll(reserveLists)
-        } else {
-            for (index in endPosition until reserveLists.size) {
-                this.reserveLists.add(index, reserveLists[index])
-            }
-        }
+        this.reserveLists.addAll(reserveLists)
         notifyItemRangeInserted(endPosition, this.reserveLists.size - endPosition)
     }
 }
-
-//취소, 예약확정, 완료
-//취소, 예약확정
-//예약확정 -> 완료

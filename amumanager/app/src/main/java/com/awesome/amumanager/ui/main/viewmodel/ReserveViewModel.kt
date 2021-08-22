@@ -9,11 +9,10 @@ import com.awesome.amumanager.data.model.remote.ReserveApi
 class ReserveViewModel(private var storeId: String) : ViewModel() {
     private val reserveApi = ReserveApi()
     val reserveLists = MutableLiveData<ArrayList<ReserveList>>()
-    private var reservesTemp = ArrayList<Reserve>()
     val status = MutableLiveData<Int>()
 
     fun getReserveList(lastId : String) {
-        reserveApi.getReserveList(reserveLists, storeId, lastId, reservesTemp)
+        reserveApi.getReserveList(reserveLists, storeId, lastId)
     }
 
     fun confirmReserve(reserveId: String) {
@@ -21,7 +20,7 @@ class ReserveViewModel(private var storeId: String) : ViewModel() {
     }
 
     fun getConfirmedReserveList(lastId : String) {
-        reserveApi.getConfirmedReserveList(reserveLists, storeId, lastId, reservesTemp)
+        reserveApi.getConfirmedReserveList(reserveLists, storeId, lastId)
     }
     //거부
     fun cancelReserve(reserveId : String) {
