@@ -43,20 +43,11 @@ class PromotionAdapter(
 
         println("endPosition:$endPosition")
         println("promotions.size:"+ promotions.size.toString())
-
-        if(endPosition < promotions.size) {
-            loadMore(promotions, endPosition)
-        }
+        loadMore(promotions, endPosition)
     }
 
     private fun loadMore(promotions: ArrayList<Promotion>, endPosition: Int) {
-        if (this.promotions.isEmpty()) {
-            this.promotions.addAll(promotions)
-        } else {
-            for (index in endPosition until promotions.size) {
-                this.promotions.add(index, promotions[index])
-            }
-        }
+        this.promotions.addAll(promotions)
         notifyItemRangeInserted(endPosition, this.promotions.size - endPosition)
     }
 }

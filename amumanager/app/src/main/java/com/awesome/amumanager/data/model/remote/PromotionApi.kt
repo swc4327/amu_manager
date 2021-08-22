@@ -15,8 +15,7 @@ class PromotionApi {
     fun getPromotion(
         promotions: MutableLiveData<ArrayList<Promotion>>,
         storeId: String,
-        lastId: String,
-        promotionsTemp: ArrayList<Promotion>
+        lastId: String
     ) {
         val joinApi = RetrofitObject.promotionService
 
@@ -33,11 +32,7 @@ class PromotionApi {
                     )  {
                         println(response)
                         if (response.isSuccessful && response.body() != null && response.body()!!.code == 200) {
-                            if(lastId == FIRST_CALL && promotionsTemp.isNotEmpty()) {
-                                promotionsTemp.clear()
-                            }
-                            promotionsTemp.addAll(response.body()!!.promotions)
-                            promotions.value = promotionsTemp
+                            promotions.value = response.body()!!.promotions
                         } else {
 
                         }

@@ -8,11 +8,10 @@ import com.awesome.amumanager.data.model.remote.PromotionApi
 class PromotionViewModel(private var storeId: String) : ViewModel() {
     private val promotionApi = PromotionApi()
     val promotions = MutableLiveData<ArrayList<Promotion>>()
-    private var promotionsTemp = ArrayList<Promotion>()
     val status = MutableLiveData<Int>()
 
     fun getPromotion(lastId : String) {
-        promotionApi.getPromotion(promotions, storeId, lastId, promotionsTemp)
+        promotionApi.getPromotion(promotions, storeId, lastId)
     }
 
     fun addPromotion(promotion: Promotion) {
