@@ -15,7 +15,7 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
-import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.MenuViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_menu.*
 
 class AddMenuActivity : AppCompatActivity() {
@@ -48,7 +48,10 @@ class AddMenuActivity : AppCompatActivity() {
         println("^^^^^^^^^^^^$storeId")
 
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-        var factory = MenuViewModelFactory(storeId.toString())
+        var factory =
+            MenuViewModelFactory(
+                storeId.toString()
+            )
         menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
 
         observe()

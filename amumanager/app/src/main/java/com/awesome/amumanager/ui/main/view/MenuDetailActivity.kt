@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
-import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.MenuViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_menu_detail.*
 
@@ -36,7 +36,11 @@ class MenuDetailActivity : AppCompatActivity() {
         println(storeId)
         println("^^^^^^^^^--")
 
-        menuViewModel = ViewModelProvider(this, MenuViewModelFactory(storeId.toString())).get(MenuViewModel::class.java)
+        menuViewModel = ViewModelProvider(this,
+            MenuViewModelFactory(
+                storeId.toString()
+            )
+        ).get(MenuViewModel::class.java)
 
         initLayout()
         initListener()

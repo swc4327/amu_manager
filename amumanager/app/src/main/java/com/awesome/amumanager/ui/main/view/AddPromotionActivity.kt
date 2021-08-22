@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.ui.main.viewmodel.PromotionViewModel
-import com.awesome.amumanager.ui.main.viewmodel.PromotionViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.PromotionViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_promotion.*
 
 class AddPromotionActivity : AppCompatActivity() {
@@ -34,7 +34,11 @@ class AddPromotionActivity : AppCompatActivity() {
         storeName = intent.getStringExtra("storeName").toString()
 
         initListener()
-        promotionViewModel = ViewModelProvider(this, PromotionViewModelFactory(storeId.toString())).get(PromotionViewModel::class.java)
+        promotionViewModel = ViewModelProvider(this,
+            PromotionViewModelFactory(
+                storeId.toString()
+            )
+        ).get(PromotionViewModel::class.java)
 
         observe()
 

@@ -1,6 +1,5 @@
 package com.awesome.amumanager.ui.main.view.storeinfo
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +17,7 @@ import com.awesome.amumanager.ui.main.adapter.MenuAdapter
 import com.awesome.amumanager.ui.main.view.AddMenuActivity
 import com.awesome.amumanager.ui.main.view.MenuDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
-import com.awesome.amumanager.ui.main.viewmodel.MenuViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.MenuViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_menu.*
 
@@ -31,7 +30,11 @@ class MenuFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
-        menuViewModel = ViewModelProvider(this, MenuViewModelFactory(storeId.toString())).get(MenuViewModel::class.java)
+        menuViewModel = ViewModelProvider(this,
+            MenuViewModelFactory(
+                storeId.toString()
+            )
+        ).get(MenuViewModel::class.java)
     }
 
     override fun onCreateView(

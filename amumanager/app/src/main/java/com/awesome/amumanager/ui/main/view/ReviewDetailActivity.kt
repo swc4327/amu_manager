@@ -11,7 +11,7 @@ import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
-import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.ReviewViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_review_detail.*
 
@@ -41,7 +41,10 @@ class ReviewDetailActivity : AppCompatActivity() {
         client = intent.getParcelableExtra("client")
         storeId = intent.getStringExtra("storeId")
 
-        var factory = ReviewViewModelFactory(storeId.toString())
+        var factory =
+            ReviewViewModelFactory(
+                storeId.toString()
+            )
         reviewViewModel = ViewModelProvider(this, factory).get(ReviewViewModel::class.java)
 
         initLayout()

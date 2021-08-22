@@ -16,7 +16,7 @@ import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
-import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.ReviewViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_review.*
 import kotlin.collections.ArrayList
@@ -30,7 +30,11 @@ class ReviewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
-        reviewViewModel = ViewModelProvider(this, ReviewViewModelFactory(storeId.toString())).get(ReviewViewModel::class.java)
+        reviewViewModel = ViewModelProvider(this,
+            ReviewViewModelFactory(
+                storeId.toString()
+            )
+        ).get(ReviewViewModel::class.java)
     }
 
     override fun onCreateView(

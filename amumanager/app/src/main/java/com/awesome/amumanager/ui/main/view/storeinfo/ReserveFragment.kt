@@ -17,7 +17,7 @@ import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
 import com.awesome.amumanager.ui.main.view.ReserveDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
-import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.ReserveViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_reserve.*
 
@@ -34,7 +34,11 @@ class ReserveFragment() : Fragment() {
         super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
 
-        reserveViewModel = ViewModelProvider(this, ReserveViewModelFactory(storeId.toString())).get(ReserveViewModel::class.java)
+        reserveViewModel = ViewModelProvider(this,
+            ReserveViewModelFactory(
+                storeId.toString()
+            )
+        ).get(ReserveViewModel::class.java)
     }
 
     override fun onCreateView(

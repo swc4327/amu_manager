@@ -12,7 +12,7 @@ import com.awesome.amumanager.data.model.Reserve
 import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.map.MapManager
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
-import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.factory.ReserveViewModelFactory
 import kotlinx.android.synthetic.main.activity_reserve_detail.*
 
 class ReserveDetailActivity : AppCompatActivity() {
@@ -45,7 +45,11 @@ class ReserveDetailActivity : AppCompatActivity() {
 
         mapManager = MapManager(this)
 
-        reserveViewModel = ViewModelProvider(this, ReserveViewModelFactory(storeId.toString())).get(ReserveViewModel::class.java)
+        reserveViewModel = ViewModelProvider(this,
+            ReserveViewModelFactory(
+                storeId.toString()
+            )
+        ).get(ReserveViewModel::class.java)
 
         mapManager?.addMapListener(info_map_view)
         reserve?.lat?.toDouble()?.let {lat->

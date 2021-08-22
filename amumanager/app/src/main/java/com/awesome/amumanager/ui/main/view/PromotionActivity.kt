@@ -14,6 +14,7 @@ import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
+import com.awesome.amumanager.ui.main.viewmodel.factory.PromotionViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_promotion.*
 
@@ -38,7 +39,11 @@ class PromotionActivity : AppCompatActivity() {
 
         store = intent.getParcelableExtra("store")
 
-        promotionViewModel = ViewModelProvider(this, PromotionViewModelFactory(store?.id.toString())).get(PromotionViewModel::class.java)
+        promotionViewModel = ViewModelProvider(this,
+            PromotionViewModelFactory(
+                store?.id.toString()
+            )
+        ).get(PromotionViewModel::class.java)
 
 
         initListener()
