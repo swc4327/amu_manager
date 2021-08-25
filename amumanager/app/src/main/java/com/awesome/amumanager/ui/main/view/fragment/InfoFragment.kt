@@ -1,4 +1,4 @@
-package com.awesome.amumanager.ui.main.view.storeinfo
+package com.awesome.amumanager.ui.main.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

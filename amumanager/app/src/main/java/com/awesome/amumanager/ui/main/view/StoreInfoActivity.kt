@@ -2,18 +2,16 @@ package com.awesome.amumanager.ui.main.view
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.STORE_INFO_SETTING_ACTIVITY
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.ui.base.BaseActivity
-import com.awesome.amumanager.ui.main.view.storeinfo.ReserveFragment
-import com.awesome.amumanager.ui.main.view.storeinfo.ReviewFragment
-import com.awesome.amumanager.ui.main.view.storeinfo.MenuFragment
-import com.awesome.amumanager.ui.main.view.storeinfo.InfoFragment
-import dagger.android.AndroidInjection
+import com.awesome.amumanager.ui.main.view.fragment.ReserveFragment
+import com.awesome.amumanager.ui.main.view.fragment.ReviewFragment
+import com.awesome.amumanager.ui.main.view.fragment.MenuFragment
+import com.awesome.amumanager.ui.main.view.fragment.InfoFragment
 import kotlinx.android.synthetic.main.activity_store_info.*
 
 class StoreInfoActivity : BaseActivity() {

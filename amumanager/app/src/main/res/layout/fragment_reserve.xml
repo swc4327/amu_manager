@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="3dp"
-        tools:context=".ui.main.view.storeinfo.ReserveFragment">
+        tools:context=".ui.main.view.fragment.ReserveFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reserve_list"

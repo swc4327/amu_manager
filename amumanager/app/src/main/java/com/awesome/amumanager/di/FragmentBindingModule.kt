@@ -3,10 +3,10 @@ package com.awesome.amumanager.di
 import com.awesome.amumanager.di.module.MenuModule
 import com.awesome.amumanager.di.module.ReserveModule
 import com.awesome.amumanager.di.module.ReviewModule
-import com.awesome.amumanager.ui.main.view.storeinfo.InfoFragment
-import com.awesome.amumanager.ui.main.view.storeinfo.MenuFragment
-import com.awesome.amumanager.ui.main.view.storeinfo.ReserveFragment
-import com.awesome.amumanager.ui.main.view.storeinfo.ReviewFragment
+import com.awesome.amumanager.ui.main.view.fragment.InfoFragment
+import com.awesome.amumanager.ui.main.view.fragment.MenuFragment
+import com.awesome.amumanager.ui.main.view.fragment.ReserveFragment
+import com.awesome.amumanager.ui.main.view.fragment.ReviewFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
