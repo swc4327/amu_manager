@@ -2,11 +2,9 @@ package com.awesome.amumanager.ui.main.view.storeinfo
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,14 +12,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.ReserveList
+import com.awesome.amumanager.ui.base.BaseActivity
+import com.awesome.amumanager.ui.base.BaseFragment
 import com.awesome.amumanager.ui.main.adapter.ReserveAdapter
 import com.awesome.amumanager.ui.main.view.ReserveDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.ReserveViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_reserve.*
+import javax.inject.Inject
 
-class ReserveFragment() : Fragment() {
+class ReserveFragment() : BaseFragment() {
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
 
     private var reserveAdapter: ReserveAdapter? = null
     private var storeId: String? = ""
@@ -34,11 +37,7 @@ class ReserveFragment() : Fragment() {
         super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
 
-        reserveViewModel = ViewModelProvider(this,
-            ReserveViewModelFactory(
-                storeId.toString()
-            )
-        ).get(ReserveViewModel::class.java)
+        reserveViewModel = ViewModelProvider(this, viewModelFactory).get(ReserveViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -60,10 +59,10 @@ class ReserveFragment() : Fragment() {
         super.onResume()
         if(showConfirmed) {
             reserveAdapter?.clearReserveLists()
-            reserveViewModel.getConfirmedReserveList(FIRST_CALL)
+            storeId?.let {storeId-> reserveViewModel.getConfirmedReserveList(FIRST_CALL, storeId) }
         } else {
             reserveAdapter?.clearReserveLists()
-            reserveViewModel.getReserveList(FIRST_CALL)
+            storeId?.let {storeId-> reserveViewModel.getReserveList(FIRST_CALL, storeId) }
         }
     }
 
@@ -75,11 +74,11 @@ class ReserveFragment() : Fragment() {
         confirmedReserve.setOnClickListener {
             if(!showConfirmed) {
                 reserveAdapter?.clearReserveLists()
-                reserveViewModel.getConfirmedReserveList(FIRST_CALL)
+                storeId?.let { storeId -> reserveViewModel.getConfirmedReserveList(FIRST_CALL, storeId) }
                 showConfirmed = !showConfirmed
             } else {
                 reserveAdapter?.clearReserveLists()
-                reserveViewModel.getReserveList(FIRST_CALL)
+                storeId?.let { storeId -> reserveViewModel.getReserveList(FIRST_CALL, storeId) }
                 showConfirmed = !showConfirmed
             }
 
@@ -101,7 +100,7 @@ class ReserveFragment() : Fragment() {
         reserveViewModel.reserveLists.observe(viewLifecycleOwner, Observer<ArrayList<ReserveList>> {reserveLists->
             if(reserveAdapter == null) {
                 reserveAdapter = ReserveAdapter(arrayListOf(), Glide.with(this)) {reserveList->
-                    storeId?.let {storeId -> ReserveDetailActivity.startActivity(requireContext() as AppCompatActivity, reserveList, storeId) }
+                    storeId?.let {storeId -> ReserveDetailActivity.startActivity(requireContext() as BaseActivity, reserveList, storeId) }
                 }
                 reserve_list.adapter = reserveAdapter
             }
@@ -118,9 +117,17 @@ class ReserveFragment() : Fragment() {
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
                     if(showConfirmed) {
-                        reserveAdapter?.getLastReserveId(lastVisibleItemPosition)?.let { reserveViewModel.getConfirmedReserveList(it)}
+                        reserveAdapter?.getLastReserveId(lastVisibleItemPosition)?.let {lastId-> storeId?.let {storeId->
+                            reserveViewModel.getConfirmedReserveList(lastId,
+                                storeId
+                            )
+                        } }
                     } else {
-                        reserveAdapter?.getLastReserveId(lastVisibleItemPosition)?.let { reserveViewModel.getReserveList(it) }
+                        reserveAdapter?.getLastReserveId(lastVisibleItemPosition)?.let {lastId-> storeId?.let {storeId->
+                            reserveViewModel.getReserveList(lastId,
+                                storeId
+                            )
+                        } }
                     }
                 }
             }

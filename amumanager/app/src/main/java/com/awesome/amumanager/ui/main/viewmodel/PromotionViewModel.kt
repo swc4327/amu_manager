@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.data.model.remote.PromotionApi
+import javax.inject.Inject
 
-class PromotionViewModel(private var storeId: String) : ViewModel() {
+class PromotionViewModel @Inject constructor() : ViewModel() {
     private val promotionApi = PromotionApi()
     val promotions = MutableLiveData<ArrayList<Promotion>>()
     val status = MutableLiveData<Int>()
 
-    fun getPromotion(lastId : String) {
+    fun getPromotion(lastId : String, storeId : String) {
         promotionApi.getPromotion(promotions, storeId, lastId)
     }
 

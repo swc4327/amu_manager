@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.awesome.amumanager.data.model.Reserve
 import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.data.model.remote.ReserveApi
+import javax.inject.Inject
 
-class ReserveViewModel(private var storeId: String) : ViewModel() {
+class ReserveViewModel @Inject constructor() : ViewModel() {
     private val reserveApi = ReserveApi()
     val reserveLists = MutableLiveData<ArrayList<ReserveList>>()
     val status = MutableLiveData<Int>()
 
-    fun getReserveList(lastId : String) {
+    fun getReserveList(lastId : String, storeId : String) {
         reserveApi.getReserveList(reserveLists, storeId, lastId)
     }
 
@@ -19,7 +20,7 @@ class ReserveViewModel(private var storeId: String) : ViewModel() {
         reserveApi.confirmReserve(reserveId, status)
     }
 
-    fun getConfirmedReserveList(lastId : String) {
+    fun getConfirmedReserveList(lastId : String, storeId : String) {
         reserveApi.getConfirmedReserveList(reserveLists, storeId, lastId)
     }
     //거부

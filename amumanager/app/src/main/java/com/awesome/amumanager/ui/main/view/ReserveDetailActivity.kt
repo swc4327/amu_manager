@@ -11,23 +11,26 @@ import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Reserve
 import com.awesome.amumanager.data.model.ReserveList
 import com.awesome.amumanager.map.MapManager
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReserveViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.ReserveViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_reserve_detail.*
+import javax.inject.Inject
 
-class ReserveDetailActivity : AppCompatActivity() {
-
-
+class ReserveDetailActivity : BaseActivity() {
     private var reserve : Reserve? = null
     private var client : Client? = null
     private var storeId : String? = null
 
     private var mapManager : MapManager? = null
 
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var reserveViewModel : ReserveViewModel
 
     companion object {
-        fun startActivity(activity : AppCompatActivity, reserveList : ReserveList, storeId: String) {
+        fun startActivity(activity : BaseActivity, reserveList : ReserveList, storeId: String) {
             val intent = Intent(activity, ReserveDetailActivity::class.java)
             intent.putExtra("reserve", reserveList.reserve)
             intent.putExtra("client", reserveList.client)
@@ -45,11 +48,7 @@ class ReserveDetailActivity : AppCompatActivity() {
 
         mapManager = MapManager(this)
 
-        reserveViewModel = ViewModelProvider(this,
-            ReserveViewModelFactory(
-                storeId.toString()
-            )
-        ).get(ReserveViewModel::class.java)
+        reserveViewModel = ViewModelProvider(this, viewModelFactory).get(ReserveViewModel::class.java)
 
         mapManager?.addMapListener(info_map_view)
         reserve?.lat?.toDouble()?.let {lat->

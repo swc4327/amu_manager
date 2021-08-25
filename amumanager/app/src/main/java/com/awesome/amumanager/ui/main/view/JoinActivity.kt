@@ -6,16 +6,21 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_join.*
+import javax.inject.Inject
 
-class JoinActivity : AppCompatActivity() {
+class JoinActivity : BaseActivity() {
 
 
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
     private lateinit var firebaseViewModel : FirebaseViewModel
 
     companion object {
-        fun startActivity(activity : AppCompatActivity) {
+        fun startActivity(activity : BaseActivity) {
             val intent = Intent(activity, JoinActivity::class.java)
             activity.startActivity(intent)
         }
@@ -25,7 +30,7 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
 
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
 
         initListener()
         observe()

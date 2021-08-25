@@ -7,8 +7,9 @@ import com.awesome.amumanager.firebase.FirebaseAuthManager
 import com.awesome.amumanager.firebase.FirebaseDatabaseManager
 import com.awesome.amumanager.firebase.FirebaseStorageManager
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class FirebaseViewModel() : ViewModel() {
+class FirebaseViewModel @Inject constructor() : ViewModel() {
     val taskToString = MutableLiveData<String>()
     val status = MutableLiveData<Int>()
     val nickname = MutableLiveData<String>()

@@ -7,18 +7,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Promotion
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.PromotionViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.PromotionViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_promotion.*
+import javax.inject.Inject
 
-class AddPromotionActivity : AppCompatActivity() {
+class AddPromotionActivity : BaseActivity() {
 
     var storeId : String = ""
     var storeName : String = ""
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var promotionViewModel : PromotionViewModel
 
     companion object {
-        fun startActivityForResult(activity: AppCompatActivity, storeId: String, storeName: String, requestCode: Int) {
+        fun startActivityForResult(activity: BaseActivity, storeId: String, storeName: String, requestCode: Int) {
             val intent = Intent(activity, AddPromotionActivity::class.java)
             intent.putExtra("storeId", storeId)
             intent.putExtra("storeName", storeName)
@@ -34,11 +38,7 @@ class AddPromotionActivity : AppCompatActivity() {
         storeName = intent.getStringExtra("storeName").toString()
 
         initListener()
-        promotionViewModel = ViewModelProvider(this,
-            PromotionViewModelFactory(
-                storeId.toString()
-            )
-        ).get(PromotionViewModel::class.java)
+        promotionViewModel = ViewModelProvider(this, viewModelFactory).get(PromotionViewModel::class.java)
 
         observe()
 

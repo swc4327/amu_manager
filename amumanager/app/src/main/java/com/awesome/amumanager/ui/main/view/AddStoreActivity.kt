@@ -20,19 +20,24 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.map.MapManager
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_store.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import javax.inject.Inject
 
-class AddStoreActivity : AppCompatActivity() {
+class AddStoreActivity : BaseActivity() {
     private var lat : Double? = null
     private var lng : Double? = null
     private var kind : String? = null
     private var mapManager : MapManager? = null
 
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
     private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var storeViewModel : StoreViewModel
 
@@ -42,7 +47,7 @@ class AddStoreActivity : AppCompatActivity() {
         //Permission code
         private const val PERMISSION_CODE = 1001;
 
-        fun startActivityForResult(activity : AppCompatActivity, requestCode: Int) {
+        fun startActivityForResult(activity : BaseActivity, requestCode: Int) {
             val intent = Intent(activity, AddStoreActivity::class.java)
             activity.startActivityForResult(intent, requestCode)
         }
@@ -54,8 +59,8 @@ class AddStoreActivity : AppCompatActivity() {
         mapManager = MapManager(this)
         initLayout()
         initListener()
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-        storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
+        storeViewModel = ViewModelProvider(this, viewModelFactory).get(StoreViewModel::class.java)
         observe()
     }
 
@@ -162,6 +167,7 @@ class AddStoreActivity : AppCompatActivity() {
 
     //handle requested permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==

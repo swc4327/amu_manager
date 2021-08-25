@@ -1,11 +1,9 @@
 package com.awesome.amumanager.ui.main.view.storeinfo
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,15 +11,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.ReviewList
+import com.awesome.amumanager.ui.base.BaseActivity
+import com.awesome.amumanager.ui.base.BaseFragment
 import com.awesome.amumanager.ui.main.adapter.ReviewAdapter
 import com.awesome.amumanager.ui.main.view.ReviewDetailActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.ReviewViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_review.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class ReviewFragment : Fragment() {
+class ReviewFragment : BaseFragment() {
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
 
     private var reviewAdapter: ReviewAdapter? = null
     private var storeId: String? = ""
@@ -30,10 +33,7 @@ class ReviewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storeId = arguments?.getString("store_id")
-        reviewViewModel = ViewModelProvider(this,
-            ReviewViewModelFactory(
-                storeId.toString()
-            )
+        reviewViewModel = ViewModelProvider(this, viewModelFactory
         ).get(ReviewViewModel::class.java)
     }
 
@@ -53,7 +53,7 @@ class ReviewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         reviewAdapter?.clearReviewLists()
-        reviewViewModel.getReviewList(FIRST_CALL)
+        storeId?.let {storeId-> reviewViewModel.getReviewList(FIRST_CALL, storeId) }
     }
 
     private fun observe() {
@@ -62,7 +62,7 @@ class ReviewFragment : Fragment() {
                 Observer<ArrayList<ReviewList>> { reviewLists ->
                     if (reviewAdapter == null) {
                         reviewAdapter = ReviewAdapter(arrayListOf(), Glide.with(this)) { reviewList ->
-                            storeId?.let {storeId -> ReviewDetailActivity.startActivity(requireContext() as AppCompatActivity, reviewList, storeId) }
+                            storeId?.let {storeId -> ReviewDetailActivity.startActivity(requireContext() as BaseActivity, reviewList, storeId) }
                         }
                         review_list.adapter = reviewAdapter
                     }
@@ -78,7 +78,9 @@ class ReviewFragment : Fragment() {
                 println("lastVisibleItemPosition :$lastVisibleItemPosition")
 
                 if(!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
-                    reviewAdapter?.getLastReviewId(lastVisibleItemPosition)?.let { reviewViewModel.getReviewList(it) }
+                    reviewAdapter?.getLastReviewId(lastVisibleItemPosition)?.let {lastId-> storeId?.let {storeId->
+                        reviewViewModel.getReviewList(lastId, storeId)
+                    } }
                 }
             }
         })

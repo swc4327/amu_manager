@@ -6,15 +6,20 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
+import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var firebaseViewModel : FirebaseViewModel
 
     companion object {
-        fun startActivity(activity : AppCompatActivity) {
+        fun startActivity(activity : BaseActivity) {
             val intent = Intent(activity, LoginActivity::class.java)
             activity.startActivity(intent)
         }
@@ -24,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
 
         initListener()
         observe()

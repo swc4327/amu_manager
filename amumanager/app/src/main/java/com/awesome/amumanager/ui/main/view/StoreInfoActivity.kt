@@ -6,21 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
 import com.awesome.amumanager.R
-import com.awesome.amumanager.data.model.Constants
 import com.awesome.amumanager.data.model.Constants.STORE_INFO_SETTING_ACTIVITY
 import com.awesome.amumanager.data.model.Store
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.view.storeinfo.ReserveFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.ReviewFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.MenuFragment
 import com.awesome.amumanager.ui.main.view.storeinfo.InfoFragment
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_store_info.*
 
-class StoreInfoActivity : AppCompatActivity() {
+class StoreInfoActivity : BaseActivity() {
 
     private var store : Store? = null
 
     companion object {
-        fun startActivityForResult(activity : AppCompatActivity, store : Store, requestCode: Int) {
+        fun startActivityForResult(activity : BaseActivity, store : Store, requestCode: Int) {
             val intent = Intent(activity, StoreInfoActivity::class.java)
             intent.putExtra("store", store)
             activity.startActivityForResult(intent, requestCode)

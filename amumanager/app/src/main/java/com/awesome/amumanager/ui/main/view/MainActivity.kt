@@ -13,22 +13,27 @@ import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.data.model.Constants.ADD_STORE_ACTIVITY
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Constants.STORE_INFO_ACTIVITY
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.adapter.StoreAdapter
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_bottom.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-
-    private var storeAdapter: StoreAdapter? = null
+class MainActivity : BaseActivity() {
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
 
     private lateinit var storeViewModel : StoreViewModel
     private lateinit var firebaseViewModel: FirebaseViewModel
 
+    private var storeAdapter: StoreAdapter? = null
+
     companion object {
-        fun startActivity(activity : AppCompatActivity) {
+        fun startActivity(activity : BaseActivity) {
             val intent = Intent(activity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity.startActivity(intent)
@@ -39,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        storeViewModel = ViewModelProvider(this, viewModelFactory).get(StoreViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
 
         //firebaseViewModel.logout()
 
@@ -48,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         initListener()
 
         storeViewModel.getStore(firebaseViewModel.getUid(), FIRST_CALL)
-
     }
 
 

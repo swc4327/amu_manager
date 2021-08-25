@@ -8,28 +8,33 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_my_page.*
+import javax.inject.Inject
 
-class MyPageActivity : AppCompatActivity() {
+class MyPageActivity : BaseActivity() {
 
     companion object {
-        fun startActivity(activity : AppCompatActivity) {
+        fun startActivity(activity : BaseActivity) {
             val intent = Intent(activity, MyPageActivity::class.java)
             activity.startActivity(intent)
         }
     }
 
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
     private lateinit var firebaseViewModel : FirebaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
 
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
 
         setProfileName()
         setProfileImage()

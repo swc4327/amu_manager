@@ -15,14 +15,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Manager
 import com.awesome.amumanager.firebase.FirebaseDatabaseManager
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.ManagerViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_join_info.*
+import javax.inject.Inject
 
-class JoinInfoActivity : AppCompatActivity() {
+class JoinInfoActivity : BaseActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var firebaseViewModel : FirebaseViewModel
     private lateinit var managerViewModel : ManagerViewModel
 
@@ -32,7 +37,7 @@ class JoinInfoActivity : AppCompatActivity() {
         //Permission code
         private const val PERMISSION_CODE = 1001;
 
-        fun startActivity(activity : AppCompatActivity) {
+        fun startActivity(activity : BaseActivity) {
             val intent = Intent(activity, JoinInfoActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity.startActivity(intent)
@@ -43,8 +48,8 @@ class JoinInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_info)
 
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-        managerViewModel = ViewModelProvider(this).get(ManagerViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
+        managerViewModel = ViewModelProvider(this, viewModelFactory).get(ManagerViewModel::class.java)
 
         initListener()
         observe()
@@ -111,6 +116,7 @@ class JoinInfoActivity : AppCompatActivity() {
 
     //handle requested permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==

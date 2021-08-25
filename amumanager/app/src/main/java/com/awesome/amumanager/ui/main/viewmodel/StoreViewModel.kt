@@ -4,8 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.data.model.remote.StoreApi
+import javax.inject.Inject
 
-class StoreViewModel() : ViewModel() {
+class StoreViewModel @Inject constructor() : ViewModel() {
     private val storeApi = StoreApi()
     val stores = MutableLiveData<ArrayList<Store>>()
 

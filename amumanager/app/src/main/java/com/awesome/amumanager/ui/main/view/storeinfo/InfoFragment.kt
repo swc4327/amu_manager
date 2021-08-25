@@ -1,16 +1,16 @@
 package com.awesome.amumanager.ui.main.view.storeinfo
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
 import com.awesome.amumanager.map.MapManager
+import com.awesome.amumanager.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_info.*
 
-class InfoFragment() : Fragment() {
+class InfoFragment() : BaseFragment() {
 
     private var store : Store? = null
     private var mapManager : MapManager? = null

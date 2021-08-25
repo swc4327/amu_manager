@@ -10,21 +10,25 @@ import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.ReviewViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.ReviewViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_review_detail.*
+import javax.inject.Inject
 
-class ReviewDetailActivity : AppCompatActivity() {
+class ReviewDetailActivity : BaseActivity() {
 
     private var review : Review? = null
     private var client : Client? = null
     private var storeId : String? = ""
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var reviewViewModel : ReviewViewModel
 
     companion object {
-        fun startActivity(activity: AppCompatActivity, reviewList : ReviewList, storeId : String) {
+        fun startActivity(activity: BaseActivity, reviewList : ReviewList, storeId : String) {
             val intent = Intent(activity, ReviewDetailActivity::class.java)
             intent.putExtra("review", reviewList.review)
             intent.putExtra("client", reviewList.client)
@@ -41,11 +45,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         client = intent.getParcelableExtra("client")
         storeId = intent.getStringExtra("storeId")
 
-        var factory =
-            ReviewViewModelFactory(
-                storeId.toString()
-            )
-        reviewViewModel = ViewModelProvider(this, factory).get(ReviewViewModel::class.java)
+        reviewViewModel = ViewModelProvider(this, viewModelFactory).get(ReviewViewModel::class.java)
 
         initLayout()
         initListener()

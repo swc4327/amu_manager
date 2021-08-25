@@ -7,19 +7,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.MenuViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_menu_detail.*
+import javax.inject.Inject
 
-class MenuDetailActivity : AppCompatActivity() {
+class MenuDetailActivity : BaseActivity() {
 
     private var menu : Menu? = null
     private var storeId : String? = null
+
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
     private lateinit var menuViewModel : MenuViewModel
 
     companion object {
-        fun startActivity(activity : AppCompatActivity, menu : Menu, storeId : String) {
+        fun startActivity(activity : BaseActivity, menu : Menu, storeId : String) {
             val intent = Intent(activity, MenuDetailActivity::class.java)
             intent.putExtra("Menu", menu)
             intent.putExtra("storeId", storeId)
@@ -36,11 +41,7 @@ class MenuDetailActivity : AppCompatActivity() {
         println(storeId)
         println("^^^^^^^^^--")
 
-        menuViewModel = ViewModelProvider(this,
-            MenuViewModelFactory(
-                storeId.toString()
-            )
-        ).get(MenuViewModel::class.java)
+        menuViewModel = ViewModelProvider(this, viewModelFactory).get(MenuViewModel::class.java)
 
         initLayout()
         initListener()

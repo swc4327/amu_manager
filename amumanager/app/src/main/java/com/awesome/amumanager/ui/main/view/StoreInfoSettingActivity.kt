@@ -9,17 +9,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Store
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.StoreViewModel
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_store_info_setting.*
+import javax.inject.Inject
 
-class StoreInfoSettingActivity : AppCompatActivity() {
+class StoreInfoSettingActivity : BaseActivity() {
 
     private var store : Store? = null
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var storeViewModel : StoreViewModel
 
     companion object {
-        fun startActivityForResult(activity : AppCompatActivity, store : Store, requestCode : Int) {
+        fun startActivityForResult(activity : BaseActivity, store : Store, requestCode : Int) {
             val intent = Intent(activity, StoreInfoSettingActivity::class.java)
             intent.putExtra("store", store)
             activity.startActivityForResult(intent, requestCode)
@@ -32,7 +37,7 @@ class StoreInfoSettingActivity : AppCompatActivity() {
 
         store = intent.getParcelableExtra("store")
 
-        storeViewModel = ViewModelProvider(this).get(StoreViewModel::class.java)
+        storeViewModel = ViewModelProvider(this, viewModelFactory).get(StoreViewModel::class.java)
 
         initLayout()
 

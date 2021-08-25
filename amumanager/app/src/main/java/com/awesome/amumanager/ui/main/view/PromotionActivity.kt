@@ -12,21 +12,25 @@ import com.awesome.amumanager.data.model.Constants.ADD_PROMOTION_ACTIVITY
 import com.awesome.amumanager.data.model.Constants.FIRST_CALL
 import com.awesome.amumanager.data.model.Promotion
 import com.awesome.amumanager.data.model.Store
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.adapter.PromotionAdapter
 import com.awesome.amumanager.ui.main.viewmodel.*
-import com.awesome.amumanager.ui.main.viewmodel.factory.PromotionViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_promotion.*
+import javax.inject.Inject
 
-class PromotionActivity : AppCompatActivity() {
+class PromotionActivity : BaseActivity() {
 
     private var store : Store? = null
+
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
 
     private lateinit var promotionViewModel : PromotionViewModel
     private var promotionAdapter: PromotionAdapter? = null
 
     companion object {
-        fun startActivity(activity : AppCompatActivity, store : Store) {
+        fun startActivity(activity : BaseActivity, store : Store) {
             val intent = Intent(activity, PromotionActivity::class.java)
             intent.putExtra("store", store)
             activity.startActivity(intent)
@@ -39,17 +43,12 @@ class PromotionActivity : AppCompatActivity() {
 
         store = intent.getParcelableExtra("store")
 
-        promotionViewModel = ViewModelProvider(this,
-            PromotionViewModelFactory(
-                store?.id.toString()
-            )
-        ).get(PromotionViewModel::class.java)
-
+        promotionViewModel = ViewModelProvider(this, viewModelFactory).get(PromotionViewModel::class.java)
 
         initListener()
         observe()
 
-        promotionViewModel.getPromotion(FIRST_CALL)
+        promotionViewModel.getPromotion(FIRST_CALL, store?.id.toString())
 
 
     }
@@ -69,7 +68,7 @@ class PromotionActivity : AppCompatActivity() {
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
 
                 if (!recyclerView.canScrollVertically((1)) && lastVisibleItemPosition >= 0) {
-                    promotionAdapter?.getLastPromotionId(lastVisibleItemPosition)?.let { promotionViewModel.getPromotion(it) }
+                    promotionAdapter?.getLastPromotionId(lastVisibleItemPosition)?.let {lastId-> promotionViewModel.getPromotion(lastId, store?.id.toString()) }
                 }
             }
         })
@@ -89,7 +88,7 @@ class PromotionActivity : AppCompatActivity() {
         promotionViewModel.status.observe(this, Observer<Int> {
             if(it == 200) {
                 promotionAdapter?.clearPromotions()
-                promotionViewModel.getPromotion(FIRST_CALL)
+                promotionViewModel.getPromotion(FIRST_CALL, store?.id.toString())
             }
         })
     }
@@ -99,7 +98,7 @@ class PromotionActivity : AppCompatActivity() {
         if(requestCode == ADD_PROMOTION_ACTIVITY) {
             if(resultCode == RESULT_OK) {
                 promotionAdapter?.clearPromotions()
-                promotionViewModel.getPromotion(FIRST_CALL)
+                promotionViewModel.getPromotion(FIRST_CALL, store?.id.toString())
             }
         }
     }

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amumanager"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.awesome.amumanager.ui.base.BaseActivity"></activity>
+        <activity android:name=".ui.base.BaseActivity"></activity>
         <activity android:name=".ui.main.view.StoreInfoSettingActivity" />
         <activity android:name=".ui.main.view.MenuDetailActivity" />
         <activity android:name=".ui.main.view.ReviewDetailActivity" />

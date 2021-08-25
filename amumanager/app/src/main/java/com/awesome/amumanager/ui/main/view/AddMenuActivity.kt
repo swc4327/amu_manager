@@ -13,15 +13,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.awesome.amumanager.R
 import com.awesome.amumanager.data.model.Menu
+import com.awesome.amumanager.ui.base.BaseActivity
 import com.awesome.amumanager.ui.main.viewmodel.FirebaseViewModel
 import com.awesome.amumanager.ui.main.viewmodel.MenuViewModel
-import com.awesome.amumanager.ui.main.viewmodel.factory.MenuViewModelFactory
+import com.awesome.amumanager.ui.main.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_add_menu.*
+import javax.inject.Inject
 
-class AddMenuActivity : AppCompatActivity() {
+class AddMenuActivity : BaseActivity() {
 
     var storeId : String = ""
 
+    @Inject
+    lateinit var viewModelFactory : ViewModelFactory
     private lateinit var menuViewModel : MenuViewModel
     private lateinit var firebaseViewModel : FirebaseViewModel
 
@@ -31,7 +35,7 @@ class AddMenuActivity : AppCompatActivity() {
         //Permission code
         private const val PERMISSION_CODE = 1001;
 
-        fun startActivity(activity : AppCompatActivity, storeId : String) {
+        fun startActivity(activity : BaseActivity, storeId : String) {
             val intent = Intent(activity, AddMenuActivity::class.java)
             intent.putExtra("storeId", storeId)
             activity.startActivity(intent)
@@ -47,12 +51,8 @@ class AddMenuActivity : AppCompatActivity() {
         initListener()
         println("^^^^^^^^^^^^$storeId")
 
-        firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
-        var factory =
-            MenuViewModelFactory(
-                storeId.toString()
-            )
-        menuViewModel = ViewModelProvider(this, factory).get(MenuViewModel::class.java)
+        firebaseViewModel = ViewModelProvider(this, viewModelFactory).get(FirebaseViewModel::class.java)
+        menuViewModel = ViewModelProvider(this, viewModelFactory).get(MenuViewModel::class.java)
 
         observe()
 
@@ -121,6 +121,7 @@ class AddMenuActivity : AppCompatActivity() {
 
     //handle requested permission result
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==

@@ -6,14 +6,15 @@ import com.awesome.amumanager.data.model.Client
 import com.awesome.amumanager.data.model.Review
 import com.awesome.amumanager.data.model.ReviewList
 import com.awesome.amumanager.data.model.remote.ReviewApi
+import javax.inject.Inject
 
-class ReviewViewModel(private val storeId: String?) : ViewModel() {
+class ReviewViewModel @Inject constructor() : ViewModel() {
     private val reviewListApi = ReviewApi()
     val reviewLists = MutableLiveData<ArrayList<ReviewList>>()
     val status = MutableLiveData<Int>()
 
-    fun getReviewList(lastId : String) {
-        reviewListApi.getReviewList(reviewLists, storeId!!, lastId)
+    fun getReviewList(lastId : String, storeId : String) {
+        reviewListApi.getReviewList(reviewLists, storeId, lastId)
     }
 
     fun reviewFiltering(review : Review, client : Client) {
