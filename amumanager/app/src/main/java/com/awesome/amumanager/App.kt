@@ -2,7 +2,7 @@ package com.awesome.amumanager
 
 import android.content.Context
 import androidx.multidex.MultiDex
-import com.awesome.amumanager.di.DaggerAppComponent
+import com.awesome.amumanager.presentation.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

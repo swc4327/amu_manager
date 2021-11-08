@@ -16,26 +16,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amumanager"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.base.BaseActivity"></activity>
-        <activity android:name=".ui.main.view.StoreInfoSettingActivity" />
-        <activity android:name=".ui.main.view.MenuDetailActivity" />
-        <activity android:name=".ui.main.view.ReviewDetailActivity" />
-        <activity android:name=".ui.main.view.PromotionActivity" />
-        <activity android:name=".ui.main.view.AddPromotionActivity" />
-        <activity android:name=".ui.main.view.ReserveDetailActivity" />
+        <activity android:name=".presentation.ui.base.BaseActivity"></activity>
+        <activity android:name=".presentation.ui.main.view.StoreInfoSettingActivity" />
+        <activity android:name=".presentation.ui.main.view.MenuDetailActivity" />
+        <activity android:name=".presentation.ui.main.view.ReviewDetailActivity" />
+        <activity android:name=".presentation.ui.main.view.PromotionActivity" />
+        <activity android:name=".presentation.ui.main.view.AddPromotionActivity" />
+        <activity android:name=".presentation.ui.main.view.ReserveDetailActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="c7a918666697e93df1dea193b8665c69" />
 
-        <activity android:name=".ui.main.view.AddMenuActivity" />
-        <activity android:name=".ui.main.view.StoreInfoActivity" />
-        <activity android:name=".ui.main.view.AddStoreActivity" />
-        <activity android:name=".ui.main.view.JoinInfoActivity" />
-        <activity android:name=".ui.main.view.JoinActivity" />
-        <activity android:name=".ui.main.view.LoginActivity" />
-        <activity android:name=".ui.main.view.MyPageActivity" />
-        <activity android:name=".ui.main.view.MainActivity">
+        <activity android:name=".presentation.ui.main.view.AddMenuActivity" />
+        <activity android:name=".presentation.ui.main.view.StoreInfoActivity" />
+        <activity android:name=".presentation.ui.main.view.AddStoreActivity" />
+        <activity android:name=".presentation.ui.main.view.JoinInfoActivity" />
+        <activity android:name=".presentation.ui.main.view.JoinActivity" />
+        <activity android:name=".presentation.ui.main.view.LoginActivity" />
+        <activity android:name=".presentation.ui.main.view.MyPageActivity" />
+        <activity android:name=".presentation.ui.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
